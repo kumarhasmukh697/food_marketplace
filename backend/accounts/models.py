@@ -21,6 +21,7 @@ class User(AbstractUser):
     is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    email = models.EmailField(unique=True, blank=True)
 
     def __str__(self):
         return self.username
