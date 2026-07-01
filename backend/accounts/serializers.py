@@ -20,7 +20,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ("username", "password", "phone_number", "role", "email")
 
     def validate_email(self, value):
-        print("Validating email:", value)  # Debugging line to print the email being validated
         if User.objects.filter(email=value).exists():
             raise serializers.ValidationError("This email is already registered.")
         return value
@@ -49,27 +48,29 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 # Serializer for OTP verification
-# class VerifyOTPSerializer(serializers.Serializer):
-#     email = serializers.EmailField()
-#     otp = serializers.CharField(max_length=6)
+class VerifyOTPSerializer(serializers.Serializer): # Serializer is just a class that validates the data coming from user and it checks not with the database it just checks wheather suppose email is empty or not,it is in valid format or not that's what it checks but not checks like that wheather this email present in database or not so that's why Serializer is just a class and  it is not connected to any database model
+    # this below fields are the fields that we expect from the user when they are trying to verify their OTP
+    email = serializers.EmailField()
+    otp = serializers.CharField(max_length=6)
 
-#     def validate(self, attrs):
-#         user = User.objects.filter(email=attrs["email"]).first()
+    def validate(self, attrs):
+        # attrs is a dictionary that contains the data that the user has sent to us for verification, so we are checking if the email and otp are present in the database or not
+        user = User.objects.filter(email=attrs["email"]).first()
 
-#         if not user:
-#             raise serializers.ValidationError({"email": "User not found."})
+        if not user:
+            raise serializers.ValidationError({"email": "User not found."})
 
-#         otp_obj = (OTP.objects.filter(user=user,otp=attrs["otp"],purpose="registration",is_used=False,).order_by("-created_at").first())
+        otp_obj = (OTP.objects.filter(user=user,otp=attrs["otp"],purpose="registration",is_used=False,).order_by("-created_at").first())
 
-#         if not otp_obj:
-#             raise serializers.ValidationError({"otp": "Invalid OTP."})
+        if not otp_obj:
+            raise serializers.ValidationError({"otp": "Invalid OTP."})
 
-#         if otp_obj.expires_at < timezone.now():
-#             raise serializers.ValidationError({"otp": "OTP expired."})
+        if otp_obj.expires_at < timezone.now():
+            raise serializers.ValidationError({"otp": "OTP expired."})
 
-#         attrs["user"] = user
-#         attrs["otp_obj"] = otp_obj
-#         return attrs
+        attrs["user"] = user
+        attrs["otp_obj"] = otp_obj
+        return attrs
 
 
 

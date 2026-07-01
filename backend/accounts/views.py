@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Address
-from .serializers import RegisterSerializer
-#  AddressSerializer,LoginSerializer,ProfileSerializer,RegisterSerializer,VerifyOTPSerializer
+from .serializers import RegisterSerializer,VerifyOTPSerializer
+#  AddressSerializer,LoginSerializer,ProfileSerializer,RegisterSerializer
 
 
 
@@ -33,26 +33,26 @@ class RegisterView(APIView):
         )
 
 
-# class VerifyOTPView(APIView):
-#     permission_classes = [permissions.AllowAny]
+class VerifyOTPView(APIView):
+    permission_classes = [permissions.AllowAny]
 
-#     def post(self, request):
-#         serializer = VerifyOTPSerializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
+    def post(self, request):
+        serializer = VerifyOTPSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-#         user = serializer.validated_data["user"]
-#         otp_obj = serializer.validated_data["otp_obj"]
+        user = serializer.validated_data["user"]
+        otp_obj = serializer.validated_data["otp_obj"]
 
-#         user.is_verified = True
-#         user.save(update_fields=["is_verified"])
+        user.is_verified = True
+        user.save(update_fields=["is_verified"])
 
-#         otp_obj.is_used = True
-#         otp_obj.save(update_fields=["is_used"])
+        otp_obj.is_used = True
+        otp_obj.save(update_fields=["is_used"])
 
-#         return Response(
-#             {"message": "Email verified successfully."},
-#             status=status.HTTP_200_OK,
-#         )
+        return Response(
+            {"message": "Email verified successfully."},
+            status=status.HTTP_200_OK,
+        )
 
 
 # class LoginView(APIView):
