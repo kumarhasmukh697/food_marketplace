@@ -52,21 +52,26 @@ class VerifyOTPSerializer(serializers.Serializer): # Serializer is just a class 
     # this below fields are the fields that we expect from the user when they are trying to verify their OTP
     email = serializers.EmailField()
     otp = serializers.CharField(max_length=6)
+    # we do not have to put this above fields in the Meta class because this is not a model serializer, it is just a serializer that we are using to validate the data coming from the user and we are not saving this data to the database so we do not have to put this in the Meta class
 
     def validate(self, attrs):
         # attrs is a dictionary that contains the data that the user has sent to us for verification, so we are checking if the email and otp are present in the database or not
+        # fetch the user with the given email, if the user does not exist, raise a validation error
         user = User.objects.filter(email=attrs["email"]).first()
 
         if not user:
             raise serializers.ValidationError({"email": "User not found."})
-
+        
+        # fetch the OTP object for the given user and otp, if the OTP object does not exist, raise a validation error
         otp_obj = (OTP.objects.filter(user=user,otp=attrs["otp"],purpose="registration",is_used=False,).order_by("-created_at").first())
 
         if not otp_obj:
             raise serializers.ValidationError({"otp": "Invalid OTP."})
-
+        
+        # check if the OTP has expired, if it has, raise a validation error
         if otp_obj.expires_at < timezone.now():
             raise serializers.ValidationError({"otp": "OTP expired."})
+        
 
         attrs["user"] = user
         attrs["otp_obj"] = otp_obj
@@ -75,32 +80,37 @@ class VerifyOTPSerializer(serializers.Serializer): # Serializer is just a class 
 
 
 # Serializer for user login
-# class LoginSerializer(serializers.Serializer):
-#     username = serializers.CharField(required=False, allow_blank=False)
-#     email = serializers.EmailField(required=False)
-#     password = serializers.CharField(write_only=True)
+class LoginSerializer(serializers.Serializer):
+    # the fields which we have defined here are the fields that we expect from the user when they are trying to login
+    username = serializers.CharField(required=False, allow_blank=False)
+    email = serializers.EmailField(required=False)
+    password = serializers.CharField(write_only=True)
+    
 
-#     def validate(self, attrs):
-#         username = attrs.get("username")
-#         email = attrs.get("email")
-#         password = attrs.get("password")
+    def validate(self, attrs):
+        # attrs is a dictionary that contains the data which user has send to us for Login
+        username = attrs.get("username")
+        email = attrs.get("email")
+        password = attrs.get("password")
+        
+        # if both username and email are not provided, raise a validation error
+        if not username and not email:
+            raise serializers.ValidationError("Please provide username or email.")
+        
+        # initialize user variable to None, we will use this variable to store the user object if we find a matching user in the database
+        user = None
 
-#         if not username and not email:
-#             raise serializers.ValidationError("Please provide username or email.")
+        if email:
+            user = User.objects.filter(email=email).first()
 
-#         user = None
+        if not user and username:
+            user = User.objects.filter(username=username).first()
 
-#         if email:
-#             user = User.objects.filter(email=email).first()
+        if not user or not user.check_password(password):
+            raise serializers.ValidationError("Invalid username/email or password.")
 
-#         if not user and username:
-#             user = User.objects.filter(username=username).first()
-
-#         if not user or not user.check_password(password):
-#             raise serializers.ValidationError("Invalid username/email or password.")
-
-#         attrs["user"] = user
-#         return attrs
+        attrs["user"] = user
+        return attrs
 
 
 

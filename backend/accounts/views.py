@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Address
-from .serializers import RegisterSerializer,VerifyOTPSerializer
-#  AddressSerializer,LoginSerializer,ProfileSerializer,RegisterSerializer
+from .serializers import RegisterSerializer,VerifyOTPSerializer,LoginSerializer
+#  AddressSerializer,ProfileSerializer,RegisterSerializer
 
 
 
@@ -55,30 +55,31 @@ class VerifyOTPView(APIView):
         )
 
 
-# class LoginView(APIView):
-#     permission_classes = [permissions.AllowAny]
+class LoginView(APIView):
+    permission_classes = [permissions.AllowAny]
 
-#     def post(self, request):
-#         serializer = LoginSerializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        # This line checks if the data provided by the user is valid according to the rules defined in the LoginSerializer. If the data is not valid, it will raise an exception and return a 400 Bad Request response with details about what went wrong.
+        serializer.is_valid(raise_exception=True)
+        # serializer.validated_data is a dictionary that contains the validated data from the serializer. In this case, it contains the user object that was authenticated based on the provided credentials (email and password). We are extracting the user object from this dictionary to use it for generating JWT tokens.
+        user = serializer.validated_data["user"]
+        refresh = RefreshToken.for_user(user)
 
-#         user = serializer.validated_data["user"]
-#         refresh = RefreshToken.for_user(user)
-
-#         return Response(
-#             {
-#                 "refresh": str(refresh),
-#                 "access": str(refresh.access_token),
-#                 "user": {
-#                     "id": user.id,
-#                     "username": user.username,
-#                     "email": user.email,
-#                     "role": user.role,
-#                     "is_verified": user.is_verified,
-#                 },
-#             },
-#             status=status.HTTP_200_OK,
-#         )
+        return Response(
+            {
+                "refresh": str(refresh),
+                "access": str(refresh.access_token),
+                "user": {
+                    "id": user.id,
+                    "username": user.username,
+                    "email": user.email,
+                    "role": user.role,
+                    "is_verified": user.is_verified,
+                },
+            },
+            status=status.HTTP_200_OK,
+        )
 
 
 # class LogoutView(APIView):
