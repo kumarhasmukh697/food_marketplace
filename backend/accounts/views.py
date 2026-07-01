@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Address
 from .serializers import RegisterSerializer,VerifyOTPSerializer,LoginSerializer
-#  AddressSerializer,ProfileSerializer,RegisterSerializer
+#  AddressSerializer,ProfileSerializer
 
 
 
@@ -82,14 +82,24 @@ class LoginView(APIView):
         )
 
 
-# class LogoutView(APIView):
-#     permission_classes = [permissions.IsAuthenticated]
+class LogoutView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
 
-#     def post(self, request):
-#         return Response(
-#             {"message": "Logged out successfully. Please remove the token from the client."},
-#             status=status.HTTP_200_OK,
-#         )
+
+    def post(self, request):
+        refresh_token = request.data.get("refresh")
+
+        if not refresh_token:
+            return Response({"detail": "Refresh token is required."},status=status.HTTP_400_BAD_REQUEST,)
+
+        try:
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+        except Exception:
+            return Response({"detail": "Invalid or already blacklisted refresh token."},status=status.HTTP_400_BAD_REQUEST,)
+
+        return Response(
+            {"message": "Logged out successfully."},status=status.HTTP_200_OK)
 
 
 # class ProfileView(generics.RetrieveUpdateAPIView):
