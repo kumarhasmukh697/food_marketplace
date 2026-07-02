@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from datetime import timedelta
 
@@ -122,6 +123,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+MEDIA_URL = '/media/'  # URL to access media files via browser
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Local filesystem path to store media
 
 
 AUTH_USER_MODEL = "accounts.User"
