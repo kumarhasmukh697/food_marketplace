@@ -115,18 +115,20 @@ class LoginSerializer(serializers.Serializer):
 
 
 # Serializer for user profile
-# class ProfileSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ["id","username","email","phone_number","role","profile_picture","is_verified","created_at","updated_at",]
-#         read_only_fields = ["id", "is_verified", "created_at", "updated_at"]
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        # this below line model = User tell django that this serializer work with this model
+        model = User
+        # th below fields tell django that these fields we want to expose to the user when they are trying to view or update their profile
+        fields = ["id","username","email","phone_number","role","profile_picture","is_verified","created_at","updated_at",]
+        read_only_fields = ["id", "is_verified", "created_at", "updated_at"]
 
 
 
 
 # Serializer for user addresses
-# class AddressSerializer(serializers.ModelSerializer):
-    # class Meta:
-    #     model = Address
-    #     fields = ["id", "full_name","phone_number","address_line_1","address_line_2","city","state","pincode","landmark","is_default",]
-    #     read_only_fields = ["id"]
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = ["id", "full_name","phone_number","address_line_1","address_line_2","city","state","pincode","landmark","is_default",]
+        read_only_fields = ["id"]

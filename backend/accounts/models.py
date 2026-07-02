@@ -3,9 +3,6 @@ from django.contrib.auth.models import AbstractUser
 
 
 
-
-
-
 # user model to store user information and roles
 class User(AbstractUser):
     ROLE_CHOICES = (

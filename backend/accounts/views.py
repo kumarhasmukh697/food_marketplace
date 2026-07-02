@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Address
-from .serializers import RegisterSerializer,VerifyOTPSerializer,LoginSerializer
-#  AddressSerializer,ProfileSerializer
+from .serializers import RegisterSerializer,VerifyOTPSerializer,LoginSerializer , ProfileSerializer ,AddressSerializer
+
 
 
 
@@ -55,6 +55,7 @@ class VerifyOTPView(APIView):
         )
 
 
+
 class LoginView(APIView):
     permission_classes = [permissions.AllowAny]
 
@@ -82,6 +83,8 @@ class LoginView(APIView):
         )
 
 
+
+
 class LogoutView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -102,28 +105,38 @@ class LogoutView(APIView):
             {"message": "Logged out successfully."},status=status.HTTP_200_OK)
 
 
-# class ProfileView(generics.RetrieveUpdateAPIView):
-#     serializer_class = ProfileSerializer
-#     permission_classes = [permissions.IsAuthenticated]
-
-#     def get_object(self):
-#         return self.request.user
 
 
-# class AddressListCreateView(generics.ListCreateAPIView):
-#     serializer_class = AddressSerializer
-#     permission_classes = [permissions.IsAuthenticated]
 
-#     def get_queryset(self):
-#         return Address.objects.filter(user=self.request.user)
+class ProfileView(generics.RetrieveUpdateAPIView):
+    serializer_class = ProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-#     def perform_create(self, serializer):
-#         serializer.save(user=self.request.user)
+    def get_object(self):
+        return self.request.user
 
 
-# class AddressDetailView(generics.RetrieveUpdateDestroyAPIView):
-    # serializer_class = AddressSerializer
-    # permission_classes = [permissions.IsAuthenticated]
 
-    # def get_queryset(self):
-    #     return Address.objects.filter(user=self.request.user)
+
+# this below class is for listing and creating addresses for the authenticated user
+class AddressListCreateView(generics.ListCreateAPIView):
+    serializer_class = AddressSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+    def get_queryset(self):
+        return Address.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+
+
+# this below class is for retrieving, updating and deleting a specific address for the authenticated user
+class AddressDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = AddressSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Address.objects.filter(user=self.request.user)
