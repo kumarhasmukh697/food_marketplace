@@ -21,13 +21,7 @@ class RegisterView(APIView):
         return Response(
             {
                 "message": "User registered successfully. Please verify OTP.",
-                "otp": serializer.otp_code,
-                "user": {
-                    "id": user.id,
-                    "username": user.username,
-                    "email": user.email,
-                    "role": user.role,
-                },
+                "user": {"id": user.id,"username": user.username,"email": user.email,"role": user.role,},
             },
             status=status.HTTP_201_CREATED,
         )

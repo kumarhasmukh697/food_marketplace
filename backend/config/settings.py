@@ -154,6 +154,11 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 
+##################################################
+# EMAIL CONFIGURATION
+##################################################
+
+
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
@@ -162,3 +167,21 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "kumarhasmukh697@gmail.com"
 EMAIL_HOST_PASSWORD = "fdny qlvk hmje wwqj"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+
+##################################################
+# CELERY CONFIGURATION
+##################################################
+
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
+
+CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
+
+CELERY_ACCEPT_CONTENT = ["json"]
+
+CELERY_TASK_SERIALIZER = "json"
+
+CELERY_RESULT_SERIALIZER = "json"
+
+CELERY_TIMEZONE = "Asia/Kolkata"

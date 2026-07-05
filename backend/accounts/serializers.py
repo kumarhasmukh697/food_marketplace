@@ -4,13 +4,13 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 from rest_framework import serializers
 from .models import Address, OTP
-from django.core.mail import send_mail
+from .tasks import send_otp_email
 
 
 User = get_user_model()
 
 
-# Serializer for user registration, OTP verification, login, profile, and address management
+# Serializer for user registration, OTP verification and sending otp to user mails
 class RegisterSerializer(serializers.ModelSerializer):
     # this field is only used for writing data and it will not be returned in the response
     password = serializers.CharField(write_only=True, min_length=8)
@@ -44,20 +44,13 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         OTP.objects.create(user=user,otp=otp_code,purpose="registration",expires_at=timezone.now() + timedelta(minutes=10),)
         
-         # Send OTP email
-        send_mail(
-            subject="Your OTP Verification Code",
-            message=f"Hello {user.username},\n\n"
-                    f"Your OTP for account verification is: {otp_code}\n\n"
-                    f"This OTP is valid for 10 minutes.\n\n"
-                    f"Thank you!",
-            from_email="your_email@gmail.com",   # Replace with your email
-            recipient_list=[user.email],
-            fail_silently=False,
-        )
+         # Send OTP to user registerd email
+        send_otp_email.delay(user.email,user.username,otp_code,)
 
         self.otp_code = otp_code
         return user
+
+
 
 
 
