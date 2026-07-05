@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verify OTP</title>
+    <link rel="stylesheet" href="css/register.css" />
+    <link rel="stylesheet" href="css/verify-otp.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alkatra&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="element">
+        <form id="otp-form" class="sign-form">
+            <h1 class="form-title">Verify Your Account</h1>
+            <p class="have-account-line">Enter the OTP sent to your registered email.</p>
+
+            <label for="otp">OTP<span class="star-required">*</span></label>
+            <input type="text" id="otp" name="otp" maxlength="6" required />
+
+            <br><br>
+            <input type="submit" value="Verify OTP" id="submit">
+        </form>
+        </div>
+    </div>
+<script src="js/verify-otp.js"></script>
+</body>
+</html>

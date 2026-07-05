@@ -61,6 +61,9 @@ class VerifyOTPSerializer(serializers.Serializer): # Serializer is just a class 
 
         if not user:
             raise serializers.ValidationError({"email": "User not found."})
+
+        if user.is_verified:
+            raise serializers.ValidationError({"email": "This account is already verified."})
         
         # fetch the OTP object for the given user and otp, if the OTP object does not exist, raise a validation error
         otp_obj = (OTP.objects.filter(user=user,otp=attrs["otp"],purpose="registration",is_used=False,).order_by("-created_at").first())
