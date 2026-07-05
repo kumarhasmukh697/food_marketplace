@@ -152,3 +152,13 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5500",
 ]
+
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = "kumarhasmukh697@gmail.com"
+EMAIL_HOST_PASSWORD = "fdny qlvk hmje wwqj"
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
