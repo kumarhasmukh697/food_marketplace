@@ -1,0 +1,44 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap');
+
+:root {
+    --primary: #f97316;
+}
+
+.tail-container {
+    font-family: 'Inter', system_ui, sans-serif;
+}
+
+.logo-font {
+    font-family: 'Playfair Display', sans-serif;
+}
+
+.nav-link {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link:hover {
+    transform: translateX(8px);
+    color: #f97316;
+}
+
+.sidebar {
+    transition: all 0.4s ease;
+}
+
+.card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+.role-tab {
+    transition: all 0.3s ease;
+}
+
+.food-bg {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+}

@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <!-- COMMON CSS -->
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <!-- FONT STYLE -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alkatra&display=swap" rel="stylesheet">
+
+
+    <title>
+        {% block title %}
+            Sign-Up-Form
+        {% endblock %}
+    </title>
+
+
+    <!-- Page Specific CSS -->
+    {% block extra_css %}
+    {% endblock %}
+
+</head>
+<body>
+    <div class="container">
+
+        <!-- MAIN CONTENT -->
+        {% block content %}
+        {% endblock %}
+    
+    </div>
+
+    <!-- COMMMON JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Page Specific JS -->
+    {% block extra_js %}
+    {% endblock %}
+</body>
+</html>

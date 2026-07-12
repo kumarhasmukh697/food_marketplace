@@ -1,0 +1,39 @@
+{% extends 'auth_base.html' %}
+{% load static %}
+
+{% block title %}
+ Login Page
+{% endblock %}
+
+
+{% block extra_css %}
+
+{% endblock %}
+
+
+{% block content %}
+<div class="element">
+            <form action="" method="post" class="sign-form" id="login-form" autocomplete="on">
+
+                <h1 class="form-title">Login to Food Marketplace</h1>
+                <br>
+
+                <label for="email"> Email<span class="star-required">*</span></label>
+                <input type="email" name="email" id="email" placeholder="mail@website.com" autofocus required >
+
+                <label for="password"> Password<span class="star-required">*</span></label>
+                <input type="password" name="password" id="password" placeholder="Enter your password" required>
+
+                <br><br>
+
+                <input type="submit" value="Sign In" id="submit">
+
+                <p class="have-account-line"> Don't have an Account? <a href="{% url 'register-page' %}">Sign Up</a> </p>
+
+            </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/login.js' %}"></script>
+{% endblock %}

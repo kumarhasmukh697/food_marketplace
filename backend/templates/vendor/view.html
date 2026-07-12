@@ -1,0 +1,14 @@
+<!-- Vendor View -->
+<div id="main-vendor" class="p-8">
+    <div class="max-w-7xl mx-auto">
+    {% if request.resolver_match.url_name == "v-dashboard" %}
+        {% include 'vendor/home.html' %}
+    {% elif request.resolver_match.url_name == "v-orders" %}
+        {% include 'vendor/orders.html' %}
+    {% elif request.resolver_match.url_name == "menu" %}
+        {% include 'vendor/menu.html' %}
+    {% elif request.resolver_match.url_name == "analytics" %}
+        {% include 'vendor/analytics.html' %}
+    {% endif %}
+    </div>
+</div>

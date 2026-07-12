@@ -1,0 +1,27 @@
+<div id="sidebar" class="sidebar w-72 bg-white border-r border-gray-200 flex-shrink-0 hidden md:flex flex-col">
+
+   
+{% if user.role == "customer" %}
+    {% include 'customer/sidebar.html' %}
+
+    
+    
+ {% elif user.role == "vendor" %}
+    {% include 'vendor/sidebar.html' %}
+    
+
+    
+ {% elif user.role == "delivery" %}
+    {% include 'delivery/sidebar.html' %}
+
+ {% endif %}
+
+        <!-- LOGOUT BUTTON -->
+    <div class="mt-auto p-6 border-t">
+        <button onclick="logout()" 
+                class="w-full py-3 text-red-600 hover:bg-red-50 rounded-3xl flex items-center justify-center gap-2 font-medium">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </button>
+    </div>
+</div>

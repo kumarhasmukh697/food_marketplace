@@ -1,0 +1,32 @@
+{% extends 'auth_base.html' %}
+{% load static %}
+
+{% block title %}
+ OTP Page
+{% endblock %}
+
+
+{% block extra_css %}
+
+{% endblock %}
+
+
+{% block content %}
+ <div class="element">
+        <form id="otp-form" class="sign-form">
+            <h1 class="form-title">Verify Your Account</h1>
+            <p class="have-account-line">Enter the OTP sent to your registered email.</p>
+
+            <label for="otp">OTP<span class="star-required">*</span></label>
+            <input type="text" id="otp" name="otp" maxlength="6" required />
+
+            <br><br>
+            <input type="submit" value="Verify OTP" id="submit">
+        </form>
+</div>
+{% endblock %}
+
+
+{% block extra_js %}
+<script src="{% static 'js/verify-otp.js' %}"></script>
+{% endblock %}

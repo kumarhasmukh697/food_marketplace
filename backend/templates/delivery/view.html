@@ -1,0 +1,16 @@
+<div id="main-delivery" class="p-8">
+    <div class="max-w-7xl mx-auto">
+    {% if request.resolver_match.url_name == "d-home" %}
+        {% include 'delivery/home.html' %}
+    {% elif request.resolver_match.url_name == "earnings" %}
+        {% include 'delivery/earnings.html' %}
+    {% elif request.resolver_match.url_name == "d-orders" %}
+        {% include 'delivery/orders.html' %}
+    {% elif request.resolver_match.url_name == "delivery" %}
+        {% include 'delivery/delivery.html' %}
+    {% endif %}
+    </div>
+</div>
+
+
+    

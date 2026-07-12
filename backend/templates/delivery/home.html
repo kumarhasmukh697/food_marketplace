@@ -1,0 +1,57 @@
+<div class="bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-3xl p-10 mb-12">
+    <div class="flex flex-col md:flex-row gap-8 items-center">
+        <div>
+            <div class="uppercase tracking-widest text-blue-100 text-sm">New opportunity</div>
+            <div class="text-4xl font-semibold mt-2">Pizza delivery • 1.2 km away</div>
+            <div class="mt-8 flex items-center gap-8">
+                <button onclick="acceptDelivery()" 
+                        class="bg-white text-blue-700 px-10 py-4 rounded-3xl font-semibold">Accept Order</button>
+                <button class="border border-white/70 px-8 py-4 rounded-3xl">Decline</button>
+            </div>
+        </div>
+        <div class="ml-auto text-center">
+            <div class="text-7xl">🍕</div>
+            <div class="text-2xl font-medium mt-4">15 mins</div>
+        </div>
+    </div>
+</div>
+
+<h2 class="text-3xl font-semibold mb-6">Available Deliveries</h2>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="delivery-jobs">
+    <!-- Populated by JS -->
+    <div class="bg-white border border-gray-200 rounded-3xl p-6 card-hover">
+    <div class="flex justify-between items-start">
+        <div>
+            <div class="flex items-center gap-2 text-emerald-600">
+                <i class="fa-solid fa-clock"></i>
+                <span class="font-medium">12 min ago</span>
+            </div>
+            <div class="font-semibold text-lg mt-3">Domino's Pizza</div>
+            <div class="text-gray-500">2.4 km • ₹85 payout</div>
+        </div>
+        <div class="text-5xl">🍕</div>
+    </div>
+    <div class="mt-8 flex gap-3">
+        <button onclick="acceptDelivery()" class="flex-1 bg-emerald-600 text-white py-4 rounded-3xl font-medium">Accept</button>
+        <button class="flex-1 border py-4 rounded-3xl">Skip</button>
+    </div>
+</div>
+
+<div class="bg-white border border-gray-200 rounded-3xl p-6 card-hover">
+    <div class="flex justify-between items-start">
+        <div>
+            <div class="flex items-center gap-2 text-emerald-600">
+                <i class="fa-solid fa-clock"></i>
+                <span class="font-medium">8 min ago</span>
+            </div>
+            <div class="font-semibold text-lg mt-3">KFC - Fried Chicken</div>
+            <div class="text-gray-500">3.1 km • ₹110 payout</div>
+        </div>
+        <div class="text-5xl">🍗</div>
+    </div>
+    <div class="mt-8 flex gap-3">
+        <button onclick="acceptDelivery()" class="flex-1 bg-emerald-600 text-white py-4 rounded-3xl font-medium">Accept</button>
+        <button class="flex-1 border py-4 rounded-3xl">Skip</button>
+    </div>
+</div>
+</div>

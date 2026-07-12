@@ -1,3 +1,4 @@
+from django.contrib.auth import login,logout
 from django.shortcuts import render
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
@@ -25,6 +26,8 @@ class RegisterView(APIView):
             },
             status=status.HTTP_201_CREATED,
         )
+
+
 
 
 class VerifyOTPView(APIView):
@@ -59,6 +62,9 @@ class LoginView(APIView):
         serializer.is_valid(raise_exception=True)
         # serializer.validated_data is a dictionary that contains the validated data from the serializer. In this case, it contains the user object that was authenticated based on the provided credentials (email and password). We are extracting the user object from this dictionary to use it for generating JWT tokens.
         user = serializer.validated_data["user"]
+
+         # Create Django Session
+        login(request, user)
         refresh = RefreshToken.for_user(user)
 
         return Response(
@@ -94,7 +100,8 @@ class LogoutView(APIView):
             token.blacklist()
         except Exception:
             return Response({"detail": "Invalid or already blacklisted refresh token."},status=status.HTTP_400_BAD_REQUEST,)
-
+         # Destroy Django session
+        logout(request)
         return Response(
             {"message": "Logged out successfully."},status=status.HTTP_200_OK)
 

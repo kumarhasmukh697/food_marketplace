@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodHub • Multi-Vendor Marketplace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap');
+        
+        :root {
+            --primary: #f97316;
+        }
+        
+        .tail-container {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .logo-font {
+            font-family: 'Playfair Display', sans-serif;
+        }
+
+        .nav-link {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-link:hover {
+            transform: translateX(8px);
+            color: #f97316;
+        }
+
+        .sidebar {
+            transition: all 0.4s ease;
+        }
+
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        .role-tab {
+            transition: all 0.3s ease;
+        }
+        
+        .food-bg {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+        }
+    </style>
+</head>
+<body class="tail-container bg-gray-50 text-gray-800">
+    <!-- NAVBAR -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto">
+            <div class="px-6 py-4 flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-orange-500 rounded-2xl flex items-center justify-center text-white text-2xl shadow-inner">
+                        🍔
+                    </div>
+                    <div>
+                        <span class="logo-font text-3xl font-bold tracking-tight text-orange-600">FoodHub</span>
+                    </div>
+                </div>
+
+                <!-- Search -->
+                <div class="hidden md:flex flex-1 max-w-xl mx-8">
+                    <div class="relative w-full">
+                        <input 
+                            type="text" 
+                            id="search-input"
+                            placeholder="Search restaurants, dishes, or cuisines..." 
+                            class="w-full bg-gray-100 border border-gray-300 focus:border-orange-500 focus:ring-orange-500 rounded-3xl py-3 px-6 pl-12 text-sm outline-none">
+                        <i class="fa-solid fa-magnifying-glass absolute left-5 top-3.5 text-gray-400"></i>
+                    </div>
+                </div>
+
+                <!-- Right side -->
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleRoleModal()" 
+                            class="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-300 rounded-3xl hover:border-orange-500 hover:text-orange-600 transition-colors">
+                        <i class="fa-solid fa-users"></i>
+                        <span class="font-medium text-sm" id="current-role">Customer</span>
+                    </button>
+
+                    <div class="relative">
+                        <button onclick="toggleCart()" 
+                                class="w-10 h-10 flex items-center justify-center text-gray-600 hover:text-orange-600 transition-colors relative">
+                            <i class="fa-solid fa-shopping-cart text-xl"></i>
+                            <span id="cart-count" 
+                                  class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full">3</span>
+                        </button>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-orange-100 rounded-2xl overflow-hidden">
+                            <img src="https://picsum.photos/id/64/128/128" alt="User" class="w-full h-full object-cover">
+                        </div>
+                        <div class="hidden md:block">
+                            <p class="text-sm font-semibold" id="username">Alex Rivera</p>
+                            <p class="text-xs text-gray-500 -mt-1" id="user-role">Customer</p>
+                        </div>
+                    </div>
+
+                    <button onclick="toggleSidebar()" 
+                            class="md:hidden w-10 h-10 flex items-center justify-center text-2xl text-gray-700">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Role Switcher Tabs -->
+        <div class="border-t bg-white">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex text-sm font-medium overflow-x-auto">
+                    <button onclick="switchRole(0)" id="tab-0"
+                            class="role-tab px-8 py-4 border-b-2 border-orange-500 text-orange-600 whitespace-nowrap flex items-center gap-2">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Customer</span>
+                    </button>
+                    <button onclick="switchRole(1)" id="tab-1"
+                            class="role-tab px-8 py-4 border-b-2 border-transparent hover:text-gray-700 whitespace-nowrap flex items-center gap-2">
+                        <i class="fa-solid fa-store"></i>
+                        <span>Vendor</span>
+                    </button>
+                    <button onclick="switchRole(2)" id="tab-2"
+                            class="role-tab px-8 py-4 border-b-2 border-transparent hover:text-gray-700 whitespace-nowrap flex items-center gap-2">
+                        <i class="fa-solid fa-motorcycle"></i>
+                        <span>Delivery</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex min-h-[calc(100vh-128px)]">
+        <!-- SIDEBAR -->
+        <div id="sidebar" 
+             class="sidebar w-72 bg-white border-r border-gray-200 flex-shrink-0 hidden md:flex flex-col">
+            
+            <!-- Customer Sidebar -->
+            <div id="sidebar-customer" class="flex-1 flex flex-col">
+                <div class="p-6">
+                    <div onclick="navigateTo('home')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-orange-50 rounded-3xl cursor-pointer mb-1 active">
+                        <i class="fa-solid fa-house w-5"></i>
+                        <span class="font-medium">Home</span>
+                    </div>
+                    <div onclick="navigateTo('explore')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-orange-50 rounded-3xl cursor-pointer mb-1">
+                        <i class="fa-solid fa-compass w-5"></i>
+                        <span class="font-medium">Explore</span>
+                    </div>
+                    <div onclick="navigateTo('orders')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-orange-50 rounded-3xl cursor-pointer mb-1">
+                        <i class="fa-solid fa-receipt w-5"></i>
+                        <span class="font-medium">My Orders</span>
+                    </div>
+                    <div onclick="navigateTo('favorites')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-orange-50 rounded-3xl cursor-pointer mb-1">
+                        <i class="fa-solid fa-heart w-5"></i>
+                        <span class="font-medium">Favorites</span>
+                    </div>
+                </div>
+                
+                <div class="mt-auto border-t p-6">
+                    <div class="text-xs uppercase tracking-widest text-gray-400 mb-3 px-4">Account</div>
+                    <div onclick="navigateTo('profile')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-orange-50 rounded-3xl cursor-pointer">
+                        <i class="fa-solid fa-user w-5"></i>
+                        <span class="font-medium">Profile</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vendor Sidebar -->
+            <div id="sidebar-vendor" class="flex-1 flex flex-col hidden">
+                <div class="p-6">
+                    <div onclick="navigateTo('vendor-dashboard')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-orange-50 rounded-3xl cursor-pointer mb-1 active">
+                        <i class="fa-solid fa-chart-line w-5"></i>
+                        <span class="font-medium">Dashboard</span>
+                    </div>
+                    <div onclick="navigateTo('menu')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-orange-50 rounded-3xl cursor-pointer mb-1">
+                        <i class="fa-solid fa-utensils w-5"></i>
+                        <span class="font-medium">Menu Management</span>
+                    </div>
+                    <div onclick="navigateTo('vendor-orders')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-orange-50 rounded-3xl cursor-pointer mb-1">
+                        <i class="fa-solid fa-boxes-packing w-5"></i>
+                        <span class="font-medium">Orders</span>
+                    </div>
+                    <div onclick="navigateTo('analytics')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-orange-50 rounded-3xl cursor-pointer mb-1">
+                        <i class="fa-solid fa-chart-pie w-5"></i>
+                        <span class="font-medium">Analytics</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delivery Sidebar -->
+            <div id="sidebar-delivery" class="flex-1 flex flex-col hidden">
+                <div class="p-6">
+                    <div onclick="navigateTo('delivery-home')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-orange-50 rounded-3xl cursor-pointer mb-1 active">
+                        <i class="fa-solid fa-motorcycle w-5"></i>
+                        <span class="font-medium">Available Orders</span>
+                    </div>
+                    <div onclick="navigateTo('my-deliveries')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-orange-50 rounded-3xl cursor-pointer mb-1">
+                        <i class="fa-solid fa-route w-5"></i>
+                        <span class="font-medium">My Deliveries</span>
+                    </div>
+                    <div onclick="navigateTo('earnings')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-orange-50 rounded-3xl cursor-pointer mb-1">
+                        <i class="fa-solid fa-wallet w-5"></i>
+                        <span class="font-medium">Earnings</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-auto p-6 border-t">
+                <button onclick="logout()" 
+                        class="w-full py-3 text-red-600 hover:bg-red-50 rounded-3xl flex items-center justify-center gap-2 font-medium">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="flex-1 overflow-auto">
+            <!-- Customer View -->
+            <div id="main-customer" class="p-8">
+                <div class="max-w-7xl mx-auto">
+                    <!-- Hero Banner -->
+                    <div class="food-bg rounded-3xl p-10 text-white mb-12 relative overflow-hidden">
+                        <div class="max-w-md">
+                            <h1 class="text-5xl font-bold leading-none mb-4">Craving something delicious?</h1>
+                            <p class="text-orange-100 text-lg mb-8">Order from 500+ restaurants near you</p>
+                            <button onclick="navigateTo('explore')" 
+                                    class="bg-white text-orange-600 px-8 py-4 rounded-3xl font-semibold flex items-center gap-3 hover:scale-105 transition-transform">
+                                Browse Restaurants
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        <img src="https://picsum.photos/id/292/600/400" 
+                             class="absolute bottom-0 right-12 hidden lg:block w-96 rounded-3xl shadow-2xl rotate-6" alt="Food">
+                    </div>
+
+                    <!-- Popular Restaurants -->
+                    <div class="mb-12">
+                        <div class="flex justify-between items-end mb-6">
+                            <h2 class="text-3xl font-semibold">Popular near you</h2>
+                            <a href="#" class="text-orange-600 flex items-center gap-2 text-sm font-medium">See all <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="restaurant-grid">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Categories -->
+                    <div>
+                        <h2 class="text-3xl font-semibold mb-6">Cuisines</h2>
+                        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
+                            <div class="bg-white rounded-3xl p-6 text-center card-hover cursor-pointer border border-transparent hover:border-orange-200">
+                                <div class="text-5xl mb-3">🍕</div>
+                                <div class="font-semibold">Pizza</div>
+                            </div>
+                            <div class="bg-white rounded-3xl p-6 text-center card-hover cursor-pointer border border-transparent hover:border-orange-200">
+                                <div class="text-5xl mb-3">🍣</div>
+                                <div class="font-semibold">Sushi</div>
+                            </div>
+                            <div class="bg-white rounded-3xl p-6 text-center card-hover cursor-pointer border border-transparent hover:border-orange-200">
+                                <div class="text-5xl mb-3">🌯</div>
+                                <div class="font-semibold">Mexican</div>
+                            </div>
+                            <div class="bg-white rounded-3xl p-6 text-center card-hover cursor-pointer border border-transparent hover:border-orange-200">
+                                <div class="text-5xl mb-3">🍛</div>
+                                <div class="font-semibold">Indian</div>
+                            </div>
+                            <div class="bg-white rounded-3xl p-6 text-center card-hover cursor-pointer border border-transparent hover:border-orange-200">
+                                <div class="text-5xl mb-3">🍝</div>
+                                <div class="font-semibold">Italian</div>
+                            </div>
+                            <div class="bg-white rounded-3xl p-6 text-center card-hover cursor-pointer border border-transparent hover:border-orange-200">
+                                <div class="text-5xl mb-3">🥗</div>
+                                <div class="font-semibold">Healthy</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vendor View -->
+            <div id="main-vendor" class="p-8 hidden">
+                <div class="max-w-7xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                        <div class="bg-white rounded-3xl p-8 shadow-sm">
+                            <div class="text-emerald-500 text-4xl mb-3">₹48,290</div>
+                            <div class="text-gray-500">Today's Revenue</div>
+                            <div class="text-emerald-600 text-sm mt-6 flex items-center gap-1">
+                                <i class="fa-solid fa-arrow-trend-up"></i>
+                                <span>+18% from yesterday</span>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-3xl p-8 shadow-sm">
+                            <div class="text-amber-500 text-4xl mb-3">42</div>
+                            <div class="text-gray-500">Orders Today</div>
+                            <div class="mt-8 h-2 bg-gray-100 rounded-full overflow-hidden">
+                                <div class="bg-amber-500 w-3/4 h-2"></div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-3xl p-8 shadow-sm">
+                            <div class="text-blue-500 text-4xl mb-3">12</div>
+                            <div class="text-gray-500">Active Items</div>
+                        </div>
+                    </div>
+
+                    <h2 class="text-2xl font-semibold mb-6">Recent Orders</h2>
+                    <div class="bg-white rounded-3xl overflow-hidden">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-b">
+                                    <th class="text-left py-5 px-8 font-medium text-gray-500">Order ID</th>
+                                    <th class="text-left py-5 px-8 font-medium text-gray-500">Customer</th>
+                                    <th class="text-left py-5 px-8 font-medium text-gray-500">Items</th>
+                                    <th class="text-left py-5 px-8 font-medium text-gray-500">Amount</th>
+                                    <th class="text-left py-5 px-8 font-medium text-gray-500">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="vendor-orders-table" class="text-sm">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delivery View -->
+            <div id="main-delivery" class="p-8 hidden">
+                <div class="max-w-7xl mx-auto">
+                    <div class="bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-3xl p-10 mb-12">
+                        <div class="flex flex-col md:flex-row gap-8 items-center">
+                            <div>
+                                <div class="uppercase tracking-widest text-blue-100 text-sm">New opportunity</div>
+                                <div class="text-4xl font-semibold mt-2">Pizza delivery • 1.2 km away</div>
+                                <div class="mt-8 flex items-center gap-8">
+                                    <button onclick="acceptDelivery()" 
+                                            class="bg-white text-blue-700 px-10 py-4 rounded-3xl font-semibold">Accept Order</button>
+                                    <button class="border border-white/70 px-8 py-4 rounded-3xl">Decline</button>
+                                </div>
+                            </div>
+                            <div class="ml-auto text-center">
+                                <div class="text-7xl">🍕</div>
+                                <div class="text-2xl font-medium mt-4">15 mins</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="text-3xl font-semibold mb-6">Available Deliveries</h2>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="delivery-jobs">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="bg-white border-t mt-16">
+                <div class="max-w-7xl mx-auto px-8 py-12">
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+                        <div>
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="w-8 h-8 bg-orange-500 rounded-2xl flex items-center justify-center text-white">🍔</div>
+                                <span class="logo-font text-2xl font-bold">FoodHub</span>
+                            </div>
+                            <p class="text-gray-500 text-sm">Multi-vendor food marketplace connecting customers, restaurants &amp; delivery partners.</p>
+                        </div>
+                        <div>
+                            <div class="font-semibold mb-4">Platform</div>
+                            <div class="space-y-2 text-sm text-gray-600">
+                                <div>Browse Restaurants</div>
+                                <div>Become a Vendor</div>
+                                <div>Join as Delivery Partner</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="font-semibold mb-4">Company</div>
+                            <div class="space-y-2 text-sm text-gray-600">
+                                <div>About Us</div>
+                                <div>Careers</div>
+                                <div>Blog</div>
+                                <div>Contact</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="font-semibold mb-4">Legal</div>
+                            <div class="space-y-2 text-sm text-gray-600">
+                                <div>Terms</div>
+                                <div>Privacy</div>
+                                <div>Safety</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="font-semibold mb-4">Download App</div>
+                            <div class="flex gap-3">
+                                <div class="bg-black text-white px-5 py-3 rounded-2xl text-xs leading-tight cursor-pointer">
+                                    <div class="text-[10px]">GET IT ON</div>
+                                    <div class="font-semibold">Google Play</div>
+                                </div>
+                                <div class="bg-black text-white px-5 py-3 rounded-2xl text-xs leading-tight cursor-pointer">
+                                    <div class="text-[10px]">Download on the</div>
+                                    <div class="font-semibold">App Store</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center text-gray-400 text-xs mt-16 border-t pt-8">
+                        © 2026 FoodHub • Made with ❤️ for food lovers
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Role Switch Modal -->
+    <div id="role-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100]">
+        <div class="bg-white rounded-3xl w-full max-w-md p-8">
+            <h3 class="text-2xl font-semibold mb-8 text-center">Switch User Role</h3>
+            
+            <div onclick="switchRoleDemo(0)" class="flex gap-5 items-center p-5 hover:bg-orange-50 rounded-3xl cursor-pointer mb-3">
+                <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center text-3xl">👤</div>
+                <div>
+                    <div class="font-semibold">Customer</div>
+                    <div class="text-sm text-gray-500">Browse &amp; order food</div>
+                </div>
+            </div>
+            
+            <div onclick="switchRoleDemo(1)" class="flex gap-5 items-center p-5 hover:bg-orange-50 rounded-3xl cursor-pointer mb-3">
+                <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-3xl">🏪</div>
+                <div>
+                    <div class="font-semibold">Vendor / Restaurant</div>
+                    <div class="text-sm text-gray-500">Manage your business</div>
+                </div>
+            </div>
+            
+            <div onclick="switchRoleDemo(2)" class="flex gap-5 items-center p-5 hover:bg-orange-50 rounded-3xl cursor-pointer">
+                <div class="w-14 h-14 bg-amber-100 rounded-2xl flex items-center justify-center text-3xl">🛵</div>
+                <div>
+                    <div class="font-semibold">Delivery Partner</div>
+                    <div class="text-sm text-gray-500">Deliver orders</div>
+                </div>
+            </div>
+            
+            <button onclick="toggleRoleModal()" 
+                    class="mt-8 w-full py-4 text-gray-500 font-medium hover:bg-gray-100 rounded-3xl">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script already loaded via CDN
+        
+        function switchRole(roleIndex) {
+            // Remove active from all tabs
+            document.querySelectorAll('.role-tab').forEach(tab => {
+                tab.classList.remove('border-orange-500', 'text-orange-600');
+                tab.classList.add('border-transparent');
+            });
+            
+            // Activate selected
+            document.getElementById(`tab-${roleIndex}`).classList.add('border-orange-500', 'text-orange-600');
+            
+            // Hide all main sections
+            document.getElementById('main-customer').classList.add('hidden');
+            document.getElementById('main-vendor').classList.add('hidden');
+            document.getElementById('main-delivery').classList.add('hidden');
+            
+            // Hide all sidebars
+            document.getElementById('sidebar-customer').classList.add('hidden');
+            document.getElementById('sidebar-vendor').classList.add('hidden');
+            document.getElementById('sidebar-delivery').classList.add('hidden');
+            
+            if (roleIndex === 0) {
+                document.getElementById('main-customer').classList.remove('hidden');
+                document.getElementById('sidebar-customer').classList.remove('hidden');
+                document.getElementById('current-role').textContent = 'Customer';
+                document.getElementById('user-role').textContent = 'Customer';
+            } else if (roleIndex === 1) {
+                document.getElementById('main-vendor').classList.remove('hidden');
+                document.getElementById('sidebar-vendor').classList.remove('hidden');
+                document.getElementById('current-role').textContent = 'Vendor';
+                document.getElementById('user-role').textContent = 'Restaurant Owner';
+            } else if (roleIndex === 2) {
+                document.getElementById('main-delivery').classList.remove('hidden');
+                document.getElementById('sidebar-delivery').classList.remove('hidden');
+                document.getElementById('current-role').textContent = 'Delivery';
+                document.getElementById('user-role').textContent = 'Delivery Partner';
+            }
+        }
+        
+        function switchRoleDemo(roleIndex) {
+            toggleRoleModal();
+            switchRole(roleIndex);
+        }
+        
+        function toggleRoleModal() {
+            const modal = document.getElementById('role-modal');
+            modal.classList.toggle('hidden');
+        }
+        
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('hidden');
+        }
+        
+        function navigateTo(section) {
+            console.log(`Navigating to: ${section}`);
+            // In a real app this would load different content
+            alert(`📍 Navigation to ${section} section (demo)`);
+        }
+        
+        function toggleCart() {
+            alert("🛒 Your cart has 3 items.\n\nTotal: ₹689");
+        }
+        
+        function logout() {
+            if (confirm("Logout from FoodHub?")) {
+                alert("👋 Logged out successfully!");
+            }
+        }
+        
+        function acceptDelivery() {
+            alert("🚀 Order accepted! Navigate to pickup location.");
+        }
+        
+        // Populate demo data
+        function populateDemoData() {
+            // Restaurants
+            const restaurantsHTML = `
+                <div class="bg-white rounded-3xl overflow-hidden card-hover cursor-pointer">
+                    <img src="https://picsum.photos/id/201/400/220" class="w-full h-48 object-cover" alt="">
+                    <div class="p-5">
+                        <div class="flex justify-between">
+                            <div>
+                                <div class="font-semibold">Spice Garden</div>
+                                <div class="text-xs text-gray-500">North Indian • 25 min</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="flex items-center gap-1 text-emerald-500 text-sm">
+                                    <i class="fa-solid fa-star"></i> 4.8
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-3xl overflow-hidden card-hover cursor-pointer">
+                    <img src="https://picsum.photos/id/292/400/220" class="w-full h-48 object-cover" alt="">
+                    <div class="p-5">
+                        <div class="flex justify-between">
+                            <div>
+                                <div class="font-semibold">Bella Napoli</div>
+                                <div class="text-xs text-gray-500">Italian • 32 min</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="flex items-center gap-1 text-emerald-500 text-sm">
+                                    <i class="fa-solid fa-star"></i> 4.6
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-3xl overflow-hidden card-hover cursor-pointer">
+                    <img src="https://picsum.photos/id/431/400/220" class="w-full h-48 object-cover" alt="">
+                    <div class="p-5">
+                        <div class="flex justify-between">
+                            <div>
+                                <div class="font-semibold">Tokyo Ramen</div>
+                                <div class="text-xs text-gray-500">Japanese • 18 min</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="flex items-center gap-1 text-emerald-500 text-sm">
+                                    <i class="fa-solid fa-star"></i> 4.9
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-3xl overflow-hidden card-hover cursor-pointer">
+                    <img src="https://picsum.photos/id/669/400/220" class="w-full h-48 object-cover" alt="">
+                    <div class="p-5">
+                        <div class="flex justify-between">
+                            <div>
+                                <div class="font-semibold">Green Bowl</div>
+                                <div class="text-xs text-gray-500">Healthy • 22 min</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="flex items-center gap-1 text-emerald-500 text-sm">
+                                    <i class="fa-solid fa-star"></i> 4.7
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('restaurant-grid').innerHTML = restaurantsHTML;
+            
+            // Vendor orders demo
+            const vendorOrders = `
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="py-6 px-8 font-medium">#FH-3921</td>
+                    <td class="py-6 px-8">Priya Sharma</td>
+                    <td class="py-6 px-8">Butter Chicken ×2, Naan</td>
+                    <td class="py-6 px-8 font-medium">₹680</td>
+                    <td class="py-6 px-8"><span class="bg-emerald-100 text-emerald-700 px-4 py-1 rounded-3xl text-xs font-medium">Ready</span></td>
+                </tr>
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="py-6 px-8 font-medium">#FH-3920</td>
+                    <td class="py-6 px-8">Rahul Mehra</td>
+                    <td class="py-6 px-8">Paneer Tikka Masala</td>
+                    <td class="py-6 px-8 font-medium">₹420</td>
+                    <td class="py-6 px-8"><span class="bg-amber-100 text-amber-700 px-4 py-1 rounded-3xl text-xs font-medium">Preparing</span></td>
+                </tr>
+            `;
+            document.getElementById('vendor-orders-table').innerHTML = vendorOrders;
+            
+            // Delivery jobs
+            const deliveryHTML = `
+                <div class="bg-white border border-gray-200 rounded-3xl p-6 card-hover">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="flex items-center gap-2 text-emerald-600">
+                                <i class="fa-solid fa-clock"></i>
+                                <span class="font-medium">12 min ago</span>
+                            </div>
+                            <div class="font-semibold text-lg mt-3">Domino's Pizza</div>
+                            <div class="text-gray-500">2.4 km • ₹85 payout</div>
+                        </div>
+                        <div class="text-5xl">🍕</div>
+                    </div>
+                    <div class="mt-8 flex gap-3">
+                        <button onclick="acceptDelivery()" class="flex-1 bg-emerald-600 text-white py-4 rounded-3xl font-medium">Accept</button>
+                        <button class="flex-1 border py-4 rounded-3xl">Skip</button>
+                    </div>
+                </div>
+                
+                <div class="bg-white border border-gray-200 rounded-3xl p-6 card-hover">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="flex items-center gap-2 text-emerald-600">
+                                <i class="fa-solid fa-clock"></i>
+                                <span class="font-medium">8 min ago</span>
+                            </div>
+                            <div class="font-semibold text-lg mt-3">KFC - Fried Chicken</div>
+                            <div class="text-gray-500">3.1 km • ₹110 payout</div>
+                        </div>
+                        <div class="text-5xl">🍗</div>
+                    </div>
+                    <div class="mt-8 flex gap-3">
+                        <button onclick="acceptDelivery()" class="flex-1 bg-emerald-600 text-white py-4 rounded-3xl font-medium">Accept</button>
+                        <button class="flex-1 border py-4 rounded-3xl">Skip</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('delivery-jobs').innerHTML = deliveryHTML;
+        }
+        
+        // Initialize
+        window.onload = function() {
+            populateDemoData();
+            
+            // Make sidebar visible on desktop by default
+            document.getElementById('sidebar').classList.remove('hidden');
+            
+            // Keyboard shortcut hint
+            console.log('%c✅ FoodHub Multi-role Template Ready!\n\nUse tabs in navbar to switch between Customer, Vendor & Delivery views.', 'color:#f97316; font-size:13px');
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!-- MAIN CONTENT -->
+<div class="flex-1 overflow-auto">
+    <!-- Customer View -->
+{% if user.role == 'customer' %}
+    {% include 'customer/view.html' %}
+
+    <!-- Vendor View -->
+{% elif user.role == 'vendor' %}
+    {% include 'vendor/view.html' %}
+
+    <!-- Delivery View -->
+{% elif user.role == 'delivery' %}
+    {% include 'delivery/view.html' %}
+{% endif %}
+
+    <!-- profile model -->
+    {% include 'includes/profile.html' %}
+
+    <!-- Footer -->
+    {% include 'includes/footer.html' %}
+</div>

@@ -6,6 +6,7 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'reviews',
     'vendors',
     'wishlist',
+    'customer',
 ]
 
 MIDDLEWARE = [
@@ -60,7 +62,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -126,8 +128,13 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 MEDIA_URL = '/media/'  # URL to access media files via browser
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Local filesystem path to store media
+MEDIA_ROOT = BASE_DIR / "media"
+
 
 
 AUTH_USER_MODEL = "accounts.User"
@@ -148,10 +155,6 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
 }
-
-CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:5500",
-]
 
 
 ##################################################

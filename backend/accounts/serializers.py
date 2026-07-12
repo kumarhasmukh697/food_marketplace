@@ -92,20 +92,18 @@ class VerifyOTPSerializer(serializers.Serializer): # Serializer is just a class 
 # Serializer for user login
 class LoginSerializer(serializers.Serializer):
     # the fields which we have defined here are the fields that we expect from the user when they are trying to login
-    username = serializers.CharField(required=False, allow_blank=False)
     email = serializers.EmailField(required=False)
     password = serializers.CharField(write_only=True)
     
 
     def validate(self, attrs):
         # attrs is a dictionary that contains the data which user has send to us for Login
-        username = attrs.get("username")
         email = attrs.get("email")
         password = attrs.get("password")
         
-        # if both username and email are not provided, raise a validation error
-        if not username and not email:
-            raise serializers.ValidationError("Please provide username or email.")
+        # if email is not provided, raise a validation error
+        if not email:
+            raise serializers.ValidationError("Please provide email.")
         
         # initialize user variable to None, we will use this variable to store the user object if we find a matching user in the database
         user = None
@@ -113,11 +111,14 @@ class LoginSerializer(serializers.Serializer):
         if email:
             user = User.objects.filter(email=email).first()
 
-        if not user and username:
-            user = User.objects.filter(username=username).first()
-
         if not user or not user.check_password(password):
-            raise serializers.ValidationError("Invalid username/email or password.")
+            raise serializers.ValidationError({"error": "Invalid email or password."})
+        
+
+        if not user.is_verified:
+            raise serializers.ValidationError({
+                "email": "Please verify your email before logging in."
+            })
 
         attrs["user"] = user
         return attrs

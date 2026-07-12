@@ -1,0 +1,18 @@
+<!-- Customer View -->
+<div id="main-customer" class="p-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Hero Banner -->
+    {% if request.resolver_match.url_name == "home" %}
+        {% include 'customer/home.html' %}
+    {% elif request.resolver_match.url_name == "tracking" %}
+        {% include 'customer/tracking.html' %}
+    {% elif request.resolver_match.url_name == "orders" %}
+        {% include 'customer/orders.html' %}
+    {% elif request.resolver_match.url_name == "favorites" %}
+        {% include 'customer/favorites.html' %}
+    {% elif request.resolver_match.url_name == "explore" %}
+        {% include 'customer/explore.html' %}
+    {% endif %}
+      
+    </div>
+</div>

@@ -1,0 +1,48 @@
+{% extends 'home.html' %}
+{% load static %}
+
+
+
+<div id="main-vendor" class="p-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="bg-white rounded-3xl p-8 shadow-sm">
+                <div class="text-emerald-500 text-4xl mb-3">₹48,290</div>
+                <div class="text-gray-500">Today's Revenue</div>
+                <div class="text-emerald-600 text-sm mt-6 flex items-center gap-1">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                    <span>+18% from yesterday</span>
+                </div>
+            </div>
+            <div class="bg-white rounded-3xl p-8 shadow-sm">
+                <div class="text-amber-500 text-4xl mb-3">42</div>
+                <div class="text-gray-500">Orders Today</div>
+                <div class="mt-8 h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div class="bg-amber-500 w-3/4 h-2"></div>
+                </div>
+            </div>
+            <div class="bg-white rounded-3xl p-8 shadow-sm">
+                <div class="text-blue-500 text-4xl mb-3">12</div>
+                <div class="text-gray-500">Active Items</div>
+            </div>
+        </div>
+
+        <h2 class="text-2xl font-semibold mb-6">Recent Orders</h2>
+        <div class="bg-white rounded-3xl overflow-hidden">
+            <table class="w-full">
+                <thead>
+                    <tr class="border-b">
+                        <th class="text-left py-5 px-8 font-medium text-gray-500">Order ID</th>
+                        <th class="text-left py-5 px-8 font-medium text-gray-500">Customer</th>
+                        <th class="text-left py-5 px-8 font-medium text-gray-500">Items</th>
+                        <th class="text-left py-5 px-8 font-medium text-gray-500">Amount</th>
+                        <th class="text-left py-5 px-8 font-medium text-gray-500">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="vendor-orders-table" class="text-sm">
+                    <!-- Populated by JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
