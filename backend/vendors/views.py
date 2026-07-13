@@ -1,13 +1,11 @@
-from django.shortcuts import render
 from rest_framework import generics
-from vendors.models import Vendor
-# from vendors.serializers import VendorSerializer
+from .serializers import VendorProfileSerializer
+from .permissions import IsVendor
 
 
+class VendorProfileView(generics.RetrieveUpdateAPIView):
+    serializer_class = VendorProfileSerializer
+    permission_classes = [IsVendor]
 
-# class VendorListCreateView(generics.ListCreateAPIView):
-#     queryset = Vendor.objects.all()
-#     serializer_class = VendorSerializer
-
-
-
+    def get_object(self):
+        return self.request.user.vendor_profile

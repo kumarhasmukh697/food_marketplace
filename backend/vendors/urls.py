@@ -1,6 +1,6 @@
 from django.urls import path
-# from vendors.views import VendorListCreateView
+from vendors.views import VendorProfileView
 
 urlpatterns = [
-    # path("", VendorListCreateView.as_view(), name="vendor-list-create"),
+    path("profile/", VendorProfileView.as_view(), name="vendor-profile"),
 ]

@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from vendors.models import Vendor
+from .models import VendorProfile
 
 
 
-# class VendorSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Vendor
-#         fields = ["user", "shop_name", "description", "address", "is_active"]
+class VendorProfileSerializer(serializers.ModelSerializer):
 
+    class Meta:
+        model = VendorProfile
 
-
+        fields = ["shop_name","description","address","opening_time","closing_time","accepting_orders","is_active",]
+        read_only_fields = ["is_active",]
