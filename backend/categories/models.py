@@ -1,6 +1,6 @@
 from django.db import models
 
-
+# Category model for storing types of category of food
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(unique=True)

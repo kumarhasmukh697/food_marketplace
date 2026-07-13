@@ -1,7 +1,7 @@
 <!-- MAIN CONTENT -->
 <div class="flex-1 overflow-auto">
     <!-- Customer View -->
-{% if user.role == 'customer' %}
+{% if user.role == 'customer'%}
     {% include 'customer/view.html' %}
 
     <!-- Vendor View -->
@@ -11,6 +11,11 @@
     <!-- Delivery View -->
 {% elif user.role == 'delivery' %}
     {% include 'delivery/view.html' %}
+{% endif %}
+
+{% if user.is_authenticated %}
+{% else %}
+ {% include 'customer/view.html' %}
 {% endif %}
 
     <!-- profile model -->
