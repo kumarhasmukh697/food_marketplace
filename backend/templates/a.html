@@ -1,0 +1,96 @@
+<!-- ADD NEW ITEM MODAL -->
+<div id="add-item-modal" class="hidden fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col">
+        <div class="px-8 py-6 border-b flex items-center justify-between">
+            <h2 class="text-2xl font-semibold">Add New Menu Item</h2>
+            <button onclick="closeAddModal()" class="text-3xl text-gray-400 hover:text-gray-600">×</button>
+        </div>
+        <div class="flex-1 overflow-auto p-8 space-y-6">
+            <div>
+                <label class="block text-sm text-gray-500 mb-2">Dish Image</label>
+                <div class="border-2 border-dashed border-gray-300 rounded-3xl h-52 flex flex-col items-center justify-center hover:border-orange-300 cursor-pointer">
+                    <i class="fa-solid fa-cloud-arrow-up text-4xl text-gray-400 mb-3"></i>
+                    <p class="text-gray-500">Click to upload image</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm text-gray-500 mb-2">Dish Name</label>
+                    <input type="text" id="add-name" class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:border-orange-500" placeholder="Dish Name">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-500 mb-2">Price (₹)</label>
+                    <input type="number" id="add-price" class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:border-orange-500">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm text-gray-500 mb-2">Category</label>
+                <select id="add-category" class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:border-orange-500">
+                    <option>Main Course</option>
+                    <option>Starters</option>
+                    <option>Breads</option>
+                    <option>Desserts</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm text-gray-500 mb-2">Description</label>
+                <textarea id="add-desc" rows="4" class="w-full border border-gray-300 rounded-3xl px-5 py-4 focus:border-orange-500"></textarea>
+            </div>
+        </div>
+        <div class="border-t p-6 flex gap-4">
+            <button onclick="closeAddModal()" class="flex-1 py-4 border rounded-3xl">Cancel</button>
+            <button onclick="saveNewItem()" class="flex-1 py-4 bg-orange-600 text-white rounded-3xl">Add to Menu</button>
+        </div>
+    </div>
+</div>
+
+<!-- EDIT ITEM MODAL -->
+<div id="edit-item-modal" class="hidden fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col">
+        <div class="px-8 py-6 border-b flex items-center justify-between">
+            <h2 class="text-2xl font-semibold">Edit Menu Item</h2>
+            <button onclick="closeEditModal()" class="text-3xl text-gray-400 hover:text-gray-600">×</button>
+        </div>
+        <div class="flex-1 overflow-auto p-8 space-y-6">
+            <input type="hidden" id="edit-index">
+
+            <div>
+                <label class="block text-sm text-gray-500 mb-2">Dish Image</label>
+                <div class="border-2 border-dashed border-gray-300 rounded-3xl h-52 flex flex-col items-center justify-center hover:border-orange-300 cursor-pointer">
+                    <i class="fa-solid fa-cloud-arrow-up text-4xl text-gray-400 mb-3"></i>
+                    <p class="text-gray-500">Change Image</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm text-gray-500 mb-2">Dish Name</label>
+                    <input type="text" id="edit-name" class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:border-orange-500">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-500 mb-2">Price (₹)</label>
+                    <input type="number" id="edit-price" class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:border-orange-500">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm text-gray-500 mb-2">Category</label>
+                <select id="edit-category" class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:border-orange-500">
+                    <option>Main Course</option>
+                    <option>Starters</option>
+                    <option>Breads</option>
+                    <option>Desserts</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm text-gray-500 mb-2">Description</label>
+                <textarea id="edit-desc" rows="4" class="w-full border border-gray-300 rounded-3xl px-5 py-4 focus:border-orange-500"></textarea>
+            </div>
+        </div>
+        <div class="border-t p-6 flex gap-4">
+            <button onclick="closeEditModal()" class="flex-1 py-4 border rounded-3xl">Cancel</button>
+            <button onclick="saveEditedItem()" class="flex-1 py-4 bg-orange-600 text-white rounded-3xl">Save Changes</button>
+        </div>
+    </div>
+</div>

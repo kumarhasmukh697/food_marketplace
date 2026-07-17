@@ -1,26 +1,23 @@
 from rest_framework import serializers
 from products.models import Product
-from categories.models import Category
-from vendors.models import Vendor
+from categories.serializers import CategoryNestedSerializer
+from vendors.serializers import VendorNestedSerializer
 
 
-# class ProductSerializer(serializers.ModelSerializer):
-#     # read-only helper fields for output
-#     vendor_shop_name = serializers.SerializerMethodField()
-#     category_name = serializers.SerializerMethodField()
+class ProductListSerializer(serializers.ModelSerializer):
 
-#     # writable relationship fields
-#     # - `vendor` is optional for input (admins can set it). Vendor users will be auto-assigned in the view.
-#     vendor = serializers.PrimaryKeyRelatedField(queryset=Vendor.objects.all(), required=False)
-#     # `category` must be provided for product creation
-#     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=True)
+    vendor = VendorNestedSerializer(read_only=True)
+    category = CategoryNestedSerializer(read_only=True)
 
-#     class Meta:
-#         model = Product
-#         fields = [ "id", "name", "description", "price", "image", "is_available", "vendor","category","vendor_shop_name","category_name", ]
+    class Meta:
+        model = Product
+        fields = "__all__"
 
-#     def get_vendor_shop_name(self, obj):
-#         return obj.vendor.shop_name if obj.vendor else None
 
-#     def get_category_name(self, obj):
-#         return obj.category.name if obj.category else None
+
+class ProductCreateUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Product
+
+        fields = ["category","name","description","price","image","stock","is_available",]

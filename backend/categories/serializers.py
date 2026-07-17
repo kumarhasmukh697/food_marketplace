@@ -9,3 +9,11 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ["id", "name", "slug", "description", "image" ,"is_active" ]
 
 
+
+
+# this nested serializer will be used in product serializer so that we can expose only that fields we want in the fronted
+class CategoryNestedSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Category
+        fields = ["id","name","slug"]

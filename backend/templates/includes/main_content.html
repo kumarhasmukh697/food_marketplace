@@ -13,10 +13,6 @@
     {% include 'delivery/view.html' %}
 {% endif %}
 
-{% if user.is_authenticated %}
-{% else %}
- {% include 'customer/view.html' %}
-{% endif %}
 
     <!-- profile model -->
     {% include 'includes/profile.html' %}
