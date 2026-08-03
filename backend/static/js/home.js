@@ -36,3 +36,4 @@ function saveProfile() {
     alert("✅ Profile updated successfully!");
     closeProfileModal();
 }
+

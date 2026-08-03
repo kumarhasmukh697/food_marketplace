@@ -22,6 +22,7 @@ document.getElementById('sign-form').addEventListener('submit', async function (
     // 
     const data = await response.json();
     console.log(data);
+    
 
    if (response.ok) {
     await Swal.fire({
@@ -30,7 +31,7 @@ document.getElementById('sign-form').addEventListener('submit', async function (
         icon: "success"
     });
 
-   window.location.href = "/verify-otp/";
+   window.location.replace("/verify-otp/");
    } else {
 
     let errorMessage = "";

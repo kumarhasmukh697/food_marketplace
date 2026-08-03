@@ -43,6 +43,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
             };
 
             window.location.href = dashboardMap[data.user.role];
+            // window.location.replace(dashboardMap[data.user.role]);
            
 
         } else {
@@ -63,3 +64,5 @@ document.getElementById("login-form").addEventListener("submit", async function 
         });
     }
 });
+
+

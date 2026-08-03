@@ -2,7 +2,7 @@
 <div id="main-customer" class="p-8">
     <div class="max-w-7xl mx-auto">
         <!-- Hero Banner -->
-    {% if request.resolver_match.url_name == "home" %}
+    {% if request.resolver_match.url_name == "home" or not user.is_authenticated%}
         {% include 'customer/home.html' %}
     {% elif request.resolver_match.url_name == "tracking" %}
         {% include 'customer/tracking.html' %}
