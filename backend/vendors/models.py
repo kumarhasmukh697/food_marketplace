@@ -7,7 +7,7 @@ User = settings.AUTH_USER_MODEL
 class VendorProfile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,related_name="vendor_profile",)
     shop_name = models.CharField(max_length=150)
-    description = models.TextField(blank=True)
+    # description = models.TextField(blank=True)
     address = models.ForeignKey(Address,on_delete=models.SET_NULL,null=True,blank=True,related_name="vendors",)
     opening_time = models.TimeField()
     closing_time = models.TimeField()
