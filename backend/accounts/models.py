@@ -28,18 +28,18 @@ class User(AbstractUser):
 # Address model to store user addresses
 class Address(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="addresses",)
-    full_name = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=15)
+    # full_name = models.CharField(max_length=100)
+    # phone_number = models.CharField(max_length=15)
     address_line_1 = models.CharField(max_length=255)
     address_line_2 = models.CharField(max_length=255, blank=True, null=True)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     pincode = models.CharField(max_length=10)
-    landmark = models.CharField(max_length=255, blank=True, null=True)
+    # landmark = models.CharField(max_length=255, blank=True, null=True)
     is_default = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.full_name} - {self.city}"
+        return f"{self.user.first_name}{self.user.last_name} - {self.city}"
 
 
 

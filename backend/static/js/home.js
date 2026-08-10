@@ -32,8 +32,4 @@ function closeProfileModal() {
     document.getElementById('profile-modal').classList.add('hidden');
 }
 
-function saveProfile() {
-    alert("✅ Profile updated successfully!");
-    closeProfileModal();
-}
 

@@ -250,10 +250,7 @@ function closeProfileModal() {
     document.getElementById('profile-modal').classList.add('hidden');
 }
 
-function saveProfile() {
-    alert("✅ Profile updated successfully!");
-    closeProfileModal();
-}
+
 
 function toggleCart() {
     alert("🛒 Cart: 3 items • ₹689");

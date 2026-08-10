@@ -1,0 +1,8 @@
+from django.urls import include, path
+from . views import CustomerProfileView
+
+
+
+urlpatterns = [
+    path("profile/", CustomerProfileView.as_view(), name="customer-profile"),
+]

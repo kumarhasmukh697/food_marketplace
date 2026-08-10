@@ -1,47 +1,74 @@
+<form id="vendor-profile-form" enctype="multipart/form-data">
 <div id="profile-vendor-content" class="">
     <h3 class="font-semibold text-lg mb-6">Restaurant Information</h3>
+    <div class="mt-8">
+    <label class="block text-sm text-gray-500 mb-2">Restaurant Profile Picture</label>
+    <div class="flex items-center gap-5 rounded-3xl border border-gray-300 px-5 py-4">
+        <!-- Preview -->
+        <div class="relative shrink-0">
+            <img id="profile-preview" src="https://via.placeholder.com/96?text=Logo" alt="Restaurant profile preview" class="h-24 w-24 rounded-2xl border border-gray-200 object-cover">
+        </div>
+
+        <!-- Upload control -->
+        <div class="min-w-0">
+            <label for="profile_picture" class="inline-flex cursor-pointer items-center rounded-2xl border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50">Choose Picture</label>
+            <input id="profile_picture" name="profile_picture" type="file" accept="image/png, image/jpeg, image/webp" class="hidden" onchange="previewProfilePicture(event)">
+            <p id="profile-picture-name" class="mt-2 truncate text-xs text-gray-400">
+                PNG, JPG, supported
+            </p>
+        </div>
+    </div>
+    </div>
     <div class="mt-6">
         <div>
             <label class="block text-sm text-gray-500 mb-1">Restaurant Name</label>
-            <input type="text" value="Spice Garden" class="w-full border border-gray-300 rounded-2xl px-5 py-3">
+            <input type="text" value="Spice Garden"  name="shop_name" class="w-full border border-gray-300 rounded-2xl px-5 py-3">
         </div>
-        <!-- <div>
-            <label class="block text-sm text-gray-500 mb-1">Cuisine Type</label>
-            <input type="text" value="North Indian, Chinese" class="w-full border border-gray-300 rounded-2xl px-5 py-3">
-        </div> -->
     </div>
     <div class="mt-6">
         <label class="block text-sm text-gray-500 mb-1">Restaurant Address</label>
         <textarea class="w-full border border-gray-300 rounded-3xl px-5 py-4 h-24">45 MG Road, Bangalore - 560001</textarea>
     </div>
+     <div class="mt-8 grid grid-cols-2 gap-6">
+        <div>
+            <label class="block text-sm text-gray-500 mb-1">Owner First Name</label>
+            <input type="text" value="hitesh"  name="first_name" class="w-full border border-gray-300 rounded-2xl px-5 py-3">
+        </div>
+        <div>
+            <label class="block text-sm text-gray-500 mb-1">Owner Last Name</label>
+            <input type="text" value="sharma"  name="last_name" class="w-full border border-gray-300 rounded-2xl px-5 py-3">
+        </div>
+    </div>
     <div class="mt-8 grid grid-cols-2 gap-6">
         <div>
             <label class="block text-sm text-gray-500 mb-1">Phone number</label>
-            <input type="number" value="1234567890" class="w-full border border-gray-300 rounded-2xl px-5 py-3">
+            <input type="number" value="1234567890"  name="phone_number" class="w-full border border-gray-300 rounded-2xl px-5 py-3">
         </div>
         <div>
             <label class="block text-sm text-gray-500 mb-1">Pincode</label>
-            <input type="number" value="560001" class="w-full border border-gray-300 rounded-2xl px-5 py-3">
+            <input type="number" value="560001"  name="pincode" class="w-full border border-gray-300 rounded-2xl px-5 py-3">
         </div>
     </div>
      <div class="mt-8 grid grid-cols-2 gap-6">
         <div>
             <label class="block text-sm text-gray-500 mb-1">City</label>
-            <input type="text" value="Bangalore" class="w-full border border-gray-300 rounded-2xl px-5 py-3">
+            <input type="text" value="Bangalore"  name="city" class="w-full border border-gray-300 rounded-2xl px-5 py-3">
         </div>
         <div>
             <label class="block text-sm text-gray-500 mb-1">State</label>
-            <input type="text" value="Karnataka" class="w-full border border-gray-300 rounded-2xl px-5 py-3">
+            <input type="text" value="Karnataka"  name="state" class="w-full border border-gray-300 rounded-2xl px-5 py-3">
         </div>
     </div>
     <div class="mt-8 grid grid-cols-2 gap-6">
         <div>
             <label class="block text-sm text-gray-500 mb-1">Opening Time</label>
-            <input type="text" value="11:00 AM" class="w-full border border-gray-300 rounded-2xl px-5 py-3">
+            <input type="time" value="11:00 AM"  name="opening_time" class="w-full border border-gray-300 rounded-2xl px-5 py-3">
         </div>
         <div>
             <label class="block text-sm text-gray-500 mb-1">Closing Time</label>
-            <input type="text" value="11:00 PM" class="w-full border border-gray-300 rounded-2xl px-5 py-3">
+            <input type="time" value="11:00 PM"  name="closing_time" class="w-full border border-gray-300 rounded-2xl px-5 py-3">
         </div>
     </div>
 </div>
+</form>
+

@@ -6,6 +6,9 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Address
 from .serializers import RegisterSerializer,VerifyOTPSerializer,LoginSerializer , ProfileSerializer ,AddressSerializer
+from customer.models import CustomerProfile
+from vendors.models import VendorProfile
+from delivery.models import DeliveryPartnerProfile
 
 
 
@@ -18,6 +21,15 @@ class RegisterView(APIView):
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
+
+        if user.role == "customer":
+            CustomerProfile.objects.create(user=user)
+
+        elif user.role == "vendor":
+            VendorProfile.objects.create(user=user)
+
+        elif user.role == "delivery":
+            DeliveryPartnerProfile.objects.create(user=user)
 
         return Response(
             {

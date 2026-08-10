@@ -1,33 +1,78 @@
+<form id="customer-profile-form" enctype="multipart/form-data">
 <div id="profile-customer-content">
     <h3 class="font-semibold text-lg mb-6">Personal Information</h3>
-    <div class="grid grid-cols-2 gap-6">
+    <div class="mt-8">
+    <label class="block text-sm text-gray-500 mb-2">Restaurant Profile Picture</label>
+    <div class="flex items-center gap-5 rounded-3xl border border-gray-300 px-5 py-4">
+        <!-- Preview -->
+        <div class="relative shrink-0">
+            <img id="profile-preview" src="https://via.placeholder.com/96?text=Logo" alt="Restaurant profile preview" class="h-24 w-24 rounded-2xl border border-gray-200 object-cover">
+        </div>
+
+        <!-- Upload control -->
+        <div class="min-w-0">
+            <label for="profile_picture" class="inline-flex cursor-pointer items-center rounded-2xl border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50">Choose Picture</label>
+            <input id="profile_picture" name="profile_picture" type="file" accept="image/png, image/jpeg, image/webp" class="hidden" onchange="previewProfilePicture(event)">
+            <p id="profile-picture-name" class="mt-2 truncate text-xs text-gray-400">
+                PNG, JPG, supported
+            </p>
+        </div>
+    </div>
+    </div>
+    <div class="mt-6 grid grid-cols-2 gap-6">
         <div>
-            <label class="block text-sm text-gray-500 mb-1">Full Name</label>
-            <input type="text" value="Alex Rivera" class="w-full border border-gray-300 rounded-2xl px-5 py-3 focus:outline-none focus:border-orange-500">
+            <label class="block text-sm text-gray-500 mb-1">First Name</label>
+            <input type="text" value="Alex" name="first_name" class="w-full border border-gray-300 rounded-2xl px-5 py-3 focus:outline-none focus:border-orange-500">
+        </div>
+        <div>
+            <label class="block text-sm text-gray-500 mb-1">Last Name</label>
+            <input type="text" value="Rivera" name="last_name" class="w-full border border-gray-300 rounded-2xl px-5 py-3 focus:outline-none focus:border-orange-500">
+        </div>
+    </div>
+    <div class="mt-6 grid grid-cols-2 gap-6">
+        <div>
+            <label class="block text-sm text-gray-500 mb-1">Pincode</label>
+            <input type="text" value="560001" name="pincode" class="w-full border border-gray-300 rounded-2xl px-5 py-3 focus:outline-none focus:border-orange-500">
         </div>
         <div>
             <label class="block text-sm text-gray-500 mb-1">Phone Number</label>
-            <input type="tel" value="+91 98765 43210" class="w-full border border-gray-300 rounded-2xl px-5 py-3 focus:outline-none focus:border-orange-500">
+            <input type="tel" value="+91 98765 43210" name="phone_number" class="w-full border border-gray-300 rounded-2xl px-5 py-3 focus:outline-none focus:border-orange-500">
+        </div>
+    </div>
+    <div class="mt-6 grid grid-cols-2 gap-6">
+        <div>
+            <label class="block text-sm text-gray-500 mb-1">City</label>
+            <input type="text" value="Bangalore" name="city" class="w-full border border-gray-300 rounded-2xl px-5 py-3 focus:outline-none focus:border-orange-500">
+        </div>
+        <div>
+            <label class="block text-sm text-gray-500 mb-1">State</label>
+            <input type="text" value="Karnataka" name="state" class="w-full border border-gray-300 rounded-2xl px-5 py-3 focus:outline-none focus:border-orange-500">
         </div>
     </div>
     <div class="mt-6">
         <label class="block text-sm text-gray-500 mb-1">Delivery Address</label>
-        <textarea class="w-full border border-gray-300 rounded-3xl px-5 py-4 h-20 focus:outline-none focus:border-orange-500">123 Green Park, MG Road, Bangalore</textarea>
+        <textarea name="address_line_1" class="w-full border border-gray-300 rounded-3xl px-5 py-4 h-20 focus:outline-none focus:border-orange-500">123 Green Park, MG Road, Bangalore</textarea>
     </div>
     <div class="mt-8">
         <h3 class="font-semibold text-lg mb-4">Preferences</h3>
         <div class="space-y-4">
             <div class="flex items-center justify-between">
                 <span>Vegetarian Only</span>
-                <input type="checkbox" checked class="w-5 h-5 accent-orange-500">
+                <!-- <input type="checkbox" checked class="w-5 h-5 accent-orange-500"> -->
+                <select name="dietary_preference" class="border border-gray-300 rounded-2xl px-4 py-2">
+                    <option value="vegetarian">Vegetarian</option>
+                    <option value="non_vegetarian">Non-Vegetarian</option>
+                </select>
             </div>
             <div class="flex items-center justify-between">
                 <span>Spicy Level</span>
-                <select class="border border-gray-300 rounded-2xl px-4 py-2">
-                    <option>Medium</option>
-                    <option>High</option>
+                <select  name="spice_level" class="border border-gray-300 rounded-2xl px-4 py-2">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
                 </select>
             </div>
         </div>
     </div>
 </div>
+</form>

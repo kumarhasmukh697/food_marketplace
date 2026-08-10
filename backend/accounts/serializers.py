@@ -141,5 +141,5 @@ class ProfileSerializer(serializers.ModelSerializer):
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
-        fields = ["id", "full_name","phone_number","address_line_1","address_line_2","city","state","pincode","landmark","is_default",]
+        fields = ["id","address_line_1","address_line_2","city","state","pincode","is_default",]
         read_only_fields = ["id"]

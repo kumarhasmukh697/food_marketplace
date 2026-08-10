@@ -5,11 +5,15 @@
         <div class="px-8 py-6 border-b flex items-center justify-between">
             <div class="flex items-center gap-4">
                 <div id="profile-avatar" class="w-10 h-10 bg-orange-100 rounded-xl overflow-hidden">
+                    {% if user.profile_picture %}
+                    <img src="{{user.profile_picture.url}}" class="w-full h-full object-cover">
+                    {% else %}
                     <img src="https://picsum.photos/id/64/128/128" class="w-full h-full object-cover">
+                    {% endif %}
                 </div>
                 <div>
-                    <h2 id="profile-name" class="text-xl font-semibold">Alex Rivera</h2>
-                    <p id="profile-subtitle" class="text-gray-500">Customer since 2024</p>
+                    <h2 id="profile-name" class="text-xl font-semibold">{{user.first_name}} {{user.last_name}}</h2>
+                    <p id="profile-subtitle" class="text-gray-500">{{user.role}} since {{user.created_at|date:"Y"}}</p>
                 </div>
             </div>
             <button onclick="closeProfileModal()" class="text-3xl text-gray-400 hover:text-gray-600">×</button>
@@ -31,10 +35,23 @@
                     class="flex-1 py-4 border border-gray-300 rounded-3xl font-medium hover:bg-gray-50">
                 Cancel
             </button>
-            <button onclick="saveProfile()" 
+            {% if user.role == 'vendor' %}
+            <button onclick="saveVendorProfile()" type="submit"
                     class="flex-1 py-4 bg-orange-600 text-white rounded-3xl font-semibold hover:bg-orange-700">
                 Save Changes
             </button>
+            {% elif user.role == 'customer' %}
+            <button onclick="saveCustomerProfile()" type="submit"
+                    class="flex-1 py-4 bg-orange-600 text-white rounded-3xl font-semibold hover:bg-orange-700">
+                Save Changes
+            </button>
+            {% elif user.role == 'delivery' %}
+            <button onclick="saveDeliveryProfile()" type="submit"
+                    class="flex-1 py-4 bg-orange-600 text-white rounded-3xl font-semibold hover:bg-orange-700">
+                Save Changes
+            </button>
+            {% endif %}
+
         </div>
     </div>
 </div>
