@@ -25,75 +25,84 @@ class VendorNestedSerializer(serializers.ModelSerializer):
 
 
 
+
 class VendorProfileSerializer1(serializers.ModelSerializer):
 
-    ##############################
+    # ==============================
     # User Fields
-    ##############################
-    first_name = serializers.CharField(source="user.first_name")
-    last_name = serializers.CharField(source="user.last_name")
-    phone_number = serializers.CharField(source="user.phone_number")
-    profile_picture = serializers.ImageField(
-        source="user.profile_picture",
+    # ==============================
+
+    first_name = serializers.CharField(
         required=False,
-        allow_null=True,
+        allow_blank=True
     )
 
-    ##############################
+    last_name = serializers.CharField(
+        required=False,
+        allow_blank=True
+    )
+
+    phone_number = serializers.CharField(
+        required=False,
+        allow_blank=True
+    )
+
+    profile_picture = serializers.ImageField(
+        required=False,
+        allow_null=True
+    )
+
+    # ==============================
     # Address Fields
-    ##############################
-    #
+    # ==============================
 
     address_line_1 = serializers.CharField(
-        source="address.address_line_1"
+        required=False,
+        allow_blank=True
     )
 
     address_line_2 = serializers.CharField(
-        source="address.address_line_2",
         required=False,
-        allow_blank=True,
+        allow_blank=True
     )
 
     city = serializers.CharField(
-        source="address.city"
+        required=False,
+        allow_blank=True
     )
 
     state = serializers.CharField(
-        source="address.state"
+        required=False,
+        allow_blank=True
     )
 
     pincode = serializers.CharField(
-        source="address.pincode"
+        required=False,
+        allow_blank=True
     )
+
+    # ==============================
+    # Meta
+    # ==============================
 
     class Meta:
 
         model = VendorProfile
 
         fields = [
-
-            #
             # VendorProfile
-            #
-
             "shop_name",
             "opening_time",
             "closing_time",
             "accepting_orders",
 
-            #
             # User
-            #
-
             "first_name",
             "last_name",
             "phone_number",
             "profile_picture",
 
-            #
             # Address
-            #
-
             "address_line_1",
             "address_line_2",
             "city",
@@ -101,41 +110,134 @@ class VendorProfileSerializer1(serializers.ModelSerializer):
             "pincode",
         ]
 
+    # ==============================
+    # GET / Response
+    # ==============================
+
+    def to_representation(self, instance):
+
+        data = super().to_representation(instance)
+
+        user = instance.user
+
+        # ------------------------------
+        # User
+        # ------------------------------
+
+        data["first_name"] = user.first_name
+        data["last_name"] = user.last_name
+        data["phone_number"] = user.phone_number
+
+        if user.profile_picture:
+            request = self.context.get("request")
+
+            if request:
+                data["profile_picture"] = request.build_absolute_uri(
+                    user.profile_picture.url
+                )
+            else:
+                data["profile_picture"] = user.profile_picture.url
+        else:
+            data["profile_picture"] = None
+
+        # ------------------------------
+        # Address
+        # ------------------------------
+
+        try:
+            address = user.address
+
+            data["address_line_1"] = address.address_line_1 or ""
+            data["address_line_2"] = address.address_line_2 or ""
+            data["city"] = address.city or ""
+            data["state"] = address.state or ""
+            data["pincode"] = address.pincode or ""
+
+        except Address.DoesNotExist:
+
+            data["address_line_1"] = ""
+            data["address_line_2"] = ""
+            data["city"] = ""
+            data["state"] = ""
+            data["pincode"] = ""
+
+        return data
+
+    # ==============================
+    # UPDATE
+    # ==============================
+
     def update(self, instance, validated_data):
 
-        ################################
+        # ==============================
         # User
-        #################################
+        # ==============================
 
-        user_data = validated_data.pop("user", {})
         user = instance.user
-        for attr, value in user_data.items():
-            setattr(user, attr, value)
+
+        user_fields = [
+            "first_name",
+            "last_name",
+            "phone_number",
+            "profile_picture",
+        ]
+
+        for field in user_fields:
+
+            if field in validated_data:
+                setattr(
+                    user,
+                    field,
+                    validated_data.pop(field)
+                )
+
         user.save()
 
-
-        ##############################
+        # ==============================
         # Address
-        ##############################
+        # ==============================
 
-        address_data = validated_data.pop("address", {})
-        address = instance.address
-        if address is None:
-            address = Address.objects.create(user=user)
-            instance.address = address
-        for attr, value in address_data.items():
-            setattr(address, attr, value)
-        #
-        # keep address synced
-        #
+        address_fields = [
+            "address_line_1",
+            "address_line_2",
+            "city",
+            "state",
+            "pincode",
+        ]
+
+        address_data = {}
+
+        for field in address_fields:
+
+            if field in validated_data:
+                address_data[field] = validated_data.pop(field)
+
+        # Get existing address or create one
+
+        address, created = Address.objects.get_or_create(
+            user=user,
+            defaults={
+                "address_line_1": "",
+                "city": "",
+                "state": "",
+                "pincode": "",
+            }
+        )
+
+        # Update address fields
+
+        for field, value in address_data.items():
+            setattr(address, field, value)
+
         address.save()
 
-
-        ##############################
+        # ==============================
         # VendorProfile
-        ##############################
+        # ==============================
 
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
+        for field, value in validated_data.items():
+            setattr(instance, field, value)
+
         instance.save()
+
         return instance

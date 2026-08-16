@@ -1,8 +1,21 @@
+function previewProfilePicture(event) {
+        const file = event.target.files[0];
+
+        if (!file) return;
+
+        document.getElementById("profile-preview").src =
+            URL.createObjectURL(file);
+
+        document.getElementById("profile-picture-name").textContent =
+            file.name;
+    }
+
+
 
 document.getElementById("customer-profile-form").addEventListener("submit", saveCustomerProfile);
 
 async function saveCustomerProfile() { 
-    console.log("hello");
+   
    
     // getting the form element from Customer profile modal
     const form = document.getElementById("customer-profile-form");

@@ -1,67 +1,267 @@
 <!-- EDIT ITEM MODAL -->
+<!-- EDIT ITEM MODAL -->
 <div id="edit-item-modal" class="hidden fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4">
+
     <div class="bg-white rounded-3xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col">
+
+        <!-- Header -->
         <div class="px-8 py-6 border-b flex items-center justify-between">
-            <h2 class="text-2xl font-semibold">Edit Menu Item</h2>
-            <button onclick="closeEditModal()" class="text-3xl text-gray-400 hover:text-gray-600">×</button>
+
+            <h2 class="text-2xl font-semibold">
+                Edit Menu Item
+            </h2>
+
+            <button
+                onclick="closeEditModal()"
+                class="text-3xl text-gray-400 hover:text-gray-600"
+            >
+                ×
+            </button>
+
         </div>
+
+
+        <!-- Content -->
         <div class="flex-1 overflow-auto p-8 space-y-6">
+
             <input type="hidden" id="edit-index">
 
-            <div>
-                <label class="block text-sm text-gray-500 mb-2">Dish Image</label>
-                <div class="border-2 border-dashed border-gray-300 rounded-3xl h-52 flex flex-col items-center justify-center hover:border-orange-300 cursor-pointer">
-                    <i class="fa-solid fa-cloud-arrow-up text-4xl text-gray-400 mb-3"></i>
-                    <p class="text-gray-500">Change Image</p>
+
+            <!-- ==========================================
+                 IMAGE
+            =========================================== -->
+
+            <div class="mt-4">
+
+                <label class="block text-sm text-gray-500 mb-2">
+                    Dish Image
+                </label>
+
+                <div class="flex items-center gap-5 rounded-3xl border border-gray-300 px-5 py-4">
+
+                    <!-- Preview -->
+                    <div class="relative shrink-0">
+
+                        <img
+                            id="edit-profile-preview"
+                            src=""
+                            alt="Dish image preview"
+                            class="h-24 w-24 rounded-2xl border border-gray-200 object-cover"
+                        >
+
+                    </div>
+
+
+                    <!-- Upload -->
+                    <div class="min-w-0">
+
+                        <label
+                            for="edit-profile-picture"
+                            class="inline-flex cursor-pointer items-center rounded-2xl border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                        >
+                            Choose Picture
+                        </label>
+
+                        <input
+                            id="edit-profile-picture"
+                            name="profile_picture"
+                            type="file"
+                            accept="image/png, image/jpeg, image/webp"
+                            class="hidden"
+                            onchange="previewProfilePicture(event)"
+                        >
+
+                        <p
+                            id="edit-profile-picture-name"
+                            class="mt-2 truncate text-xs text-gray-400"
+                        >
+                            PNG, JPG, supported
+                        </p>
+
+                    </div>
+
                 </div>
+
             </div>
+
+
+            <!-- ==========================================
+                 NAME & PRICE
+            =========================================== -->
 
             <div class="grid grid-cols-2 gap-6">
+
                 <div>
-                    <label class="block text-sm text-gray-500 mb-2">Dish Name</label>
-                    <input type="text" id="edit-name" class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:border-orange-500">
+
+                    <label class="block text-sm text-gray-500 mb-2">
+                        Dish Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="edit-name"
+                        class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:border-orange-500"
+                    >
+
                 </div>
+
+
                 <div>
-                    <label class="block text-sm text-gray-500 mb-2">Price (₹)</label>
-                    <input type="number" id="edit-price" class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:border-orange-500">
+
+                    <label class="block text-sm text-gray-500 mb-2">
+                        Price (₹)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="edit-price"
+                        class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:border-orange-500"
+                    >
+
                 </div>
+
             </div>
 
-            <div>
-                <label class="block text-sm text-gray-500 mb-2">Category</label>
-                <select id="edit-category" class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:border-orange-500">
-                    <option>Main Course</option>
-                    <option>Starters</option>
-                    <option>Breads</option>
-                    <option>Desserts</option>
-                </select>
-            </div>
+
+            <!-- ==========================================
+                 CATEGORY
+            =========================================== -->
 
             <div>
-                <label class="block text-sm text-gray-500 mb-2">Description</label>
-                <textarea id="edit-desc" rows="4" class="w-full border border-gray-300 rounded-3xl px-5 py-4 focus:border-orange-500"></textarea>
-            </div>
-            <div>
-                <label class="block text-sm text-gray-500 mb-2">Stock</label>
-                <input type="number" id="edit-stock" 
-                        class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:border-orange-500" 
-                        placeholder="20">
-            </div>
 
-            <!-- Availability -->
-            <div class="flex items-center justify-between">
-                <div>
-                    <label class="font-medium">Available Now</label>
-                </div>
-                <label class="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox"  id="edit-available" checked class="sr-only peer">
-                    <div class="w-12 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                <label class="block text-sm text-gray-500 mb-2">
+                    Category
                 </label>
+
+                <select
+                    id="edit-dish-category"
+                    class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:border-orange-500"
+                >
+
+                    <option value="">
+                        Select Category
+                    </option>
+
+                </select>
+
             </div>
+
+
+            <!-- ==========================================
+                 DESCRIPTION
+            =========================================== -->
+
+            <div>
+
+                <label class="block text-sm text-gray-500 mb-2">
+                    Description
+                </label>
+
+                <textarea
+                    id="edit-desc"
+                    rows="4"
+                    class="w-full border border-gray-300 rounded-3xl px-5 py-4 focus:border-orange-500"
+                ></textarea>
+
+            </div>
+
+
+            <!-- ==========================================
+                 STOCK
+            =========================================== -->
+
+            <div>
+
+                <label class="block text-sm text-gray-500 mb-2">
+                    Stock
+                </label>
+
+                <input
+                    type="number"
+                    id="edit-stock"
+                    class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:border-orange-500"
+                    placeholder="20"
+                >
+
+            </div>
+
+
+            <!-- ==========================================
+                 AVAILABILITY
+            =========================================== -->
+
+            <div class="flex items-center justify-between">
+
+                <div>
+                    <label class="font-medium">
+                        Available Now
+                    </label>
+                </div>
+
+                <label class="relative inline-flex items-center cursor-pointer">
+
+                    <input
+                        type="checkbox"
+                        id="edit-available"
+                        checked
+                        class="sr-only peer"
+                    >
+
+                    <div class="w-12 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+
+                </label>
+
+            </div>
+
+
+            <!-- ==========================================
+                 VEGETARIAN
+            =========================================== -->
+
+            <div class="flex items-center justify-between">
+
+                <div>
+                    <label class="font-medium">
+                        Vegetarian
+                    </label>
+                </div>
+
+                <label class="relative inline-flex items-center cursor-pointer">
+
+                    <input
+                        type="checkbox"
+                        id="edit-dish-veg"
+                        class="sr-only peer"
+                    >
+
+                    <div class="w-12 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+
+                </label>
+
+            </div>
+
         </div>
+
+
+        <!-- Footer -->
         <div class="border-t p-6 flex gap-4">
-            <button onclick="closeEditModal()" class="flex-1 py-4 border rounded-3xl">Cancel</button>
-            <button onclick="saveEditedItem()" class="flex-1 py-4 bg-orange-600 text-white rounded-3xl">Save Changes</button>
+
+            <button
+                onclick="closeEditModal()"
+                class="flex-1 py-4 border rounded-3xl"
+            >
+                Cancel
+            </button>
+
+            <button
+                onclick="saveEditedItem()"
+                class="flex-1 py-4 bg-orange-600 text-white rounded-3xl"
+            >
+                Save Changes
+            </button>
+
         </div>
+
     </div>
+
 </div>

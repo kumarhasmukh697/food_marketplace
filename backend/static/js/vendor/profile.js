@@ -13,7 +13,7 @@ function previewProfilePicture(event) {
 
 
 
-document.getElementById("vendor-profile-form").addEventListener("submit", saveProfile);
+document.getElementById("vendor-profile-form").addEventListener("submit", saveVendorProfile);
 
 async function saveVendorProfile() { 
    

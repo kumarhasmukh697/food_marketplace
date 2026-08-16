@@ -12,7 +12,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to="products/", blank=True, null=True)
     is_available = models.BooleanField(default=True)
     stock = models.PositiveIntegerField(default=0)
-    is_available = models.BooleanField(default=True)
+    is_veg = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -12,26 +12,65 @@
     
 </head>
 <body class="tail-container bg-gray-50 text-gray-800">
+
     <!-- NAVBAR -->
     {% include 'includes/navbar.html' %}
 
     <div class="flex min-h-[calc(100vh-128px)]">
-        <!-- SIDEBAR -->
-    {% if user.is_authenticated %}
-        {% include 'includes/sidebar.html' %}
-    {% endif %}
-        <!-- MAIN CONTENT -->
-        
 
+        <!-- SIDEBAR -->
+        {% if user.is_authenticated %}
+            {% include 'includes/sidebar.html' %}
+        {% endif %} 
+
+
+        <!-- MAIN CONTENT -->
         {% include 'includes/main_content.html' %}
     </div>
     
     <!-- Role Switch Modal -->
     <div id="role-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100]">
         <div class="bg-white rounded-3xl w-full max-w-md p-8">
-            <h3 class="text-2xl font-semibold mb-8 text-center">Login As</h3>
+            {% if user.is_authenticated %}
+            <h3 class="text-2xl font-semibold mb-8 text-center">Logged in as {{ user.role|title }}</h3>
+                <!-- customer -->
+                {% if user.role == 'customer' %}
+                <a href="{% url 'login-page' %}" class="flex w-full gap-5 items-center p-5 hover:bg-orange-50 rounded-3xl cursor-pointer mb-3 text-inherit no-underline">
+                    <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center text-3xl">
+                        👤
+                    </div>
+                    <div>
+                        <div class="font-semibold">Customer</div>
+                        <div class="text-sm text-gray-500">Browse &amp; order food</div>
+                    </div>
+                </a>
+                <!-- vendor -->
+                {% elif user.role == 'vendor' %}
+                <a href="{% url 'login-page' %}" class="flex w-full gap-5 items-center p-5 hover:bg-orange-50 rounded-3xl cursor-pointer mb-3 text-inherit no-underline">
+                    <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-3xl">
+                        🏪
+                    </div>
+                    <div>
+                        <div class="font-semibold">Vendor / Restaurant</div>
+                        <div class="text-sm text-gray-500">Manage your business</div>
+                    </div>
+                </a>
             
-            <a href="{% url 'login-page' %}" class="flex w-full gap-5 items-center p-5 hover:bg-orange-50 rounded-3xl cursor-pointer mb-3 text-inherit no-underline">
+                <!-- delivery -->
+                {% elif user.role == 'delivery' %}
+                <a href="{% url 'login-page' %}" class="flex gap-5 items-center p-5 hover:bg-orange-50 rounded-3xl cursor-pointer no-underline text-inherit">
+                    <div class="w-14 h-14 bg-amber-100 rounded-2xl flex items-center justify-center text-3xl">
+                        🛵
+                    </div>
+                    <div>
+                        <div class="font-semibold">Delivery Partner</div>
+                        <div class="text-sm text-gray-500">Deliver orders</div>
+                    </div>
+                </a>
+                {% endif %}
+        {% else %}
+        <h3 class="text-2xl font-semibold mb-8 text-center">Sign In</h3>
+             <a href="{% url 'login-page' %}" class="flex w-full gap-5 items-center p-5 hover:bg-orange-50 rounded-3xl cursor-pointer mb-3 text-inherit no-underline">
                 <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center text-3xl">
                     👤
                 </div>
@@ -40,42 +79,62 @@
                     <div class="text-sm text-gray-500">Browse &amp; order food</div>
                 </div>
             </a>
-            
-            <a href="{% url 'login-page' %}" class="flex w-full gap-5 items-center p-5 hover:bg-orange-50 rounded-3xl cursor-pointer mb-3 text-inherit no-underline">
-                <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-3xl">
-                    🏪
-                </div>
-                <div>
-                    <div class="font-semibold">Vendor / Restaurant</div>
-                    <div class="text-sm text-gray-500">Manage your business</div>
-                </div>
-            </a>
-            
-            
-            <a href="{% url 'login-page' %}" class="flex gap-5 items-center p-5 hover:bg-orange-50 rounded-3xl cursor-pointer no-underline text-inherit">
-                <div class="w-14 h-14 bg-amber-100 rounded-2xl flex items-center justify-center text-3xl">
-                    🛵
-                </div>
-                <div>
-                    <div class="font-semibold">Delivery Partner</div>
-                    <div class="text-sm text-gray-500">Deliver orders</div>
-                </div>
-            </a>
+        {% endif %}
             
             <button onclick="toggleRoleModal()" 
-                    class="mt-8 w-full py-4 text-gray-500 font-medium hover:bg-gray-100 rounded-3xl">Cancel</button>
+                    class="mt-6 w-full py-4 text-gray-500 font-medium hover:bg-gray-100 rounded-3xl">Cancel</button>
         </div>
     </div>
-    <script src="{% static 'js/home.js' %}"></script>
-    <script src="{% static 'js/logout.js' %}"></script>
-    <script src="{% static 'js/menu.js' %}"></script>
-    <script src="{% static 'js/add-item.js' %}"></script>
-    <script src="{% static 'js/disable-back.js' %}"></script>
+
     
+    <!-- all javascript are here -->
+    
+    <script src="{% static 'js/accounts/logout.js' %}"></script>
+
+    <!-- common javascript files -->
+    <script src="{% static 'js/common/home.js' %}"></script>
+    <!-- <script src="{% static 'js/common/disable-back.js' %}"></script> -->
+    <script src="{% static 'js/common/base.js' %}"></script>
+    <script src="{% static 'js/common/sweetalert.js' %}"></script>
+
+    <!-- api javascript files -->
+    <script src="{% static 'js/api/api.js' %}"></script>
+
+    <!-- token javascript files -->
+    <script src="{% static 'js/token/access-token.js' %}"></script>
+
+    <!-- vendor javascript files -->
+    {% if user.is_authenticated and user.role == 'vendor' %}
+    <script src="{% static 'js/vendor/delete-menu-item.js' %}"></script>
+    <script src="{% static 'js/vendor/edit-menu-item.js' %}"></script>
+    <script src="{% static 'js/vendor/save-edit-item.js' %}"></script>
+    <script src="{% static 'js/vendor/add-new-item.js' %}"></script>
+    <script src="{% static 'js/vendor/save-new-item.js' %}"></script>
+    <script src="{% static 'js/vendor/close-add-modal.js' %}"></script>
+    <script src="{% static 'js/vendor/close-edit-modal.js' %}"></script> 
+    <script src="{% static 'js/vendor/create-product-card.js' %}"></script>  
+    <script src="{% static 'js/vendor/clear-product-form.js' %}"></script> 
+    <script src="{% static 'js/vendor/get-vendor-profile.js' %}"></script>
     <script src="{% static 'js/vendor/profile.js' %}"></script>
-   
+    {% endif %}
+
+
+    
+    <!-- categories javascript files -->
+    <script src="{% static 'js/categories/fetch-categories.js' %}"></script>
+    
+    <!-- customer javascript files -->
+    {% if user.is_authenticated and user.role == 'customer' %}
+    <script src="{% static 'js/customer/get-customer-profile.js' %}"></script>
     <script src="{% static 'js/customer/profile.js' %}"></script>
+    {% endif %}
+
+
+    <!-- delivery javascript files -->
+    {% if user.is_authenticated and user.role == 'delivery' %}
+    <script src="{% static 'js/delivery/get-delivery-profile.js' %}"></script>
     <script src="{% static 'js/delivery/profile.js' %}"></script>
+    {% endif %}
    
 </body>
 </html>

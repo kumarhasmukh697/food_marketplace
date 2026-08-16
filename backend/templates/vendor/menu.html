@@ -1,6 +1,7 @@
-
-<!-- 2. MENU MANAGEMENT (Improved) -->
+<!-- MENU MANAGEMENT -->
 <div id="menu-management" class="main-section">
+
+    
     <div class="mb-10">
         <div class="flex items-center gap-5">
             <div class="w-11 h-11 bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-2xl flex items-center justify-center text-3xl shadow-md">
@@ -14,61 +15,72 @@
         <div class="mt-4 h-0.5 w-16 bg-gradient-to-r from-emerald-500 to-orange-500 rounded"></div>
     </div>
 
-    <!-- Action Bar -->
+    <!-- Add New Item Button -->
     <div class="flex justify-between items-center mb-8">
         <h2 class="text-2xl font-semibold text-gray-700">All Menu Items</h2>
         <button onclick="addNewItem()" 
                 class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-3xl flex items-center gap-2 font-medium transition-all active:scale-95">
             <i class="fa-solid fa-plus"></i>
             Add New Item
-        </button>
-        
+        </button>  
     </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="menu-items-grid">
-        <!-- Menu Item 1 -->
-        <!-- Menu Item 2 -->
+        <!-- Product Card -->
+        {% for product in products %}
         <div class="bg-white rounded-3xl overflow-hidden shadow-sm card-hover">
-            <img src="https://picsum.photos/id/431/600/400" 
+            <img src="{{ product.image.url }}" 
                  class="w-full h-52 object-cover" alt="Paneer Tikka">
             <div class="p-6">
                 <div class="flex justify-between items-start">
                     <div>
-                        <h3 class="font-semibold text-xl">Paneer Tikka Masala</h3>
-                        <p class="text-emerald-600 font-medium mt-1">₹280</p>
+                        <h3 class="font-semibold text-xl">{{ product.name }}</h3>
+                        <p class="text-emerald-600 font-medium mt-1">₹{{ product.price }}</p>
                     </div>
+                    {% if product.is_available %}
                     <span class="px-4 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">Available</span>
+                    {% else %}
+                    <span class="px-4 py-1 bg-red-100 text-red-700 text-xs font-medium rounded-full">Not Available</span>
+                    {% endif %}
                 </div>
                 
                 <p class="text-gray-500 text-sm mt-3 line-clamp-2">
-                    Grilled cottage cheese in creamy onion-tomato gravy.
+                    {{ product.description }}.
                 </p>
 
                 <!-- Stock Information -->
                 <div class="mt-4 flex items-center justify-between text-sm">
                     <div class="flex items-center gap-2">
                         <span class="text-gray-500">Stock:</span>
-                        <span class="font-medium text-emerald-600">48 units</span>
+                        <span class="font-medium text-emerald-600">{{product.stock}} units</span>
                     </div>
                     <div class="flex items-center gap-1.5">
                         <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                        {% if product.stock %}
                         <span class="text-emerald-600 text-xs font-medium">In Stock</span>
+                        {% else %}
+                        <span class="text-red-600 text-xs font-medium">Out of Stock</span>
+                        {% endif %}
                     </div>
                 </div>
-
+                
+                <!-- edit delete buttons -->
                 <div class="flex gap-3 mt-6">
-                    <button onclick="editMenuItem(this)" 
+                    <button onclick="editMenuItem('{{ product.id }}')" 
                             class="flex-1 border border-gray-300 hover:bg-gray-50 py-3 rounded-2xl text-sm font-medium flex items-center justify-center gap-2">
                         <i class="fa-solid fa-pen"></i> Edit
                     </button>
-                    <button onclick="deleteMenuItem(this)" 
+                    <button onclick="deleteMenuItem('{{ product.id }}')" 
                             class="flex-1 border border-red-200 hover:bg-red-50 text-red-600 py-3 rounded-2xl text-sm font-medium flex items-center justify-center gap-2">
                         <i class="fa-solid fa-trash"></i> Delete
                     </button>
                 </div>
             </div>
         </div>
-        <!-- Add more items as needed -->
+        {% endfor %}
+
     </div>
+
 </div>
 
 <!-- ADD NEW MENU ITEM MODAL -->
@@ -76,3 +88,6 @@
 
 <!-- EDIT ITEM MODAL -->
 {% include 'vendor/edit-modal-item.html' %}
+
+
+

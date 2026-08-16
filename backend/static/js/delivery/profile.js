@@ -1,3 +1,18 @@
+function previewProfilePicture(event) {
+        const file = event.target.files[0];
+
+        if (!file) return;
+
+        document.getElementById("profile-preview").src =
+            URL.createObjectURL(file);
+
+        document.getElementById("profile-picture-name").textContent =
+            file.name;
+    }
+
+
+
+
 document
     .getElementById("delivery-profile-form")
     .addEventListener("submit", saveDeliveryProfile);
