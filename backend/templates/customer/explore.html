@@ -81,67 +81,12 @@
                 </div>
                 <p class="text-orange-600 font-semibold text-lg">₹{{ product.price }}</p>
                 <p class="text-sm text-gray-500 mt-2 line-clamp-2">{{ product.description }}</p>
-                <button class="mt-4 px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl text-sm font-medium">
+                <button onclick="addToCart('{{product.id}}')" class="mt-4 px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl text-sm font-medium">
                     Add to Cart
                 </button>
             </div>
             <img src="{{product.image.url}}" class="w-32 h-32 object-cover rounded-2xl">
         </div>
         {% endfor %}
-
-        <!-- Product Card -->
-        <!-- <div class="bg-white rounded-3xl p-5 flex gap-5 hover:shadow-md transition-shadow">
-            <div class="flex-1">
-                <div class="flex items-center gap-2 mb-1">
-                    <span class="w-4 h-4 border-2 border-emerald-500 rounded-sm flex items-center justify-center">
-                        <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
-                    </span>
-                    <h3 class="font-semibold text-lg">Paneer Tikka Masala</h3>
-                </div>
-                <p class="text-orange-600 font-semibold text-lg">₹280</p>
-                <p class="text-sm text-gray-500 mt-2">Cottage cheese cubes marinated and grilled, served in creamy tomato gravy.</p>
-                <button class="mt-4 px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl text-sm font-medium">
-                    Add to Cart
-                </button>
-            </div>
-            <img src="https://picsum.photos/id/431/160/160" class="w-32 h-32 object-cover rounded-2xl">
-        </div> -->
-
-        <!-- Product Card -->
-        <!-- <div class="bg-white rounded-3xl p-5 flex gap-5 hover:shadow-md transition-shadow">
-            <div class="flex-1">
-                <div class="flex items-center gap-2 mb-1">
-                    <span class="w-4 h-4 border-2 border-emerald-500 rounded-sm flex items-center justify-center">
-                        <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
-                    </span>
-                    <h3 class="font-semibold text-lg">Garlic Naan</h3>
-                </div>
-                <p class="text-orange-600 font-semibold text-lg">₹60</p>
-                <p class="text-sm text-gray-500 mt-2">Soft tandoor-baked bread topped with garlic and butter.</p>
-                <button class="mt-4 px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl text-sm font-medium">
-                    Add to Cart
-                </button>
-            </div>
-            <img src="https://picsum.photos/id/312/160/160" class="w-32 h-32 object-cover rounded-2xl">
-        </div> -->
-
-        <!-- Product Card -->
-        <!-- <div class="bg-white rounded-3xl p-5 flex gap-5 hover:shadow-md transition-shadow">
-            <div class="flex-1">
-                <div class="flex items-center gap-2 mb-1">
-                    <span class="w-4 h-4 border-2 border-red-500 rounded-sm flex items-center justify-center">
-                        <span class="w-2 h-2 bg-red-500 rounded-full"></span>
-                    </span>
-                    <h3 class="font-semibold text-lg">Chicken Biryani</h3>
-                </div>
-                <p class="text-orange-600 font-semibold text-lg">₹340</p>
-                <p class="text-sm text-gray-500 mt-2">Fragrant basmati rice cooked with spiced chicken and saffron.</p>
-                <button class="mt-4 px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl text-sm font-medium">
-                    Add to Cart
-                </button>
-            </div>
-            <img src="https://picsum.photos/id/225/160/160" class="w-32 h-32 object-cover rounded-2xl">
-        </div> -->
-
     </div>
 </div>
