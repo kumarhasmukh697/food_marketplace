@@ -189,3 +189,17 @@ CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 
 CELERY_TIMEZONE = "Asia/Kolkata"
+
+
+
+# razorpay
+# rzp_test_StwAAk5kIFS37O
+# ***********************
+
+
+##################################################
+# RAZORPAY CONFIGURATION
+##################################################
+
+RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
+RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")

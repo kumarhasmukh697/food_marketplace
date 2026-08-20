@@ -10,11 +10,12 @@ class VendorProfile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,related_name="vendor_profile",)
     shop_name = models.CharField(max_length=150)
     slug = models.SlugField(max_length=160, unique=True, blank=True, null=True)
-    # address = models.ForeignKey(Address,on_delete=models.SET_NULL,null=True,blank=True,related_name="vendors",)
     opening_time = models.TimeField(blank=True, null=True)
     closing_time = models.TimeField(blank=True, null=True)
     accepting_orders = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True) # handled by admin when any vendor violated the platform rules they he will be make inactive and therefore not be able to sell the product and not customer can see that vendor
+    # Razorpay Route Linked Account ID
+    razorpay_account_id = models.CharField( max_length=100, unique=True, null=True, blank=True,)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
