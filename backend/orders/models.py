@@ -52,3 +52,10 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.product_name} × {self.quantity}"
+
+
+    def save(self, *args, **kwargs):
+        self.subtotal = ( self.unit_price * self.quantity)
+        super().save(*args, **kwargs)
+
+
