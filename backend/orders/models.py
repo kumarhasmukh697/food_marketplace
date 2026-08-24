@@ -17,7 +17,7 @@ class Order(models.Model):
         ("delivered", "Delivered"),
         ("cancelled", "Cancelled"),
     ]
-
+    
     customer = models.ForeignKey( User, on_delete=models.PROTECT,related_name="orders",)
     vendor = models.ForeignKey( "vendors.VendorProfile", on_delete=models.PROTECT, related_name="orders", )
     status = models.CharField( max_length=30, choices=ORDER_STATUS_CHOICES, default="pending_payment",)
@@ -31,6 +31,8 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order #{self.id} - {self.customer}"
+
+
 
 
 

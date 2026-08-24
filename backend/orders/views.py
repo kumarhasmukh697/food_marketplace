@@ -7,7 +7,10 @@ from rest_framework.permissions import IsAuthenticated
 from cart.models import Cart
 from payments.models import Payment
 from .models import Order, OrderItem
-from .serializers import CheckoutSerializer
+from .serializers import CheckoutSerializer, VendorOrderDetailSerializer
+from django.shortcuts import get_object_or_404
+
+
 
 
 
@@ -34,6 +37,7 @@ class CheckoutView(APIView):
         try:
 
             cart = (Cart.objects.select_related("customer","vendor",).prefetch_related("items__product").get(customer=request.user))
+            print(cart)
 
         except Cart.DoesNotExist:
 
@@ -183,3 +187,27 @@ class CheckoutView(APIView):
             },
             status=status.HTTP_201_CREATED,
         )
+
+
+
+
+class VendorOrderDetailView(APIView):
+
+    permission_classes = [IsAuthenticated]
+    print("we are inside view")
+
+    def get(self, request, order_id):
+
+        vendor = request.user.vendor_profile
+
+        order = get_object_or_404(
+
+            Order.objects.select_related("customer","vendor","customer__address")
+            .prefetch_related("items__product"),
+
+            id=order_id,
+            vendor=vendor,
+        )
+
+        serializer = VendorOrderDetailSerializer(order)
+        return Response(serializer.data)

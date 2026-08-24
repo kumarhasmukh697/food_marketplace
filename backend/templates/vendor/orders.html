@@ -1,26 +1,143 @@
  <!-- 3. ORDERS -->
 <div id="vendor-orders" class="main-section">
     <h1 class="text-4xl font-bold mb-8">Recent Orders</h1>
+
+    <!-- Scrollable Table Container -->
     <div class="bg-white rounded-3xl overflow-hidden">
-        <table class="w-full">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th class="text-left p-6">Order ID</th>
-                    <th class="text-left p-6">Customer</th>
-                    <th class="text-left p-6">Items</th>
-                    <th class="text-left p-6">Amount</th>
-                    <th class="text-left p-6">Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="border-t">
-                    <td class="p-6">#FH-3921</td>
-                    <td class="p-6">Priya Sharma</td>
-                    <td class="p-6">Butter Chicken ×2</td>
-                    <td class="p-6 font-medium">₹680</td>
-                    <td class="p-6"><span class="bg-yellow-100 text-yellow-700 px-5 py-1 rounded-3xl text-sm">Preparing</span></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="overflow-x-auto">
+            <table class="w-full min-w-[700px]">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="text-left p-6 whitespace-nowrap">Order ID</th>
+                        <th class="text-left p-6 whitespace-nowrap">Created On</th>
+                        <th class="text-left p-6 whitespace-nowrap">Amount</th>
+                        <th class="text-left p-6 whitespace-nowrap">Status</th>
+                        <th class="text-left p-6 whitespace-nowrap">View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr class="border-t">
+                        <td class="p-6 whitespace-nowrap">#{{order.id}}:{{order.customer.username}}</td>
+                        <td class="p-6 whitespace-nowrap">{{order.created_at}}</td>
+                        <td class="p-6 font-medium whitespace-nowrap">{{order.total_amount}}</td>
+                        <td class="p-6 whitespace-nowrap">
+                            <span class="bg-yellow-100 text-yellow-700 px-5 py-1 rounded-3xl text-sm">
+                                {{order.status}}
+                            </span>
+                        </td>
+                        <td class="p-6 whitespace-nowrap">
+                            <button onclick="openVendorOrder('{{order.id}}')">
+                                <i class="fa-solid fa-eye fa-xl"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== ORDER DETAILS MODAL ==================== -->
+<div id="order-modal" class="hidden fixed inset-0 bg-black/60 z-[200] flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
+
+        <!-- Header -->
+        <div class="px-6 py-5 border-b flex items-center justify-between">
+            <div>
+                <h2 class="text-2xl font-semibold">Order Details</h2>
+                <p id="vendor-order-number" class="text-sm text-gray-500">Order #FH-7842</p>
+            </div>
+            <button onclick="closeOrderModal()" class="text-3xl leading-none text-gray-400 hover:text-gray-600">×</button>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
+
+            <!-- Status + Date -->
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <span id="vendor-order-status" class="bg-yellow-100 text-yellow-700 px-4 py-1.5 rounded-full text-sm font-medium">Preparing</span>
+                    <span id="vendor-order-date" class="text-sm text-gray-500">Placed on 12 Aug 2026, 10:45 AM</span>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm text-gray-500">Total Amount</p>
+                    <p id="vendor-order-total" class="text-2xl font-bold text-orange-600">₹1,195</p>
+                </div>
+            </div>
+
+            <!-- Customer Info -->
+            <div class="bg-gray-50 rounded-2xl p-5">
+                <h3 class="font-semibold mb-3">Customer Details</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                    <div>
+                        <p class="text-gray-500">Name</p>
+                        <p id="vendor-customer-name" class="font-medium">Alex Rivera</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-500">Phone</p>
+                        <p id="vendor-customer-phone" class="font-medium">+91 98765 43210</p>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <p class="text-gray-500">Delivery Address</p>
+                        <p id="vendor-customer-address" class="font-medium">123 Green Park, MG Road, Bangalore - 560001</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ordered Items -->
+            <div>
+                <h3 class="font-semibold mb-4">Ordered Items</h3>
+                <div id="vendor-order-items" class="space-y-4">
+                    
+                   
+
+                </div>
+                 <template id="vendor-order-item-template">
+                    <!-- Item 1 -->
+                    <div class="flex gap-4 items-center">
+                        <img src="https://picsum.photos/id/292/80/80" class="item-image w-16 h-16 object-cover rounded-2xl">
+                        <div class="flex-1">
+                            <p class="item-name font-medium">Butter Chicken</p>
+                            <p class="item-quantity text-sm text-gray-500">Qty: 2</p>
+                        </div>
+                        <p class="item-subtotal font-semibold">₹640</p>
+                    </div>
+                    </template>
+            </div>
+
+            <!-- Bill Summary -->
+            <div class="border-t pt-4 space-y-2 text-sm">
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Item Total</span>
+                    <span id="vendor-order-subtotal">₹1,100</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Delivery Fee</span>
+                    <span id="vendor-order-delivery-fee">₹40</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Taxes</span>
+                    <span id="vendor-order-tax">₹55</span>
+                </div>
+                <div class="flex justify-between text-base font-semibold pt-2 border-t">
+                    <span>Grand Total</span>
+                    <span  id="vendor-order-grand-total" class="text-orange-600">₹1,195</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="border-t p-5 flex gap-3">
+            <button onclick="closeOrderModal()" class="flex-1 py-3 border border-gray-300 rounded-2xl font-medium hover:bg-gray-50">
+                Close
+            </button>
+            <button class="flex-1 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl font-medium">
+                Track Order
+            </button>
+        </div>
     </div>
 </div>

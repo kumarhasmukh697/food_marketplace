@@ -216,113 +216,6 @@
     </div>
 
 </div>
-
-
-<!-- ==================== CHECKOUT / PAYMENT MODAL ==================== -->
-<div id="checkout-modal" class="hidden fixed inset-0 bg-black/60 z-[210] flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl w-full max-w-md max-h-[95vh] flex flex-col overflow-hidden">
-
-        <!-- Header -->
-        <div class="px-6 py-5 border-b flex items-center justify-between">
-            <div>
-                <h2 class="text-xl font-semibold">Secure Checkout</h2>
-                <p class="text-sm text-gray-500">Powered by Razorpay</p>
-            </div>
-            <button onclick="closeCheckoutModal()" class="text-3xl leading-none text-gray-400 hover:text-gray-600">×</button>
-        </div>
-
-        <!-- Content -->
-        <div class="flex-1 overflow-y-auto p-6">
-
-            <!-- Order Amount -->
-            <div class="bg-orange-50 rounded-2xl p-5 mb-6 text-center">
-                <p class="text-sm text-gray-500">Total Amount</p>
-                <p class="text-4xl font-bold text-orange-600 mt-1">₹1,195</p>
-            </div>
-
-            <!-- Payment Methods -->
-            <h3 class="font-semibold mb-4">Choose Payment Method</h3>
-
-            <div class="space-y-3 mb-6">
-                <!-- UPI -->
-                <label class="flex items-center gap-4 p-4 border-2 border-orange-500 rounded-2xl cursor-pointer bg-orange-50">
-                    <input type="radio" name="payment" checked class="w-5 h-5 accent-orange-500">
-                    <div class="flex-1">
-                        <p class="font-medium">UPI</p>
-                        <p class="text-xs text-gray-500">GPay, PhonePe, Paytm & more</p>
-                    </div>
-                    <i class="fa-brands fa-google-pay text-2xl text-gray-600"></i>
-                </label>
-
-                <!-- Cards -->
-                <label class="flex items-center gap-4 p-4 border border-gray-200 rounded-2xl cursor-pointer hover:border-orange-300">
-                    <input type="radio" name="payment" class="w-5 h-5 accent-orange-500">
-                    <div class="flex-1">
-                        <p class="font-medium">Credit / Debit Card</p>
-                        <p class="text-xs text-gray-500">Visa, Mastercard, RuPay</p>
-                    </div>
-                    <i class="fa-solid fa-credit-card text-xl text-gray-500"></i>
-                </label>
-
-                <!-- Net Banking -->
-                <label class="flex items-center gap-4 p-4 border border-gray-200 rounded-2xl cursor-pointer hover:border-orange-300">
-                    <input type="radio" name="payment" class="w-5 h-5 accent-orange-500">
-                    <div class="flex-1">
-                        <p class="font-medium">Net Banking</p>
-                        <p class="text-xs text-gray-500">All major banks</p>
-                    </div>
-                    <i class="fa-solid fa-building-columns text-xl text-gray-500"></i>
-                </label>
-
-                <!-- Wallets -->
-                <label class="flex items-center gap-4 p-4 border border-gray-200 rounded-2xl cursor-pointer hover:border-orange-300">
-                    <input type="radio" name="payment" class="w-5 h-5 accent-orange-500">
-                    <div class="flex-1">
-                        <p class="font-medium">Wallets</p>
-                        <p class="text-xs text-gray-500">Paytm, Amazon Pay, etc.</p>
-                    </div>
-                    <i class="fa-solid fa-wallet text-xl text-gray-500"></i>
-                </label>
-            </div>
-
-            <!-- Card Details (shown when Card is selected) -->
-            <div class="space-y-4 mb-6">
-                <div>
-                    <label class="block text-sm text-gray-500 mb-1">Card Number</label>
-                    <input type="text" placeholder="ACCT-000003" 
-                           class="w-full border border-gray-300 rounded-2xl px-4 py-3 outline-none focus:border-orange-500">
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm text-gray-500 mb-1">Expiry</label>
-                        <input type="text" placeholder="MM/YY" 
-                               class="w-full border border-gray-300 rounded-2xl px-4 py-3 outline-none focus:border-orange-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm text-gray-500 mb-1">CVV</label>
-                        <input type="password" placeholder="123" 
-                               class="w-full border border-gray-300 rounded-2xl px-4 py-3 outline-none focus:border-orange-500">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Security Note -->
-            <div class="flex items-center gap-2 text-xs text-gray-500 mb-4">
-                <i class="fa-solid fa-lock text-emerald-500"></i>
-                <span>Your payment is secure and encrypted</span>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="border-t p-5">
-            <button class="w-full py-4 bg-orange-500 hover:bg-orange-600 text-white rounded-3xl font-semibold text-lg flex items-center justify-center gap-2">
-                <i class="fa-solid fa-lock"></i>
-                Pay ₹1,195
-            </button>
-        </div>
-    </div>
-</div>
-
     
     <!-- all javascript are here -->
     
@@ -368,6 +261,8 @@
     <script src="{% static 'js/vendor/clear-product-form.js' %}"></script> 
     <script src="{% static 'js/vendor/get-vendor-profile.js' %}"></script>
     <script src="{% static 'js/vendor/profile.js' %}"></script>
+    <script src="{% static 'js/vendor/openCustomerOrder.js' %}"></script>
+   
     {% endif %}
 
 

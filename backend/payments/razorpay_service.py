@@ -19,3 +19,21 @@ class RazorpayService:
             data["receipt"] = receipt
 
         return self.client.order.create( data=data)
+
+
+
+    
+    def verify_payment_signature( self, razorpay_order_id, razorpay_payment_id, razorpay_signature):
+
+        data = {
+            "razorpay_order_id":
+                razorpay_order_id,
+
+            "razorpay_payment_id":
+                razorpay_payment_id,
+
+            "razorpay_signature":
+                razorpay_signature,
+        }
+
+        return self.client.utility.verify_payment_signature( data)
