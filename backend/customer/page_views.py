@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404, render
 from accounts.decorators import role_required
 from categories.models import Category
 from vendors.models import VendorProfile
+from . models import CustomerProfile
+from orders.models import Order,OrderItem
 
 
 @role_required("customer")
@@ -29,4 +31,16 @@ def explore_vendor(request, slug):
         'selected_category_slug': selected_category_slug,
     }
     return render(request, "customer/dashboard.html", context)
+
+
+
+@role_required('customer')
+def order(request):
+    customer = CustomerProfile.objects.filter(user = request.user)
+    orders = Order.objects.filter(customer=request.user)
+    for order in orders:
+        # print(order.vendor.user.profile_picture.url)
+        print("type is  ",type(order.vendor.user))
+    context = {'customer':customer,"orders":orders}
+    return render(request,'customer/dashboard.html',context)
 

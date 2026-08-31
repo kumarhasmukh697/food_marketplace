@@ -198,8 +198,9 @@ class VendorOrderDetailView(APIView):
 
     def get(self, request, order_id):
 
+    
         vendor = request.user.vendor_profile
-
+        
         order = get_object_or_404(
 
             Order.objects.select_related("customer","vendor","customer__address")

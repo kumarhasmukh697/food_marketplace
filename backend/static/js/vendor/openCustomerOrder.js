@@ -2,6 +2,7 @@ async function openVendorOrder(orderId) {
 
     const modal = document.getElementById("order-modal");
     modal.classList.remove("hidden");
+    console.log("hello world");
     
 
 

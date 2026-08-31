@@ -18,7 +18,7 @@
                 <tbody>
                     {% for order in orders %}
                     <tr class="border-t">
-                        <td class="p-6 whitespace-nowrap">#{{order.id}}:{{order.customer.username}}</td>
+                        <td class="p-6 whitespace-nowrap">#FH{{order.id}}-{{order.customer.username}}</td>
                         <td class="p-6 whitespace-nowrap">{{order.created_at}}</td>
                         <td class="p-6 font-medium whitespace-nowrap">{{order.total_amount}}</td>
                         <td class="p-6 whitespace-nowrap">
