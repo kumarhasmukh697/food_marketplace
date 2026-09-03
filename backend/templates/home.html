@@ -261,7 +261,7 @@
     <script src="{% static 'js/vendor/clear-product-form.js' %}"></script> 
     <script src="{% static 'js/vendor/get-vendor-profile.js' %}"></script>
     <script src="{% static 'js/vendor/profile.js' %}"></script>
-    <script src="{% static 'js/vendor/openCustomerOrder.js' %}"></script>
+    <script src="{% static 'js/vendor/openVendorOrder.js' %}"></script>
    
     {% endif %}
 
@@ -274,7 +274,9 @@
     {% if user.is_authenticated and user.role == 'customer' %}
     <script src="{% static 'js/customer/get-customer-profile.js' %}"></script>
     <script src="{% static 'js/customer/profile.js' %}"></script>
-    <script src="{% static 'js/vendor/openCustomerOrder.js' %}"></script>
+    <script src="{% static 'js/customer/openCustomerOrder.js' %}"></script>
+    <script src="{% static 'js/customer/toggleFavorite.js' %}"></script>
+    <script src="{% static 'js/customer/searchProduct.js' %}"></script>
     {% endif %}
 
 

@@ -2,9 +2,6 @@ async function openVendorOrder(orderId) {
 
     const modal = document.getElementById("order-modal");
     modal.classList.remove("hidden");
-    console.log("hello world");
-    
-
 
     const accessToken = localStorage.getItem("access");
    
@@ -126,9 +123,7 @@ function displayVendorOrderItems(items) {
 
     // Add every item
     items.forEach(item => {
-        console.log("hello world");
         const itemElement =template.content.cloneNode(true);
-        console.log("hello world 2");
         const image = itemElement.querySelector(".item-image");
         const name = itemElement.querySelector(".item-name");
         const quantity = itemElement.querySelector(".item-quantity");

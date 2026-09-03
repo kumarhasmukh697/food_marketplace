@@ -92,6 +92,7 @@ class VendorProfileSerializer1(serializers.ModelSerializer):
         fields = [
             # VendorProfile
             "shop_name",
+            "food_type",
             "opening_time",
             "closing_time",
             "accepting_orders",

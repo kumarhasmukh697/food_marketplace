@@ -21,11 +21,14 @@ function getvendorProfile() {
         return response.json();
     })
     .then(data => {
-        // console.log("Fetched vendor profile data:", data);
+        console.log("Fetched vendor profile data:", data);
+       
       
         // =========================
         // Restaurant Information
         // =========================
+
+        const foodType = document.getElementById("food_type");  
 
         const shopName = document.querySelector(
             'input[name="shop_name"]'
@@ -34,6 +37,10 @@ function getvendorProfile() {
         const restaurantAddress = document.querySelector(
             'textarea[name="address_line_1"]'
         );
+
+        if (foodType) {
+            foodType.value = data.food_type || "";
+        }
 
         if (shopName) {
             shopName.value = data.shop_name || "";

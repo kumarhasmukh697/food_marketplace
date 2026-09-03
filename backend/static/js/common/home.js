@@ -31,7 +31,7 @@ function openProfileModal() {
     
     // Get user role from data attribute
     const userRole = modal.getAttribute("data-user-role");
-    console.log(`User role: ${userRole}`);
+    // console.log(`User role: ${userRole}`);
     
     // Fetch profile data based on user role
     if (userRole === "vendor") {

@@ -194,7 +194,6 @@ class CheckoutView(APIView):
 class VendorOrderDetailView(APIView):
 
     permission_classes = [IsAuthenticated]
-    print("we are inside view")
 
     def get(self, request, order_id):
 
@@ -211,4 +210,28 @@ class VendorOrderDetailView(APIView):
         )
 
         serializer = VendorOrderDetailSerializer(order)
+        return Response(serializer.data)
+
+
+class CustomerOrderDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, order_id):
+
+        customer = request.user
+
+        order = get_object_or_404(
+            Order.objects.select_related(
+                "customer",
+                "vendor",
+                "customer__address"
+            ).prefetch_related(
+                "items__product"
+            ),
+            id=order_id,
+            customer=customer,
+        )
+
+        serializer = VendorOrderDetailSerializer(order)
+
         return Response(serializer.data)

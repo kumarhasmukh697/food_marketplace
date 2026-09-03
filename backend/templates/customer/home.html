@@ -23,34 +23,71 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="restaurant-grid">
         <!-- Populated by JS -->
         {% for vendor in vendors %}
-         <div class="bg-white rounded-3xl overflow-hidden card-hover cursor-pointer">
-            <a href="{% url 'explore' vendor.slug %}" class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 block">
-            <!-- Open Badge -->
-            {% if vendor.is_open %}
-                <span class="absolute top-3 left-3 bg-emerald-500 text-white text-xs font-semibold px-3 py-1 rounded-full">Open</span>
-            {% else %}
-                <span class="absolute top-3 left-3 bg-red-500 text-white text-xs font-semibold px-3 py-1 rounded-full">Closed</span>
-            {% endif %}
-            {% if vendor.user.profile_picture %}
-            <img src="{{vendor.user.profile_picture.url}}" class="w-full h-48 object-cover" alt="">
-            {% else %}
-            <img src="https://picsum.photos/id/292/600/400" class="w-full h-48 object-cover" alt="">
-            {% endif %}
-            <div class="p-5">
-                <div class="flex justify-between">
-                    <div>
-                        <div class="font-semibold">{{vendor.shop_name}}</div>
-                        <div class="text-xs text-gray-500">North Indian • 25 min</div>
-                    </div>
-                    <div class="text-right">
-                        <div class="flex items-center gap-1 text-emerald-500 text-sm">
-                            <i class="fa-solid fa-star"></i> 4.8
+        <div class="bg-white rounded-3xl overflow-hidden card-hover cursor-pointer">
+            <a href="{% url 'explore' vendor.slug %}" class="relative bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 block">
+                
+                <!-- Open/Closed Badge -->
+                {% if vendor.is_open %}
+                    <span class="absolute top-3 left-3 bg-emerald-500 text-white text-xs font-semibold px-3 py-1 rounded-full z-10">Open</span>
+                {% else %}
+                    <span class="absolute top-3 left-3 bg-red-500 text-white text-xs font-semibold px-3 py-1 rounded-full z-10">Closed</span>
+                {% endif %}
+
+                <!-- Image -->
+                {% if vendor.user.profile_picture %}
+                    <img src="{{vendor.user.profile_picture.url}}" class="w-full h-48 object-cover" alt="">
+                {% else %}
+                    <img src="https://picsum.photos/id/292/600/400" class="w-full h-48 object-cover" alt="">
+                {% endif %}
+
+                <!-- Content -->
+                <div class="p-5">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <!-- Veg / Non-Veg / Both Badge -->
+                                {% if vendor.food_type == 'veg' %}
+                                    <span class="inline-flex items-center justify-center border-2 border-emerald-600 w-4 h-4 rounded-sm p-0.5" title="Pure Veg">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+                                    </span>
+                                {% elif vendor.food_type == 'non_veg' %}
+                                    <span class="inline-flex items-center justify-center border-2 border-red-600 w-4 h-4 rounded-sm p-0.5" title="Non-Veg">
+                                        <span class="w-2 h-2 rounded-full bg-red-600"></span>
+                                    </span>
+                                {% elif vendor.food_type == 'both' %}
+                                    <div class="flex items-center gap-1" title="Veg & Non-Veg">
+                                        <span class="inline-flex items-center justify-center border-2 border-emerald-600 w-4 h-4 rounded-sm p-0.5">
+                                            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+                                        </span>
+                                        <span class="inline-flex items-center justify-center border-2 border-red-600 w-4 h-4 rounded-sm p-0.5">
+                                            <span class="w-2 h-2 rounded-full bg-red-600"></span>
+                                        </span>
+                                    </div>
+                                {% endif %}
+
+                                <div class="font-semibold">{{vendor.shop_name}}</div>
+                            </div>
+
+                            <div class="text-xs text-gray-500 mt-1">North Indian • 25 min</div>
+                        </div>
+
+                        <div class="text-right">
+                            <div class="flex items-center gap-1 text-emerald-500 text-sm font-medium">
+                                <i class="fa-solid fa-star"></i> 4.8
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </a>
-        </div>
+            <!-- Like Button -->
+        <button 
+            type="button" 
+            onclick="toggleFavorite('{{vendor.id}}')" 
+            class="like-btn absolute top-3 right-3 z-10 p-2 bg-white/80 backdrop-blur-sm rounded-full text-gray-400 hover:text-red-500 transition-colors shadow-sm"
+            aria-label="Like vendor">
+            <i class="fa-solid fa-heart text-base transition-colors"></i>
+        </button>
+       </div>
         {% endfor %}
     </div>
 </div>

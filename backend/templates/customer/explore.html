@@ -29,7 +29,7 @@
 
             <!-- Search -->
             <div class="relative flex-1 min-w-[200px]">
-                <input type="text" placeholder="Search dishes..." 
+                <input type="text"  id="product-search" placeholder="Search dishes..." 
                        class="w-full bg-gray-100 border-0 rounded-2xl py-3 px-5 pl-12 outline-none focus:ring-2 focus:ring-orange-400">
                 <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-400"></i>
             </div>
@@ -49,22 +49,35 @@
 
             <!-- Veg / Non-Veg Toggle -->
             <div class="flex gap-2 ml-auto">
+                {% if vendor.food_type == 'both' %}
                 <button class="px-4 py-2.5 rounded-2xl border-2 border-emerald-500 text-emerald-600 text-sm font-medium flex items-center gap-2">
                     <span class="w-3 h-3 bg-emerald-500 rounded-full"></span> Veg
                 </button>
                 <button class="px-4 py-2.5 rounded-2xl border-2 border-red-500 text-red-600 text-sm font-medium flex items-center gap-2">
                     <span class="w-3 h-3 bg-red-500 rounded-full"></span> Non-Veg
                 </button>
+                {% elif vendor.food_type == 'veg' %}
+                <button class="px-4 py-2.5 rounded-2xl border-2 border-emerald-500 text-emerald-600 text-sm font-medium flex items-center gap-2">
+                    <span class="w-3 h-3 bg-emerald-500 rounded-full"></span> Veg
+                </button>
+                {% elif vendor.food_type == 'non_veg' %}
+                <button class="px-4 py-2.5 rounded-2xl border-2 border-red-500 text-red-600 text-sm font-medium flex items-center gap-2">
+                    <span class="w-3 h-3 bg-red-500 rounded-full"></span> Non-Veg
+                </button>
+                {% endif %}
             </div>
         </div>
     </div>
 
+    
+
     <!-- Products Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
         <!-- Product Card -->
         {% for product in products %}
-        <div class="bg-white rounded-3xl p-5 flex gap-5 hover:shadow-md transition-shadow">
+        <div class="product-card bg-white rounded-3xl p-5 flex gap-5 hover:shadow-md transition-shadow" data-product-name="{{ product.name|lower }}"
+        data-product-description="{{ product.description|lower }}">
             <div class="flex-1">
                 <div class="flex items-center gap-2 mb-1">
                     {% if product.is_veg %}

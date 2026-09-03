@@ -7,9 +7,17 @@ from accounts.models import Address
 User = settings.AUTH_USER_MODEL
 
 class VendorProfile(models.Model):
+
+    FOOD_TYPE_CHOICES = [
+        ("veg", "Veg Only"),
+        ("non_veg", "Non-Veg Only"),
+        ("both", "Veg & Non-Veg"),
+    ]
+
     user = models.OneToOneField(User,on_delete=models.CASCADE,related_name="vendor_profile",)
     shop_name = models.CharField(max_length=150)
     slug = models.SlugField(max_length=160, unique=True, blank=True, null=True)
+    food_type = models.CharField(max_length=10, choices=FOOD_TYPE_CHOICES, default="both")
     opening_time = models.TimeField(blank=True, null=True)
     closing_time = models.TimeField(blank=True, null=True)
     accepting_orders = models.BooleanField(default=True)

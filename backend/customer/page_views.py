@@ -4,6 +4,7 @@ from categories.models import Category
 from vendors.models import VendorProfile
 from . models import CustomerProfile
 from orders.models import Order,OrderItem
+from wishlist.models import FavoriteRestaurant
 
 
 @role_required("customer")
@@ -44,3 +45,10 @@ def order(request):
     context = {'customer':customer,"orders":orders}
     return render(request,'customer/dashboard.html',context)
 
+
+
+@role_required('customer')
+def favorites_restaurants(request):
+    favorites = FavoriteRestaurant.objects.filter(user=request.user).select_related("vendor")
+    context = {'favorites': favorites}
+    return render(request, 'customer/dashboard.html', context)
