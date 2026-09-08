@@ -48,7 +48,7 @@ def dashboard(request):
 def orders(request):
     user = request.user
     vendor = user.vendor_profile
-    orders = vendor.orders.all()
+    orders = vendor.orders.filter(status='confirmed')
     order_items = OrderItem.objects.filter()
     context = {"orders":orders}
     return render(request,'vendor/v-dashboard.html',context)

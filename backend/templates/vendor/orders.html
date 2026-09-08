@@ -8,23 +8,31 @@
             <table class="w-full min-w-[700px]">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="text-left p-6 whitespace-nowrap">Order ID</th>
+                        <!-- <th class="text-left p-6 whitespace-nowrap">Order ID</th> -->
                         <th class="text-left p-6 whitespace-nowrap">Created On</th>
                         <th class="text-left p-6 whitespace-nowrap">Amount</th>
-                        <th class="text-left p-6 whitespace-nowrap">Status</th>
+                        <th class="text-left p-6 whitespace-nowrap">Payment Status</th>
+                        <th class="text-left p-6 whitespace-nowrap">Order Status</th>
                         <th class="text-left p-6 whitespace-nowrap">View</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for order in orders %}
                     <tr class="border-t">
-                        <td class="p-6 whitespace-nowrap">#FH{{order.id}}-{{order.customer.username}}</td>
+                        <!-- <td class="p-6 whitespace-nowrap">#FH{{order.id}}-{{order.customer.username}}</td> -->
                         <td class="p-6 whitespace-nowrap">{{order.created_at}}</td>
                         <td class="p-6 font-medium whitespace-nowrap">{{order.total_amount}}</td>
                         <td class="p-6 whitespace-nowrap">
-                            <span class="bg-yellow-100 text-yellow-700 px-5 py-1 rounded-3xl text-sm">
-                                {{order.status}}
+                            <span class="bg-emerald-100 text-emerald-700 px-5 py-1 rounded-3xl text-sm">
+                                {{order.payment.status}}
                             </span>
+                        </td>
+                        <td class="p-6 whitespace-nowrap">
+                            <select class="border border-gray-300 rounded-2xl px-4 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"  onchange="updateVendorOrderStatus('{{ order.id }}', this.value)">
+                                <option value="confirmed" {% if order.status == 'confirmed' %}selected{% endif %}> Confirmed </option>
+                                <option value="preparing" {% if order.status == 'preparing' %}selected{% endif %}>Preparing</option>
+                                <option value="ready" {% if order.status == 'ready' %}selected{% endif %}>Ready for Pickup</option>
+                            </select>
                         </td>
                         <td class="p-6 whitespace-nowrap">
                             <button onclick="openVendorOrder('{{order.id}}')">

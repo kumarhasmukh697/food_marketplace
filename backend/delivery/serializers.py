@@ -1,5 +1,4 @@
 from rest_framework import serializers
-
 from accounts.models import Address
 from .models import DeliveryPartnerProfile
 
@@ -294,3 +293,37 @@ class DeliveryPartnerProfileSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+
+
+
+
+
+
+class DeliveryOnlineStatusSerializer(serializers.ModelSerializer):
+
+    class Meta:
+
+        model = DeliveryPartnerProfile
+        fields = [ "is_online",]
+
+
+
+class DeliveryLocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DeliveryPartnerProfile
+        fields = ["current_latitude", "current_longitude"]
+
+    def validate_current_latitude(self, value):
+        if value < -90 or value > 90:
+            raise serializers.ValidationError(
+                "Latitude must be between -90 and 90."
+            )
+        return value
+
+    def validate_current_longitude(self, value):
+        if value < -180 or value > 180:
+            raise serializers.ValidationError(
+                "Longitude must be between -180 and 180."
+            )
+        return value

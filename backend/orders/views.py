@@ -6,8 +6,9 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from cart.models import Cart
 from payments.models import Payment
+from delivery.models import DeliveryPartnerProfile
 from .models import Order, OrderItem
-from .serializers import CheckoutSerializer, VendorOrderDetailSerializer
+from .serializers import CheckoutSerializer, VendorOrderDetailSerializer, VendorOrderStatusSerializer
 from django.shortcuts import get_object_or_404
 
 
@@ -235,3 +236,113 @@ class CustomerOrderDetailView(APIView):
         serializer = VendorOrderDetailSerializer(order)
 
         return Response(serializer.data)
+
+
+
+
+class VendorOrderStatusUpdateView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    @transaction.atomic
+    def patch(self, request, order_id):
+
+        # -----------------------------------------
+        # Get logged-in vendor
+        # -----------------------------------------
+
+        vendor = request.user.vendor_profile
+
+        # -----------------------------------------
+        # Get order belonging to this vendor
+        # -----------------------------------------
+
+        order = get_object_or_404(
+            Order.objects.select_for_update(),
+            id=order_id,
+            vendor=vendor,
+        )
+
+        # -----------------------------------------
+        # Validate requested status
+        # -----------------------------------------
+
+        serializer = VendorOrderStatusSerializer( order, data=request.data, partial=True)
+        serializer.is_valid( raise_exception=True)
+        new_status = serializer.validated_data["status"]
+
+        # -----------------------------------------
+        # Check valid status transition
+        # -----------------------------------------
+
+        current_status = order.status
+        if current_status == "confirmed":
+            if new_status != "preparing":
+                return Response(
+                    {"detail":"Confirmed order can only be changed to preparing."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+        elif current_status == "preparing":
+            if new_status != "ready":
+                return Response(
+                    { "detail": "Preparing order can only be changed to ready."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+
+        elif current_status == "ready":
+            return Response(
+                {"detail": "Order is already ready."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        
+
+        else:
+            return Response(
+                {"detail": f"Vendor cannot change order from {current_status}."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        
+
+        # -----------------------------------------
+        # Update status
+        # -----------------------------------------
+
+        order.status = new_status
+        order.save( update_fields=["status", "updated_at"])
+
+
+        # -----------------------------------------
+        # If READY → assign delivery partner
+        # -----------------------------------------
+
+        delivery_partner = None
+        if new_status == "ready":
+            delivery_partner = (DeliveryPartnerProfile.objects.select_for_update()
+                .filter(is_online=True, is_available=True,)
+                .order_by("updated_at")
+                .first()
+            )
+
+            if delivery_partner:
+                order.delivery_partner = ( delivery_partner)
+                order.save( update_fields=["delivery_partner","updated_at"])
+
+                delivery_partner.is_available = False
+                delivery_partner.save( update_fields=[ "is_available","updated_at",])
+
+
+        # -----------------------------------------
+        # Response
+        # -----------------------------------------
+
+        return Response(
+            {
+                "message": "Order status updated successfully.",
+                "order_id": order.id,
+                "status": order.status,
+                "delivery_partner": ( delivery_partner.user.username if delivery_partner else None),
+            },
+            status=status.HTTP_200_OK,
+        )

@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .models import VendorProfile
 from accounts.models import Address, User
 from vendors.models import VendorProfile
+from rest_framework import serializers
+
 
 
 
@@ -242,3 +244,38 @@ class VendorProfileSerializer1(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+
+
+
+
+
+class VendorLocationSerializer(serializers.Serializer):
+
+    latitude = serializers.DecimalField(
+        max_digits=9,
+        decimal_places=6
+    )
+
+    longitude = serializers.DecimalField(
+        max_digits=9,
+        decimal_places=6
+    )
+
+    def validate_latitude(self, value):
+
+        if value < -90 or value > 90:
+            raise serializers.ValidationError(
+                "Latitude must be between -90 and 90."
+            )
+
+        return value
+
+    def validate_longitude(self, value):
+
+        if value < -180 or value > 180:
+            raise serializers.ValidationError(
+                "Longitude must be between -180 and 180."
+            )
+
+        return value

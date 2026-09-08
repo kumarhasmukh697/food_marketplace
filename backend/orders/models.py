@@ -20,6 +20,7 @@ class Order(models.Model):
     
     customer = models.ForeignKey( User, on_delete=models.PROTECT,related_name="orders",)
     vendor = models.ForeignKey( "vendors.VendorProfile", on_delete=models.PROTECT, related_name="orders", )
+    delivery_partner = models.ForeignKey("delivery.DeliveryPartnerProfile",on_delete=models.SET_NULL,null=True,blank=True,related_name="orders",)
     status = models.CharField( max_length=30, choices=ORDER_STATUS_CHOICES, default="pending_payment",)
     subtotal = models.DecimalField( max_digits=10, decimal_places=2,)
     delivery_fee = models.DecimalField( max_digits=10, decimal_places=2, default=0,)

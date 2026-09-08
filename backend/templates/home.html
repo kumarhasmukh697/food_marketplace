@@ -262,6 +262,9 @@
     <script src="{% static 'js/vendor/get-vendor-profile.js' %}"></script>
     <script src="{% static 'js/vendor/profile.js' %}"></script>
     <script src="{% static 'js/vendor/openVendorOrder.js' %}"></script>
+    <script src="{% static 'js/vendor/orderStatus.js' %}"></script>
+    <script src="{% static 'js/vendor/location.js' %}"></script>
+
    
     {% endif %}
 
@@ -282,8 +285,10 @@
 
     <!-- delivery javascript files -->
     {% if user.is_authenticated and user.role == 'delivery' %}
+    <script src="{% static 'js/delivery/location.js' %}"></script>
     <script src="{% static 'js/delivery/get-delivery-profile.js' %}"></script>
     <script src="{% static 'js/delivery/profile.js' %}"></script>
+    <script src="{% static 'js/delivery/onlineOfflineStatus.js' %}"></script>
     {% endif %}
    
 </body>
