@@ -14,8 +14,7 @@ from .utils import generate_sales_chart
 def dashboard(request):
     vendor = VendorProfile.objects.get(user=request.user)
     products = Product.objects.filter(vendor=vendor,is_available=True)
-    orders = vendor.orders.all()
-    today_orders = Order.objects.filter(created_at__date=timezone.now().date())
+    today_orders = vendor.orders.filter(status='confirmed',created_at__date=timezone.now().date())
     # Calculate total sum of today's orders
     today_sum = today_orders.aggregate(total=Sum('total_amount'))['total'] or 0
     # Get yesterday's date
@@ -46,10 +45,8 @@ def dashboard(request):
 
 @role_required("vendor")
 def orders(request):
-    user = request.user
-    vendor = user.vendor_profile
+    vendor = VendorProfile.objects.get(user=request.user)
     orders = vendor.orders.filter(status='confirmed')
-    order_items = OrderItem.objects.filter()
     context = {"orders":orders}
     return render(request,'vendor/v-dashboard.html',context)
 

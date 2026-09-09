@@ -44,7 +44,8 @@
                     <th class="text-left py-5 px-8 font-medium text-gray-500">Order ID</th>
                     <th class="text-left py-5 px-8 font-medium text-gray-500">Customer</th>
                     <th class="text-left py-5 px-8 font-medium text-gray-500">Amount</th>
-                    <th class="text-left py-5 px-8 font-medium text-gray-500">Status</th>
+                    <th class="text-left py-5 px-8 font-medium text-gray-500">Payment Status</th>
+                    <th class="text-left py-5 px-8 font-medium text-gray-500">Order Status</th>
                     <th class="text-left py-5 px-8 font-medium text-gray-500">View</th>
                 </tr>
             </thead>
@@ -55,8 +56,14 @@
                     <td class="py-6 px-8">{{order.customer.first_name}} {{order.customer.last_name}}</td>
                     <td class="py-6 px-8 font-medium">{{order.total_amount}}</td>
                     <td class="py-6 px-8">
-                        <span class="bg-emerald-100 text-emerald-700 px-4 py-1 rounded-3xl text-xs font-medium">{{order.status}}</span>
-                    </td>
+                        <span class="bg-emerald-100 text-emerald-700 px-4 py-1 rounded-3xl text-xs font-medium">{{order.payment.status}}</span>
+                    <td class="p-6 whitespace-nowrap">
+                            <select class="border border-gray-300 rounded-2xl px-4 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"  onchange="updateVendorOrderStatus('{{ order.id }}', this.value)">
+                                <option value="confirmed" {% if order.status == 'confirmed' %}selected{% endif %}> Confirmed </option>
+                                <option value="preparing" {% if order.status == 'preparing' %}selected{% endif %}>Preparing</option>
+                                <option value="ready" {% if order.status == 'ready' %}selected{% endif %}>Ready for Pickup</option>
+                            </select>
+                        </td>
                     <td class="py-6 px-8">
                         <button onclick="openVendorOrder('{{order.id}}')">
                             <i class="fa-solid fa-eye fa-xl"></i>

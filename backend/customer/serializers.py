@@ -277,3 +277,25 @@ class CustomerProfileSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+
+
+
+
+
+
+class CustomerLocationSerializer(serializers.Serializer):
+
+    latitude = serializers.DecimalField(max_digits=9, decimal_places=6)
+    longitude = serializers.DecimalField( max_digits=9, decimal_places=6)
+
+    def validate_latitude(self, value):
+        if value < -90 or value > 90:
+            raise serializers.ValidationError( "Latitude must be between -90 and 90.")
+        return value
+    
+
+    def validate_longitude(self, value):
+        if value < -180 or value > 180:
+            raise serializers.ValidationError( "Longitude must be between -180 and 180.")
+        return value

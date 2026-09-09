@@ -1,4 +1,5 @@
 async function openVendorOrder(orderId) {
+    console.log(orderId);
 
     const modal = document.getElementById("order-modal");
     modal.classList.remove("hidden");

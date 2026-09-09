@@ -1,4 +1,10 @@
  <!-- Hero Banner -->
+{% if user.is_authenticated and user.role == 'customer' %}
+<button type="button" onclick="getCustomerLocation()" class="bg-orange-500 text-white px-5 py-3 rounded-2xl mb-6 inline-flex items-center">
+    <i class="fa-solid fa-location-dot mr-2"></i>
+    Use Current Location
+</button>
+{% endif %}
 <div class="food-bg rounded-3xl p-10 text-white mb-12 relative overflow-hidden">
     <div class="max-w-md">
         <h1 class="text-5xl font-bold leading-none mb-4">Craving something delicious?</h1>

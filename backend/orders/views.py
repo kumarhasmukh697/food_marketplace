@@ -10,6 +10,7 @@ from delivery.models import DeliveryPartnerProfile
 from .models import Order, OrderItem
 from .serializers import CheckoutSerializer, VendorOrderDetailSerializer, VendorOrderStatusSerializer
 from django.shortcuts import get_object_or_404
+from delivery.utils import find_nearest_delivery_partner
 
 
 
@@ -198,17 +199,22 @@ class VendorOrderDetailView(APIView):
 
     def get(self, request, order_id):
 
-    
+        print("order_id is ",order_id)
         vendor = request.user.vendor_profile
+        print(vendor)
+
+
         
         order = get_object_or_404(
-
             Order.objects.select_related("customer","vendor","customer__address")
             .prefetch_related("items__product"),
-
             id=order_id,
             vendor=vendor,
         )
+
+        # order = Order.objects.get(id=order_id)
+        
+        print("order is :",order)
 
         serializer = VendorOrderDetailSerializer(order)
         return Response(serializer.data)
@@ -251,14 +257,17 @@ class VendorOrderStatusUpdateView(APIView):
         # Get logged-in vendor
         # -----------------------------------------
 
+        if request.user.role != 'vendor':
+            return Response({"detail":"Only vendor can update order status"},status=403)
+
+        
         vendor = request.user.vendor_profile
 
         # -----------------------------------------
         # Get order belonging to this vendor
         # -----------------------------------------
 
-        order = get_object_or_404(
-            Order.objects.select_for_update(),
+        order = get_object_or_404( Order.objects.select_for_update(),
             id=order_id,
             vendor=vendor,
         )
@@ -318,24 +327,53 @@ class VendorOrderStatusUpdateView(APIView):
         # -----------------------------------------
 
         delivery_partner = None
+        delivery_distance = None
+
         if new_status == "ready":
-            delivery_partner = (DeliveryPartnerProfile.objects.select_for_update()
-                .filter(is_online=True, is_available=True,)
-                .order_by("updated_at")
-                .first()
+
+            vendor_address = getattr(request.user,"address",None)
+
+
+            # ---------------------------
+            # CHECK VENDOR LOCATION
+            # --------------------------
+
+            if not vendor_address:
+                return Response( { "detail":"Vendor address not found. Please add your shop address."}, status=400)
+
+
+            if (vendor_address.latitude is None or vendor_address.longitude is None):
+                return Response({ "detail":"Vendor location is not set. Please save your shop location first."},  status=400)
+
+
+            # -----------------------------------------
+            # FIND NEAREST PARTNER
+            # -----------------------------------------
+
+
+            delivery_partner, delivery_distance = (
+                find_nearest_delivery_partner(
+                    vendor_address.latitude,
+                    vendor_address.longitude
+                )
             )
+            
+            # -----------------------------------------
+            # ASSIGN PARTNER
+            # -----------------------------------------
+
 
             if delivery_partner:
-                order.delivery_partner = ( delivery_partner)
+                order.delivery_partner =  delivery_partner
                 order.save( update_fields=["delivery_partner","updated_at"])
 
                 delivery_partner.is_available = False
                 delivery_partner.save( update_fields=[ "is_available","updated_at",])
 
 
-        # -----------------------------------------
-        # Response
-        # -----------------------------------------
+            # -----------------------------------------
+            # Response
+            # -----------------------------------------
 
         return Response(
             {
@@ -343,6 +381,8 @@ class VendorOrderStatusUpdateView(APIView):
                 "order_id": order.id,
                 "status": order.status,
                 "delivery_partner": ( delivery_partner.user.username if delivery_partner else None),
+                "delivery_distance_km": round(delivery_distance, 2) if delivery_distance is not None else None,
             },
             status=status.HTTP_200_OK,
         )
+
