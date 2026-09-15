@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from accounts.models import Address
 from .models import DeliveryPartnerProfile
+from orders.models import Order
 
 
 
@@ -326,4 +327,19 @@ class DeliveryLocationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Longitude must be between -180 and 180."
             )
+        return value
+
+
+
+
+class DeliveryOrderStatusSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Order
+        fields = ["status"]
+
+    def validate_status(self, value):
+        allowed_statuses = [ "picked_up", "out_for_delivery", "delivered"]
+        if value not in allowed_statuses:
+            raise serializers.ValidationError("Invalid delivery status.")
         return value

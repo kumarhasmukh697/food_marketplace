@@ -5,8 +5,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from .permissions import IsDelivery
 from .models import DeliveryPartnerProfile
-from .serializers import DeliveryPartnerProfileSerializer, DeliveryOnlineStatusSerializer, DeliveryLocationSerializer
-
+from .serializers import DeliveryPartnerProfileSerializer, DeliveryOnlineStatusSerializer, DeliveryLocationSerializer,DeliveryOrderStatusSerializer
+from django.shortcuts import get_object_or_404
+from django.db import transaction
+from orders.models import Order
 
 
 
@@ -89,13 +91,13 @@ class DeliveryOnlineStatusView(APIView):
 
 
 class DeliveryLocationUpdateView(APIView):
-    print("hello world")
+
     permission_classes = [IsAuthenticated]
-    print("DeliveryLocationUpdateView initialized.")
+    
 
     def patch(self, request):
         if request.user.role != "delivery":
-            print("User is not a delivery partner.")
+          
             return Response(
                 {"detail": "Only delivery partners can update their location."},
                 status=403
@@ -121,3 +123,92 @@ class DeliveryLocationUpdateView(APIView):
             },
             status=200
         )
+
+
+
+
+
+
+class DeliveryOrderStatusUpdateView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    @transaction.atomic
+    def patch(self, request, order_id):
+
+        if request.user.role != "delivery":
+            return Response(
+                { "detail": "Only delivery partners can update delivery status."}, status=403
+            )
+
+        delivery_partner = request.user.delivery_partner
+
+        order = get_object_or_404(
+            Order.objects.select_for_update(),
+            id=order_id,
+            delivery_partner=delivery_partner,
+        )
+
+        serializer = DeliveryOrderStatusSerializer( order, data=request.data, partial=True)
+        serializer.is_valid( raise_exception=True)
+        new_status = serializer.validated_data["status"]
+        current_status = order.status
+
+
+        # -----------------------------------------
+        # READY → PICKED UP
+        # -----------------------------------------
+
+        if current_status == "ready":
+            if new_status != "picked_up":
+                return Response({"detail": "Ready order can only be changed to picked up."},status=400)
+
+
+        # -----------------------------------------
+        # PICKED UP → OUT FOR DELIVERY
+        # -----------------------------------------
+
+        elif current_status == "picked_up":
+            if new_status != "out_for_delivery":
+                return Response( { "detail": "Picked up order can only be changed to out for delivery."},status=400)
+
+
+        # -----------------------------------------
+        # OUT FOR DELIVERY → DELIVERED
+        # -----------------------------------------
+
+        elif current_status == "out_for_delivery":
+            if new_status != "delivered":
+                return Response({"detail": "Out for delivery order can only be changed to delivered."}, status=400)
+
+
+        else:
+            return Response( {"detail": f"Delivery partner cannot change order from {current_status}."}, status=400)
+
+
+        # -----------------------------------------
+        # UPDATE ORDER
+        # -----------------------------------------
+
+        order.status = new_status
+        order.save( update_fields=[ "status", "updated_at"] )
+
+
+        # -----------------------------------------
+        # DELIVERY COMPLETED
+        # -----------------------------------------
+
+        if new_status == "delivered":
+            delivery_partner.is_available = True
+            delivery_partner.save( update_fields=["is_available", "updated_at"])
+
+
+        return Response(
+            {
+                "message": "Order status updated successfully.",
+                "order_id": order.id,
+                "status": order.status,
+            },
+            status=200
+        )
+
