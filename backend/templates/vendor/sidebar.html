@@ -12,11 +12,19 @@
         </a>
         <a href="{% url 'v-orders' %}" class="nav-link flex items-center gap-3 px-5 py-4 rounded-3xl">
             <i class="fa-solid fa-boxes-packing w-5"></i>
-            <span class="font-medium">All Orders</span>
+            <span class="font-medium">All Customer Orders</span>
         </a>
         <a href="{% url 'analytics' %}" class="nav-link flex items-center gap-3 px-5 py-4 rounded-3xl">
             <i class="fa-solid fa-chart-pie w-5"></i>
             <span class="font-medium">Analytics</span>
+        </a>
+        <a href="{% url 'v-marketplace' %}" class="nav-link flex items-center gap-3 px-5 py-4 rounded-3xl">
+            <i class="fa-solid fa-store w-5"></i>
+            <span class="font-medium">Marketplace</span>
+        </a>
+        <a href="{% url 'orders' %}" class="nav-link flex items-center gap-3 px-5 py-4 rounded-3xl">
+            <i class="fa-solid fa-receipt w-5"></i>
+            <span class="font-medium">My Food Order</span>
         </a>
         
     </div>

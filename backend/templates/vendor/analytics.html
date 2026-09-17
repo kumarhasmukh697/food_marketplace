@@ -17,10 +17,11 @@
         <div class="bg-white rounded-3xl p-7 shadow-sm">
             <div class="text-gray-500 text-sm">Total Revenue</div>
             <div class="text-4xl font-bold mt-3 text-emerald-600">₹{{revenue}}</div>
-            <div class="flex items-center gap-2 text-emerald-500 text-sm mt-4">
-                <i class="fa-solid fa-arrow-trend-up"></i>
-                <span>+18.4% from last month</span>
+            <div class="flex items-center gap-2 {% if revenue_change >= 0 %}text-emerald-500{% else %}text-red-500{% endif %} text-sm mt-4">
+                <i class="fa-solid {% if revenue_change >= 0 %}fa-arrow-trend-up{% else %}fa-arrow-trend-down{% endif %}"></i>
+                <span>{% if revenue_change >= 0 %}+{% endif %}{{ revenue_change }}% from {{ previous_month_name }}</span>
             </div>
+            <div class="text-xs text-gray-400 mt-2">{{ current_month_name }}: ₹{{ revenue }} · {{ previous_month_name }}: ₹{{ previous_month_revenue }}</div>
         </div>
         
         <div class="bg-white rounded-3xl p-7 shadow-sm">
@@ -70,32 +71,21 @@
     <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
         <h3 class="font-semibold text-xl mb-6 text-gray-800">Top Selling Items</h3>
         <div class="space-y-6">
-            <div class="flex items-center gap-5 p-3 rounded-2xl hover:bg-slate-50 transition-colors">
-                <img src="https://picsum.photos/id/292/80/80" class="w-14 h-14 object-cover rounded-2xl shadow-sm" alt="Butter Chicken">
-                <div class="flex-1">
-                    <p class="font-semibold text-gray-800">Butter Chicken</p>
-                    <p class="text-sm text-gray-500">142 orders • ₹45,440 revenue</p>
+            {% for item in top_selling_items %}
+                <div class="flex items-center gap-5 p-3 rounded-2xl hover:bg-slate-50 transition-colors">
+                    {% if item.product_image %}
+                        <img src="{{ media_url }}{{ item.product_image }}" class="w-14 h-14 object-cover rounded-2xl shadow-sm" alt="{{ item.product_name }}">
+                    {% else %}
+                        <div class="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center text-gray-400">-</div>
+                    {% endif %}
+                    <div class="flex-1">
+                        <p class="font-semibold text-gray-800">{{ item.product_name }}</p>
+                        <p class="text-sm text-gray-500">{{ item.units_sold }} units sold · ₹{{ item.item_revenue }} revenue</p>
+                    </div>
                 </div>
-                <div class="text-right font-semibold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full text-xs">32%</div>
-            </div>
-
-            <div class="flex items-center gap-5 p-3 rounded-2xl hover:bg-slate-50 transition-colors">
-                <img src="https://picsum.photos/id/431/80/80" class="w-14 h-14 object-cover rounded-2xl shadow-sm" alt="Paneer Tikka Masala">
-                <div class="flex-1">
-                    <p class="font-semibold text-gray-800">Paneer Tikka Masala</p>
-                    <p class="text-sm text-gray-500">98 orders • ₹27,440 revenue</p>
-                </div>
-                <div class="text-right font-semibold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full text-xs">22%</div>
-            </div>
-
-            <div class="flex items-center gap-5 p-3 rounded-2xl hover:bg-slate-50 transition-colors">
-                <img src="https://picsum.photos/id/201/80/80" class="w-14 h-14 object-cover rounded-2xl shadow-sm" alt="Naan Basket">
-                <div class="flex-1">
-                    <p class="font-semibold text-gray-800">Naan Basket</p>
-                    <p class="text-sm text-gray-500">87 orders • ₹12,180 revenue</p>
-                </div>
-                <div class="text-right font-semibold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full text-xs">19%</div>
-            </div>
+            {% empty %}
+                <p class="text-sm text-gray-400">No sales data available yet.</p>
+            {% endfor %}
         </div>
     </div>
 </div>

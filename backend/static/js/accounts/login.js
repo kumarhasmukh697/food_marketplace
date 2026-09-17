@@ -40,6 +40,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
                 customer: "/home/",
                 vendor: "/v-dashboard/",
                 delivery: "/d-dashboard/"
+                
             };
 
             window.location.href = dashboardMap[data.user.role];

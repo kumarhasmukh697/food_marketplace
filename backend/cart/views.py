@@ -4,6 +4,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from customer.permissions import IsCustomer
+from delivery.permissions import IsDelivery
+from vendors.permissions import IsVendor
 # from products.models import Product
 from .models import Cart, CartItem
 from .serializers import ( CartSerializer, AddToCartSerializer, UpdateCartItemSerializer,)
@@ -12,7 +14,7 @@ from .serializers import ( CartSerializer, AddToCartSerializer, UpdateCartItemSe
 
 
 class CartView(APIView):
-    permission_classes = [IsCustomer]
+    permission_classes = [IsCustomer | IsDelivery | IsVendor]
    
     def get(self, request):
 
@@ -36,7 +38,7 @@ class CartView(APIView):
 
 class AddToCartView(APIView):
 
-    permission_classes = [ IsCustomer]
+    permission_classes = [IsCustomer | IsDelivery | IsVendor]
 
     @transaction.atomic
     def post(self, request):
@@ -118,7 +120,7 @@ class AddToCartView(APIView):
 
 class CartItemUpdateView(APIView):
 
-    permission_classes = [ IsCustomer]
+    permission_classes = [IsCustomer | IsDelivery | IsVendor]
 
     def patch(self, request, item_id):
 
@@ -183,7 +185,7 @@ class CartItemUpdateView(APIView):
 
 class CartItemDeleteView(APIView):
 
-    permission_classes = [ IsCustomer]
+    permission_classes = [IsCustomer | IsVendor | IsDelivery]
 
     def delete(self, request, item_id):
 
@@ -236,7 +238,7 @@ class CartItemDeleteView(APIView):
 class ClearCartView(APIView):
 
     permission_classes = [
-        IsCustomer
+        IsCustomer | IsDelivery | IsVendor
     ]
 
     def delete(self, request):

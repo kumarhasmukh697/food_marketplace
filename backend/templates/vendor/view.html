@@ -9,6 +9,12 @@
         {% include 'vendor/menu.html' %}
     {% elif request.resolver_match.url_name == "analytics" %}
         {% include 'vendor/analytics.html' %}
+    {% elif request.resolver_match.url_name == "v-marketplace" %}
+        {% include 'vendor/marketplace.html' %}
+    {% elif request.resolver_match.url_name == "explore" %}
+        {% include 'customer/explore.html' %}
+    {% elif request.resolver_match.url_name == "orders" %}
+        {% include 'customer/orders.html' %}
     {% endif %}
     </div>
 </div>

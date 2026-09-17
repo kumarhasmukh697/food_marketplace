@@ -1,13 +1,17 @@
 <div id="main-delivery" class="p-8">
     <div class="max-w-7xl mx-auto">
-    {% if request.resolver_match.url_name == "d-home" %}
+    {% if request.resolver_match.url_name == "d-home" or request.resolver_match.url_name == "d-dashboard" %}
         {% include 'delivery/home.html' %}
     {% elif request.resolver_match.url_name == "earnings" %}
         {% include 'delivery/earnings.html' %}
-    {% elif request.resolver_match.url_name == "d-orders" %}
-        {% include 'delivery/orders.html' %}
+    {% elif request.resolver_match.url_name == "marketplace" %}
+        {% include 'delivery/marketplace.html' %}
     {% elif request.resolver_match.url_name == "delivery" %}
         {% include 'delivery/delivery.html' %}
+    {% elif request.resolver_match.url_name == "explore" %}
+        {% include 'customer/explore.html' %}
+    {% elif request.resolver_match.url_name == "orders" %}
+        {% include 'customer/orders.html' %}
     {% endif %}
     </div>
 </div>

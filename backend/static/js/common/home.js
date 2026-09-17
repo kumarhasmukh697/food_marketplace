@@ -9,15 +9,6 @@ function toggleSidebar() {
     sidebar.classList.toggle('hidden');
 }
 
-function navigateTo(section) {
-    console.log(`Navigating to: ${section}`);
-    // In a real app this would load different content
-    alert(`📍 Navigation to ${section} section (demo)`);
-}
-
-function toggleCart() {
-    alert("🛒 Your cart has 3 items.\n\nTotal: ₹689");
-}
 
 
 function acceptDelivery() {

@@ -4,6 +4,7 @@ from categories.models import Category
 from vendors.models import VendorProfile
 from . models import CustomerProfile
 from orders.models import Order,OrderItem
+from delivery.models import DeliveryPartnerProfile
 from wishlist.models import FavoriteRestaurant
 
 
@@ -14,7 +15,7 @@ def dashboard(request):
     return render(request, "customer/dashboard.html", context)
 
 
-@role_required("customer")
+# @role_required("customer")
 def explore_vendor(request, slug):
     vendor = get_object_or_404(VendorProfile, slug=slug, is_active=True)
     products = vendor.products.filter(is_available=True)
@@ -35,13 +36,16 @@ def explore_vendor(request, slug):
 
 
 
-@role_required('customer')
+# @role_required('customer')
 def order(request):
-    customer = CustomerProfile.objects.filter(user = request.user)
+    if request.user.role == 'customer':
+        customer = CustomerProfile.objects.filter(user = request.user)
+    elif request.user.role == 'vendor':
+        customer = VendorProfile.objects.filter(user = request.user)
+    elif request.user.role == 'delivery':
+        customer = DeliveryPartnerProfile.objects.filter(user = request.user)
+        
     orders = Order.objects.filter(customer=request.user)
-    for order in orders:
-        # print(order.vendor.user.profile_picture.url)
-        print("type is  ",type(order.vendor.user))
     context = {'customer':customer,"orders":orders}
     return render(request,'customer/dashboard.html',context)
 

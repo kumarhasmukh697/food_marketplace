@@ -28,7 +28,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="menu-items-grid">
         <!-- Product Card -->
         {% for product in products %}
-        <div class="bg-white rounded-3xl overflow-hidden shadow-sm card-hover">
+        <div class="bg-white rounded-3xl overflow-hidden shadow-sm card-hover" data-search-item>
             <img src="{{ product.image.url }}" 
                  class="w-full h-52 object-cover" alt="Paneer Tikka">
             <div class="p-6">

@@ -6,9 +6,9 @@
             <i class="fa-solid fa-house w-5"></i>
             <span class="font-medium">Home</span>
         </a>
-         <a href="{% url 'd-orders' %}" class="nav-link flex items-center gap-3 px-5 py-4 rounded-3xl active">
-            <i class="fa-solid fa-motorcycle w-5"></i>
-            <span class="font-medium">Available Orders</span>
+         <a href="{% url 'marketplace' %}" class="nav-link flex items-center gap-3 px-5 py-4 rounded-3xl active">
+            <i class="fa-solid fa-store w-5"></i>
+            <span class="font-medium">Marketplace</span>
         </a>
         <a href="{% url 'delivery' %}" class="nav-link flex items-center gap-3 px-5 py-4 rounded-3xl">
             <i class="fa-solid fa-route w-5"></i>
@@ -17,6 +17,10 @@
         <a href="{% url 'earnings' %}" class="nav-link flex items-center gap-3 px-5 py-4 rounded-3xl">
             <i class="fa-solid fa-wallet w-5"></i>
             <span class="font-medium">Earnings</span>
+        </a>
+        <a href="{% url 'orders' %}" class="nav-link flex items-center gap-3 px-5 py-4 rounded-3xl">
+            <i class="fa-solid fa-receipt w-5"></i>
+            <span class="font-medium">My Food Orders</span>
         </a>
     </div>
     <div class="mt-auto border-t p-6">

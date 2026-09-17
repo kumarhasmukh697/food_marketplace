@@ -1,5 +1,6 @@
 const searchInput = document.getElementById("product-search");
 
+if (searchInput) {
 searchInput.addEventListener("input", function () {
 
     const searchTerm = this.value.trim().toLowerCase();
@@ -8,8 +9,8 @@ searchInput.addEventListener("input", function () {
 
     productCards.forEach(card => {
 
-        const productName = card.dataset.productName;
-        const productDescription = card.dataset.productDescription;
+        const productName = (card.dataset.productName || '').toLowerCase();
+        const productDescription = (card.dataset.productDescription || '').toLowerCase();
 
         const matches =
             productName.includes(searchTerm) ||
@@ -24,3 +25,6 @@ searchInput.addEventListener("input", function () {
     });
 
 });
+}
+
+

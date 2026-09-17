@@ -76,8 +76,8 @@
 
         <!-- Product Card -->
         {% for product in products %}
-        <div class="product-card bg-white rounded-3xl p-5 flex gap-5 hover:shadow-md transition-shadow" data-product-name="{{ product.name|lower }}"
-        data-product-description="{{ product.description|lower }}">
+        <div class="product-card bg-white rounded-3xl p-5 flex gap-5 hover:shadow-md transition-shadow" data-search-item data-product-name="{{ product.name|lower }}"
+data-product-description="{{ product.description|lower }}">
             <div class="flex-1">
                 <div class="flex items-center gap-2 mb-1">
                     {% if product.is_veg %}

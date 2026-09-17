@@ -7,74 +7,32 @@
     <!-- ========================================= -->
     <!-- PAGE HEADER -->
     <!-- ========================================= -->
-
     <div>
-        <p class="text-sm text-gray-500">
-            Delivery Partner Dashboard
-        </p>
-
-        <h1 class="text-4xl font-semibold text-gray-900 mt-1">
-            Welcome, {{ request.user.first_name|default:request.user.username }}
-        </h1>
-
-        <p class="text-gray-500 mt-2">
-            Manage your deliveries and keep customers updated.
-        </p>
+        <h1 class="text-4xl font-semibold text-gray-900 mt-1"> Welcome, {{ request.user.first_name|default:request.user.username }}</h1>
+        <p class="text-gray-500 mt-2"> Manage your deliveries and keep customers updated.</p>
     </div>
-
-
     <!-- ========================================= -->
     <!-- DELIVERY STATUS -->
     <!-- ========================================= -->
 
     <div class="bg-white border border-gray-200 rounded-3xl p-6">
-
         <div class="flex items-center justify-between">
-
             <div class="flex items-center gap-4">
-
-                <div
-                    id="delivery-status-icon"
-                    class="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center"
-                >
+                <div id="delivery-status-icon" class="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center">
                     <i class="fa-solid fa-motorcycle text-gray-500 text-xl"></i>
                 </div>
-
                 <div>
-
-                    <h3 class="font-semibold text-lg">
-                        Delivery Status
-                    </h3>
-
-                    <p
-                        id="delivery-status-text"
-                        class="text-sm text-gray-500 mt-1"
-                    >
-                        You are currently offline.
-                    </p>
-
+                    <h3 class="font-semibold text-lg"> Delivery Status</h3>
+                    <p id="delivery-status-text" class="text-sm text-gray-500 mt-1"> You are currently offline.</p>
                 </div>
-
             </div>
 
 
             <!-- Online / Offline Toggle -->
-
-            <button
-                id="delivery-online-toggle"
-                onclick="toggleDeliveryOnlineStatus()"
-                class="relative w-16 h-8 bg-gray-300 rounded-full transition-colors duration-200 focus:outline-none"
-            >
-
-                <span
-                    id="delivery-toggle-circle"
-                    class="absolute left-1 top-1 w-6 h-6 bg-white rounded-full transition-transform duration-200"
-                ></span>
-
+            <button id="delivery-online-toggle" onclick="toggleDeliveryOnlineStatus()" class="relative w-16 h-8 bg-gray-300 rounded-full transition-colors duration-200 focus:outline-none">
+                <span id="delivery-toggle-circle" class="absolute left-1 top-1 w-6 h-6 bg-white rounded-full transition-transform duration-200"></span>
             </button>
-
         </div>
-
     </div>
 
 
@@ -84,205 +42,91 @@
     <!-- ========================================= -->
 
     <section>
-
         <div class="flex items-center justify-between mb-6">
-
             <div>
-
-                <h2 class="text-3xl font-semibold text-gray-900">
-                    New Deliveries
-                </h2>
-
-                <p class="text-gray-500 mt-1">
-                    Orders assigned to you and waiting for pickup.
-                </p>
-
+                <h2 class="text-3xl font-semibold text-gray-900">New Deliveries</h2>
+                <p class="text-gray-500 mt-1"> Orders assigned to you and waiting for pickup.</p>
             </div>
-
-            <div class="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium">
-                {{ new_orders|length }} New
-            </div>
-
+            <div class="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium"> {{ new_orders|length }} New</div>
         </div>
 
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
             {% for order in new_orders %}
 
             <!-- ========================================= -->
             <!-- NEW DELIVERY CARD -->
             <!-- ========================================= -->
-
-            <div class="bg-white border border-gray-200 rounded-3xl p-6 card-hover">
-
+            <div class="bg-white border border-gray-200 rounded-3xl p-6 card-hover" data-search-item>
                 <!-- Order Header -->
-
                 <div class="flex justify-between items-start">
-
                     <div>
-
                         <div class="flex items-center gap-2 text-blue-600">
-
                             <i class="fa-solid fa-location-dot"></i>
-
-                            <span class="font-medium">
-                                Ready for Pickup
-                            </span>
-
+                            <span class="font-medium"> Ready for Pickup</span>
                         </div>
-
-                        <h3 class="font-semibold text-xl mt-3">
-                            {{ order.vendor.shop_name }}
-                        </h3>
-
-                        <p class="text-gray-500 mt-1">
-                            Order #{{ order.id }}
-                        </p>
-
-                        <p class="text-gray-500 mt-1">
-                            Customer: {{ order.customer.username }}
-                        </p>
-
+                        <h3 class="font-semibold text-xl mt-3"> {{ order.vendor.shop_name }}</h3>
+                        <p class="text-gray-500 mt-1"> Order #{{ order.id }}</p>
+                        <p class="text-gray-500 mt-1"> Customer: {{ order.customer.username }}</p>
                     </div>
-
-                    <div class="text-5xl">
-                        🍕
-                    </div>
-
+                    <div class="text-5xl">🍕</div>
                 </div>
 
 
                 <!-- Order Amount -->
-
                 <div class="mt-6 bg-gray-50 rounded-2xl p-4">
-
                     <div class="flex justify-between items-center">
-
-                        <span class="text-gray-500">
-                            Order Amount
-                        </span>
-
-                        <span class="font-semibold text-lg">
-                            ₹{{ order.total_amount }}
-                        </span>
-
+                        <span class="text-gray-500"> Order Amount</span>
+                        <span class="font-semibold text-lg"> ₹{{ order.total_amount }}</span>
                     </div>
-
                 </div>
 
 
                 <!-- Customer Address -->
-
                 {% if order.customer.address %}
-
                 <div class="mt-6">
-
                     <div class="text-sm font-medium text-gray-700 mb-2">
-
                         <i class="fa-solid fa-house text-gray-400 mr-1"></i>
-
                         Delivery Address
-
                     </div>
-
                     <div class="text-sm text-gray-500">
-
-                        <div>
-                            {{ order.customer.address.address_line_1 }}
-                        </div>
-
+                        <div> {{ order.customer.address.address_line_1 }}</div>
                         {% if order.customer.address.address_line_2 %}
-
-                        <div>
-                            {{ order.customer.address.address_line_2 }}
-                        </div>
-
+                        <div>{{ order.customer.address.address_line_2 }}</div>
                         {% endif %}
-
-                        <div>
-                            {{ order.customer.address.city }},
-                            {{ order.customer.address.state }}
-                            -
-                            {{ order.customer.address.pincode }}
-                        </div>
-
+                        <div>{{ order.customer.address.city }},{{ order.customer.address.state }} - {{ order.customer.address.pincode }}</div>
                     </div>
-
                 </div>
-
                 {% endif %}
 
 
                 <!-- Go To Vendor -->
-
                 <div class="mt-8">
-
-                    <button
-                        onclick="goToVendor(
-                            '{{ order.vendor.user.address.latitude }}',
-                            '{{ order.vendor.user.address.longitude }}'
-                        )"
-                        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-3xl font-medium transition"
-                    >
-
-                        <i class="fa-solid fa-location-arrow mr-2"></i>
-
-                        Go to Vendor
-
+                    <button onclick="goToVendor( '{{ order.vendor.user.address.latitude }}', '{{ order.vendor.user.address.longitude }}')" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-3xl font-medium transition">
+                        <i class="fa-solid fa-location-arrow mr-2"></i> Go to Vendor
                     </button>
-
                 </div>
 
 
                 <!-- Delivery Status -->
-
                 <div class="mt-4">
-
-                    <select
-                        class="w-full border border-gray-300 rounded-2xl px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        onchange="updateDeliveryOrderStatus('{{ order.id }}', this.value)"
-                    >
-
-                        <option value="ready" selected>
-                            Ready for Pickup
-                        </option>
-
-                        <option value="picked_up">
-                            Picked Up
-                        </option>
-
+                    <select class="w-full border border-gray-300 rounded-2xl px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="updateDeliveryOrderStatus('{{ order.id }}', this.value)">
+                        <option value="ready" selected> Ready for Pickup </option>
+                        <option value="picked_up"> Picked Up</option>
                     </select>
-
                 </div>
-
             </div>
-
-
             {% empty %}
 
+
             <!-- No New Deliveries -->
-
             <div class="col-span-full bg-white border border-gray-200 rounded-3xl p-10 text-center">
-
-                <div class="text-5xl">
-                    🚴
-                </div>
-
-                <h3 class="text-xl font-semibold mt-4">
-                    No new deliveries
-                </h3>
-
-                <p class="text-gray-500 mt-2">
-                    New delivery orders assigned to you will appear here.
-                </p>
-
+                <div class="text-5xl">🚴</div>
+                <h3 class="text-xl font-semibold mt-4">No new deliveries</h3>
+                <p class="text-gray-500 mt-2"> New delivery orders assigned to you will appear here.</p>
             </div>
-
             {% endfor %}
-
         </div>
-
     </section>
 
 
@@ -292,368 +136,110 @@
     <!-- ========================================= -->
 
     <section>
-
         <div class="flex items-center justify-between mb-6">
-
             <div>
-
-                <h2 class="text-3xl font-semibold text-gray-900">
-                    Active Deliveries
-                </h2>
-
-                <p class="text-gray-500 mt-1">
-                    Deliveries currently in progress.
-                </p>
-
+                <h2 class="text-3xl font-semibold text-gray-900"> Active Deliveries</h2>
+                <p class="text-gray-500 mt-1"> Deliveries currently in progress.</p>
             </div>
-
-            <div class="bg-amber-100 text-amber-700 px-4 py-2 rounded-full text-sm font-medium">
-                {{ active_orders|length }} Active
-            </div>
-
+            <div class="bg-amber-100 text-amber-700 px-4 py-2 rounded-full text-sm font-medium"> {{ active_orders|length }} Active</div>
         </div>
 
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
             {% for order in active_orders %}
-
             <!-- ========================================= -->
             <!-- ACTIVE DELIVERY CARD -->
             <!-- ========================================= -->
-
-            <div class="bg-white border border-gray-200 rounded-3xl p-6 card-hover">
-
+            <div class="bg-white border border-gray-200 rounded-3xl p-6 card-hover" data-search-item>
                 <!-- Order Header -->
-
                 <div class="flex justify-between items-start">
-
                     <div>
-
                         {% if order.status == "picked_up" %}
-
                         <div class="flex items-center gap-2 text-amber-600">
-
                             <i class="fa-solid fa-box"></i>
-
-                            <span class="font-medium">
-                                Picked Up
-                            </span>
-
+                            <span class="font-medium"> Picked Up</span>
                         </div>
-
                         {% elif order.status == "out_for_delivery" %}
-
                         <div class="flex items-center gap-2 text-purple-600">
-
                             <i class="fa-solid fa-motorcycle"></i>
-
-                            <span class="font-medium">
-                                Out for Delivery
-                            </span>
-
+                            <span class="font-medium"> Out for Delivery</span>
                         </div>
-
                         {% endif %}
-
-
-                        <h3 class="font-semibold text-xl mt-3">
-                            {{ order.vendor.shop_name }}
-                        </h3>
-
-                        <p class="text-gray-500 mt-1">
-                            Order #{{ order.id }}
-                        </p>
-
-                        <p class="text-gray-500 mt-1">
-                            Customer: {{ order.customer.username }}
-                        </p>
-
+                        <h3 class="font-semibold text-xl mt-3">{{ order.vendor.shop_name }}</h3>
+                        <p class="text-gray-500 mt-1"> Order #{{ order.id }}</p>
+                        <p class="text-gray-500 mt-1"> Customer: {{ order.customer.username }}</p>
                     </div>
-
-
-                    <div class="text-5xl">
-                        📦
-                    </div>
-
+                    <div class="text-5xl">📦</div>
                 </div>
 
 
                 <!-- Order Amount -->
-
                 <div class="mt-6 bg-gray-50 rounded-2xl p-4">
-
                     <div class="flex justify-between items-center">
-
-                        <span class="text-gray-500">
-                            Order Amount
-                        </span>
-
-                        <span class="font-semibold text-lg">
-                            ₹{{ order.total_amount }}
-                        </span>
-
+                        <span class="text-gray-500"> Order Amount</span>
+                        <span class="font-semibold text-lg"> ₹{{ order.total_amount }}</span>
                     </div>
-
                 </div>
+
 
 
                 <!-- Customer Address -->
-
                 {% if order.customer.address %}
-
                 <div class="mt-6">
-
                     <div class="text-sm font-medium text-gray-700 mb-2">
-
                         <i class="fa-solid fa-location-dot text-gray-400 mr-1"></i>
-
                         Delivery Address
-
                     </div>
-
-
                     <div class="text-sm text-gray-500">
-
-                        <div>
-                            {{ order.customer.address.address_line_1 }}
-                        </div>
-
+                        <div> {{ order.customer.address.address_line_1 }}</div>
                         {% if order.customer.address.address_line_2 %}
-
-                        <div>
-                            {{ order.customer.address.address_line_2 }}
-                        </div>
-
+                        <div> {{ order.customer.address.address_line_2 }}</div>
                         {% endif %}
-
-                        <div>
-                            {{ order.customer.address.city }},
-                            {{ order.customer.address.state }}
-                            -
-                            {{ order.customer.address.pincode }}
-                        </div>
-
+                        <div> {{ order.customer.address.city }}, {{ order.customer.address.state }} - {{ order.customer.address.pincode }}</div>
                     </div>
-
                 </div>
-
                 {% endif %}
 
 
                 <!-- Navigate To Customer -->
-
                 {% if order.status == "picked_up" %}
-
                 <div class="mt-8">
-
-                    <button
-                        onclick="goToCustomer(
-                            '{{ order.customer.address.latitude }}',
-                            '{{ order.customer.address.longitude }}'
-                        )"
-                        class="w-full bg-purple-600 hover:bg-purple-700 text-white py-4 rounded-3xl font-medium transition"
-                    >
-
+                    <button onclick="goToCustomer('{{ order.customer.address.latitude }}', '{{ order.customer.address.longitude }}')" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-4 rounded-3xl font-medium transition">
                         <i class="fa-solid fa-location-arrow mr-2"></i>
-
                         Navigate to Customer
-
                     </button>
-
                 </div>
-
                 {% endif %}
 
 
                 <!-- Status Selection -->
-
                 <div class="mt-4">
-
                     {% if order.status == "picked_up" %}
-
-                    <select
-                        class="w-full border border-gray-300 rounded-2xl px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        onchange="updateDeliveryOrderStatus('{{ order.id }}', this.value)"
-                    >
-
-                        <option value="picked_up" selected>
-                            Picked Up
-                        </option>
-
-                        <option value="out_for_delivery">
-                            Out for Delivery
-                        </option>
-
+                    <select class="w-full border border-gray-300 rounded-2xl px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-purple-500" onchange="updateDeliveryOrderStatus('{{ order.id }}', this.value)">
+                        <option value="picked_up" selected> Picked Up</option>
+                        <option value="out_for_delivery"> Out for Delivery</option>
                     </select>
 
 
                     {% elif order.status == "out_for_delivery" %}
-
-                    <select
-                        class="w-full border border-gray-300 rounded-2xl px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                        onchange="updateDeliveryOrderStatus('{{ order.id }}', this.value)"
-                    >
-
-                        <option value="out_for_delivery" selected>
-                            Out for Delivery
-                        </option>
-
-                        <option value="delivered">
-                            Delivered
-                        </option>
-
+                    <select class="w-full border border-gray-300 rounded-2xl px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500" onchange="updateDeliveryOrderStatus('{{ order.id }}', this.value)">
+                        <option value="out_for_delivery" selected> Out for Delivery</option>
+                        <option value="delivered"> Delivered</option>
                     </select>
-
                     {% endif %}
-
                 </div>
-
             </div>
-
-
             {% empty %}
+
 
             <!-- No Active Deliveries -->
-
             <div class="col-span-full bg-white border border-gray-200 rounded-3xl p-10 text-center">
-
-                <div class="text-5xl">
-                    🛵
-                </div>
-
-                <h3 class="text-xl font-semibold mt-4">
-                    No active deliveries
-                </h3>
-
-                <p class="text-gray-500 mt-2">
-                    Picked up deliveries will appear here.
-                </p>
-
+                <div class="text-5xl">🛵 </div>
+                <h3 class="text-xl font-semibold mt-4"> No active deliveries</h3>
+                <p class="text-gray-500 mt-2"> Picked up deliveries will appear here.</p>
             </div>
-
             {% endfor %}
-
         </div>
-
-    </section>
-
-
-
-    <!-- ========================================= -->
-    <!-- COMPLETED DELIVERIES -->
-    <!-- ========================================= -->
-
-    <section>
-
-        <div class="flex items-center justify-between mb-6">
-
-            <div>
-
-                <h2 class="text-3xl font-semibold text-gray-900">
-                    Completed Deliveries
-                </h2>
-
-                <p class="text-gray-500 mt-1">
-                    Your successfully delivered orders.
-                </p>
-
-            </div>
-
-            <div class="bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-medium">
-                {{ completed_orders|length }} Completed
-            </div>
-
-        </div>
-
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-            {% for order in completed_orders %}
-
-            <!-- Completed Delivery -->
-
-            <div class="bg-white border border-gray-200 rounded-3xl p-6">
-
-                <div class="flex justify-between items-start">
-
-                    <div>
-
-                        <div class="flex items-center gap-2 text-emerald-600">
-
-                            <i class="fa-solid fa-circle-check"></i>
-
-                            <span class="font-medium">
-                                Delivered
-                            </span>
-
-                        </div>
-
-
-                        <h3 class="font-semibold text-xl mt-3">
-                            {{ order.vendor.shop_name }}
-                        </h3>
-
-
-                        <p class="text-gray-500 mt-1">
-                            Order #{{ order.id }}
-                        </p>
-
-
-                        <p class="text-gray-500 mt-1">
-                            Customer: {{ order.customer.username }}
-                        </p>
-
-
-                        <p class="text-gray-500 mt-1">
-                            ₹{{ order.total_amount }}
-                        </p>
-
-                    </div>
-
-
-                    <div class="text-5xl">
-                        ✅
-                    </div>
-
-                </div>
-
-
-                <div class="mt-6 bg-emerald-50 text-emerald-700 py-4 rounded-2xl text-center font-medium">
-
-                    <i class="fa-solid fa-circle-check mr-2"></i>
-
-                    Delivery Completed
-
-                </div>
-
-            </div>
-
-
-            {% empty %}
-
-            <!-- No Completed Deliveries -->
-
-            <div class="col-span-full bg-white border border-gray-200 rounded-3xl p-10 text-center">
-
-                <div class="text-5xl">
-                    📋
-                </div>
-
-                <h3 class="text-xl font-semibold mt-4">
-                    No completed deliveries
-                </h3>
-
-                <p class="text-gray-500 mt-2">
-                    Your completed deliveries will appear here.
-                </p>
-
-            </div>
-
-            {% endfor %}
-
-        </div>
-
     </section>
 
 </div>
