@@ -6,6 +6,7 @@ from . models import CustomerProfile
 from orders.models import Order,OrderItem
 from delivery.models import DeliveryPartnerProfile
 from wishlist.models import FavoriteRestaurant
+from django.conf import settings
 
 
 @role_required("customer")
@@ -46,7 +47,8 @@ def order(request):
         customer = DeliveryPartnerProfile.objects.filter(user = request.user)
         
     orders = Order.objects.filter(customer=request.user)
-    context = {'customer':customer,"orders":orders}
+    context = {'customer':customer,"orders":orders,"google_maps_api_key": settings.GOOGLE_MAPS_API_KEY}
+    
     return render(request,'customer/dashboard.html',context)
 
 

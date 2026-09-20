@@ -1,46 +1,45 @@
- <!-- ========================================= -->
+<!-- ========================================= -->
     <!-- COMPLETED DELIVERIES -->
-    <!-- ========================================= -->
-
-    <section>
-        <div class="flex items-center justify-between mb-6">
-            <div>
-                <h2 class="text-3xl font-semibold text-gray-900"> Completed Deliveries</h2>
-                <p class="text-gray-500 mt-1"> Your successfully delivered orders.</p>
-            </div>
-            <div class="bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-medium"> {{ completed_orders|length }} Completed</div>
+<!-- ========================================= -->
+<section>
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h2 class="text-3xl font-semibold text-gray-900"> Completed Deliveries</h2>
+            <p class="text-gray-500 mt-1"> Your successfully delivered orders.</p>
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {% for order in completed_orders %}
-            <!-- Completed Delivery -->
-            <div class="bg-white border border-gray-200 rounded-3xl p-6" data-search-item>
-                <div class="flex justify-between items-start">
-                    <div>
-                        <div class="flex items-center gap-2 text-emerald-600">
-                            <i class="fa-solid fa-circle-check"></i>
-                            <span class="font-medium"> Delivered</span>
-                        </div>
-                        <h3 class="font-semibold text-xl mt-3"> {{ order.vendor.shop_name }}</h3>
-                        <p class="text-gray-500 mt-1"> Order #{{ order.id }}</p>
-                        <p class="text-gray-500 mt-1"> Customer: {{ order.customer.username }}</p>
-                        <p class="text-gray-500 mt-1"> ₹{{ order.total_amount }}</p>
+        <div class="bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-medium"> {{ completed_orders|length }} Completed</div>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {% for order in completed_orders %}
+        <!-- Completed Delivery -->
+        <div class="bg-white border border-gray-200 rounded-3xl p-6" data-search-item>
+            <div class="flex justify-between items-start">
+                <div>
+                    <div class="flex items-center gap-2 text-emerald-600">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span class="font-medium"> Delivered</span>
                     </div>
-                    <div class="text-5xl">✅</div>
+                    <h3 class="font-semibold text-xl mt-3"> {{ order.vendor.shop_name }}</h3>
+                    <p class="text-gray-500 mt-1"> Order #{{ order.id }}</p>
+                    <p class="text-gray-500 mt-1"> Customer: {{ order.customer.username }}</p>
+                    <p class="text-gray-500 mt-1"> ₹{{ order.total_amount }}</p>
                 </div>
-                <div class="mt-6 bg-emerald-50 text-emerald-700 py-4 rounded-2xl text-center font-medium">
-                    <i class="fa-solid fa-circle-check mr-2"></i> 
-                    Delivery Completed
-                </div>
+                <div class="text-5xl">✅</div>
             </div>
-            {% empty %}
-
-
-            <!-- No Completed Deliveries -->
-            <div class="col-span-full bg-white border border-gray-200 rounded-3xl p-10 text-center">
-                <div class="text-5xl">📋</div>
-                <h3 class="text-xl font-semibold mt-4">No completed deliveries</h3>
-                <p class="text-gray-500 mt-2"> Your completed deliveries will appear here.</p>
+            <div class="mt-6 bg-emerald-50 text-emerald-700 py-4 rounded-2xl text-center font-medium">
+                <i class="fa-solid fa-circle-check mr-2"></i> 
+                Delivery Completed
             </div>
-            {% endfor %}
         </div>
-    </section>
+        {% empty %}
+
+
+        <!-- No Completed Deliveries -->
+        <div class="col-span-full bg-white border border-gray-200 rounded-3xl p-10 text-center">
+            <div class="text-5xl">📋</div>
+            <h3 class="text-xl font-semibold mt-4">No completed deliveries</h3>
+            <p class="text-gray-500 mt-2"> Your completed deliveries will appear here.</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>

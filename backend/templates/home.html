@@ -10,7 +10,7 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
-    
+
 </head>
 <body class="tail-container bg-gray-50 text-gray-800">
 
@@ -71,6 +71,9 @@
 
     <!-- token javascript files -->
     <script src="{% static 'js/token/access-token.js' %}"></script>
+    {% if user.is_authenticated and request.resolver_match.url_name != 'home-page' %}
+    <script src="{% static 'js/token/session-guard.js' %}"></script>
+    {% endif %}
 
     <!-- vendor javascript files -->
     {% if user.is_authenticated and user.role == 'vendor' %}
@@ -104,6 +107,11 @@
     <script src="{% static 'js/customer/toggleFavorite.js' %}"></script>
     <script src="{% static 'js/customer/searchProduct.js' %}"></script>
     <script src="{% static 'js/customer/getCustomerLocation.js' %}"></script>
+    <script src="{% static 'js/customer/trackCustomerOrder.js' %}"></script>
+    {% if google_maps_api_key %}
+    <script async src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&loading=async&callback=initGoogleTrackingMap"></script>
+    {% endif %}
+
     {% endif %}
 
 

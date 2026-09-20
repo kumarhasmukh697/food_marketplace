@@ -57,4 +57,4 @@ def earnings(request):
 
 @role_required('delivery')
 def completed_delivery(request):
-    return render(request, "delivery/dashboard.html")
+    return dashboard(request)

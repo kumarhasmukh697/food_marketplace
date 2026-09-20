@@ -1,0 +1,51 @@
+<!-- ==================== ORDER TRACKING MODAL ==================== -->
+
+<div id="tracking-modal" class="hidden fixed inset-0 bg-black/60 z-[250] flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden">
+
+        <!-- Header -->
+        <div class="px-6 py-5 border-b flex items-center justify-between">
+            <div>
+                <h2 class="text-2xl font-semibold"> Track Order</h2>
+                <p id="tracking-order-number" class="text-sm text-gray-500 mt-1"> Order #FH</p>
+            </div>
+            <button onclick="closeTrackingModal()" class="text-3xl leading-none text-gray-400 hover:text-gray-600"> ×</button>
+        </div>
+
+
+        <!-- Tracking Status -->
+        <div class="p-6">
+            <div id="tracking-status-container" class="bg-blue-50 rounded-2xl p-5">
+                <div class="flex items-center gap-4">
+                    <div id="tracking-status-icon" class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                        <i class="fa-solid fa-motorcycle text-blue-600"></i>
+                    </div>
+                    <div>
+                        <h3 id="tracking-status" class="font-semibold text-lg">Loading...</h3>
+                        <p id="tracking-status-message" class="text-sm text-gray-500 mt-1"> Getting delivery information...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Map -->
+
+        <div class="px-6 pb-6">
+            <div id="tracking-map" class="w-full h-[450px] rounded-3xl overflow-hidden bg-gray-100">
+                <div class="h-full flex items-center justify-center">
+                    <div class="text-center">
+                        <div class="text-5xl mb-3">📍</div>
+                        <p class="text-gray-500"> Loading map...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Footer -->
+        <div class="border-t p-5 flex gap-3">
+            <button onclick="closeTrackingModal()" class="flex-1 py-3 border border-gray-300 rounded-2xl font-medium hover:bg-gray-50"> Close</button>
+        </div>
+    </div>
+</div>

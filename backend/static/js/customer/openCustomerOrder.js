@@ -1,6 +1,7 @@
 async function openCustomerOrder(orderId) {
   
     const modal = document.getElementById("order-modal");
+    setCurrentCustomerOrderId(orderId);
     modal.classList.remove("hidden");
 
     const accessToken = localStorage.getItem("access")
@@ -157,35 +158,16 @@ function displayVendorOrderItems(items) {
 function formatVendorOrderStatus(status) {
 
     const statusMap = {
-
-        pending_payment:
-            "Payment Pending",
-
-        confirmed:
-            "Confirmed",
-
-        preparing:
-            "Preparing",
-
-        ready:
-            "Ready",
-
-        out_for_delivery:
-            "Out for Delivery",
-
-        delivered:
-            "Delivered",
-
-        cancelled:
-            "Cancelled",
-
+        pending_payment: "Payment Pending",
+        confirmed: "Confirmed",
+        preparing: "Preparing",
+        ready: "Ready",
+        out_for_delivery: "Out for Delivery",
+        delivered: "Delivered",
+        cancelled: "Cancelled",
     };
 
-
-    return (
-        statusMap[status] ||
-        status
-    );
+    return (statusMap[status] || status);
 }
 
 
@@ -193,10 +175,7 @@ function formatVendorOrderStatus(status) {
 
 function formatVendorOrderDate(dateString) {
 
-    const date =
-        new Date(dateString);
-
-
+    const date = new Date(dateString);
     return date.toLocaleString(
         "en-IN",
         {

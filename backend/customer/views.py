@@ -6,6 +6,9 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from .serializers import CustomerProfileSerializer, CustomerLocationSerializer
 from .permissions import IsCustomer
 from .models import CustomerProfile
+from django.shortcuts import get_object_or_404
+from orders.models import Order
+
 
 
  
@@ -49,6 +52,48 @@ class CustomerLocationUpdateView(APIView):
                 "message": "Customer location updated successfully.",
                 "latitude": address.latitude,
                 "longitude": address.longitude,
+            },
+            status=200
+        )
+
+
+
+
+
+
+class CustomerOrderTrackingView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, order_id):
+
+        order = get_object_or_404(
+            Order.objects.select_related(
+                "delivery_partner",
+                "delivery_partner__user",
+            ),
+            id=order_id,
+            customer=request.user,
+        )
+
+        if not order.delivery_partner:
+            return Response(
+                {
+                    "detail": "A delivery partner has not been assigned yet."
+                },
+                status=404
+            )
+
+        delivery_partner = order.delivery_partner
+
+        return Response(
+            {
+                "order_id": order.id,
+                "status": order.status,
+
+                "delivery_partner": {
+                    "latitude": delivery_partner.current_latitude,
+                    "longitude": delivery_partner.current_longitude,
+                }
             },
             status=200
         )

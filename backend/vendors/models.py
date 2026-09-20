@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 from accounts.models import Address
 
+
 User = settings.AUTH_USER_MODEL
 
 class VendorProfile(models.Model):
