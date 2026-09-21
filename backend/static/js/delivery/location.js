@@ -1,20 +1,9 @@
 async function updateDeliveryLocation(latitude, longitude) {
-    const accessToken = localStorage.getItem("access");
-
-    if (!accessToken) {
-        console.error("Access token not found.");
-        return;
-    }
 
     try {
-        const response = await fetch( "/api/delivery/profile/location/",
+        const response = await apiFetch( "/api/delivery/profile/location/",
             {
                 method: "PATCH",
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                },
                 body: JSON.stringify({
                     current_latitude: latitude,
                     current_longitude: longitude,

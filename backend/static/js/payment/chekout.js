@@ -1,19 +1,6 @@
 async function openCheckoutModal() {
 
     console.log("Starting checkout...");
-    const accessToken = localStorage.getItem("access");
-
-    if (!accessToken) {
-
-        await Swal.fire({
-            icon: "error",
-            title: "Authentication Required",
-            text: "Please login before proceeding to checkout.",
-        });
-
-        return;
-    }
-
     try {
 
         // ==================================================
@@ -21,13 +8,9 @@ async function openCheckoutModal() {
         // Create our Django Order
         // ==================================================
 
-        const checkoutResponse = await fetch("/api/orders/checkout/",
+        const checkoutResponse = await apiFetch("/api/orders/checkout/",
             {
                 method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                    "Content-Type": "application/json",
-                },
                 body: JSON.stringify({}),
             }
         );
@@ -53,14 +36,9 @@ async function openCheckoutModal() {
         // Create Razorpay Order
         // ==================================================
 
-        const razorpayResponse = await fetch("/api/payments/create-order/",
+        const razorpayResponse = await apiFetch("/api/payments/create-order/",
             {
                 method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                    "Content-Type": "application/json",
-                },
-
                 body: JSON.stringify({
                     order_id: orderId,
                 }),
@@ -222,24 +200,17 @@ async function handlePaymentSuccess(response, orderId) {
 
     console.log( "Payment successful. Starting verification..." );
     console.log( "Razorpay response:", response);
-    const accessToken = localStorage.getItem("access");
+   
 
     try {
 
-        const verifyResponse = await fetch( "/api/payments/verify/",
+        const verifyResponse = await apiFetch( "/api/payments/verify/",
             {
                 method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                    "Content-Type": "application/json",
-                },
-
                 body: JSON.stringify({
-
                     razorpay_order_id: response.razorpay_order_id,
                     razorpay_payment_id: response.razorpay_payment_id,
                     razorpay_signature: response.razorpay_signature,
-
                 }),
             }
         );

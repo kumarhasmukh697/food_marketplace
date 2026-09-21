@@ -25,14 +25,9 @@ async function saveVendorProfile() {
 
     try {
 
-        const response = await fetch("/api/vendors/profile/", {
+        const response = await apiFetch("/api/vendors/profile/", {
 
             method: "PATCH",
-
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("access")}`,
-            },
-
             body: formData,
 
         });

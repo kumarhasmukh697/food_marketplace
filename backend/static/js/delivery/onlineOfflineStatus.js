@@ -20,23 +20,17 @@ async function toggleDeliveryOnlineStatus() {
     // -----------------------------------------
 
     if (data.is_online) {
-
         toggle.classList.remove("bg-gray-300");
         toggle.classList.add("bg-emerald-500");
-
         circle.classList.remove("left-1");
         circle.classList.add("left-9");
-
         statusText.textContent = "You are online and available for deliveries.";
 
     } else {
-
         toggle.classList.remove("bg-emerald-500");
         toggle.classList.add("bg-gray-300");
-
         circle.classList.remove("left-9");
         circle.classList.add("left-1");
-
         statusText.textContent = "You are currently offline.";
     }
 }
@@ -47,19 +41,10 @@ async function toggleDeliveryOnlineStatus() {
 
 async function updateOnlineStatus(isOnline) {
 
-    const accessToken = localStorage.getItem("access");
-
     try {
-
-        const response = await fetch("/api/delivery/profile/status/",
+        const response = await apiFetch("/api/delivery/profile/status/",
             {
                 method: "PATCH",
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                },
-
                 body: JSON.stringify({
                     is_online: isOnline
                 })
@@ -68,8 +53,6 @@ async function updateOnlineStatus(isOnline) {
 
 
         const data = await response.json();
-
-
         if (!response.ok) {
 
             throw new Error(

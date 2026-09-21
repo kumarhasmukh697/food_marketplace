@@ -19,13 +19,9 @@ async function deleteMenuItem(productId) {
 
     try {
 
-        const response = await fetch(`${API.products}${productId}/`, {
+        const response = await apiFetch(`/api/products/${productId}/`, {
 
             method: "DELETE",
-
-            headers: {
-                Authorization: `Bearer ${getAccessToken()}`
-            }
 
         });
 

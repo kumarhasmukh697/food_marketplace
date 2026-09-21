@@ -14,9 +14,11 @@ class ProductListCreateView(generics.ListCreateAPIView):
     def get_serializer_class(self):
         if self.request.method == "GET":
             return ProductListSerializer
+        print("hhiiiii")
         return ProductCreateUpdateSerializer
 
     def perform_create(self, serializer):
+        print("hello world")
         serializer.save(vendor=self.request.user.vendor_profile)
 
 

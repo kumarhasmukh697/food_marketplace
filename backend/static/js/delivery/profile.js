@@ -3,28 +3,24 @@ function previewProfilePicture(event) {
 
         if (!file) return;
 
-        document.getElementById("profile-preview").src =
-            URL.createObjectURL(file);
-
-        document.getElementById("profile-picture-name").textContent =
-            file.name;
+        document.getElementById("profile-preview").src = URL.createObjectURL(file);
+        document.getElementById("profile-picture-name").textContent = file.name;
     }
 
 
 
 
-document
-    .getElementById("delivery-profile-form")
-    .addEventListener("submit", saveDeliveryProfile);
+document.getElementById("delivery-profile-form").addEventListener("submit", saveDeliveryProfile);
+
+
+
 
 async function saveDeliveryProfile() {
 
-   
-
     const form = document.getElementById("delivery-profile-form");
-
     const formData = new FormData(form);
-
+    
+    
     try {
 
         const response = await fetch("/api/delivery/profile/", {

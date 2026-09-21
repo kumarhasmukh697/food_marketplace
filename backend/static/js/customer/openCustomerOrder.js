@@ -4,16 +4,10 @@ async function openCustomerOrder(orderId) {
     setCurrentCustomerOrderId(orderId);
     modal.classList.remove("hidden");
 
-    const accessToken = localStorage.getItem("access")
 
     try{
-        const response = await fetch(`/api/orders/customer/view/${orderId}/`,{
-
+        const response = await apiFetch(`/api/orders/customer/view/${orderId}/`,{
                 method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                    "Accept": "application/json",
-                },
             }
         );
 
@@ -29,7 +23,6 @@ async function openCustomerOrder(orderId) {
     }
 
     catch(error){
-
         console.error("Failed to load customer order:", error);
         modal.classList.add("hidden");
         await Swal.fire({

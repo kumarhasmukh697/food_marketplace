@@ -25,14 +25,9 @@ async function saveCustomerProfile() {
 
     try {
 
-        const response = await fetch("/api/customers/profile/", {
+        const response = await apiFetch("/api/customers/profile/", {
 
             method: "PATCH",
-
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("access")}`,
-            },
-
             body: formData,
 
         });
@@ -42,11 +37,8 @@ async function saveCustomerProfile() {
         if (response.ok) {
 
             await Swal.fire({
-
                 icon: "success",
-
                 title: "Success",
-
                 text: "Profile updated successfully.",
 
             });
@@ -56,13 +48,9 @@ async function saveCustomerProfile() {
         } else {
 
             await Swal.fire({
-
                 icon: "error",
-
                 title: "Update Failed",
-
                 text: data.detail || JSON.stringify(data),
-
             });
 
         }
@@ -70,13 +58,9 @@ async function saveCustomerProfile() {
     } catch (error) {
 
         console.error(error);
-
         await Swal.fire({
-
             icon: "error",
-
             title: "Server Error",
-
             text: "Unable to connect to the server.",
 
         });

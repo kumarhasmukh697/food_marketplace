@@ -50,30 +50,31 @@ async function saveNewItem() {
 
 
     try {
-
-        const response = await fetch(API.products, {
+    
+        const response = await apiFetch("/api/products/", {
 
             method: "POST",
-
-            headers: {
-                "Authorization": `Bearer ${getAccessToken()}`
-            },
-
             body: formData
 
         });
 
         const data = await response.json();
-        console.log(data);
+       
 
         if (!response.ok) {
-            console.error(data);
+          
             alert("Failed to create product.");
             return;
         }
 
         console.log("Product Created:", data);
-        alert("Product added successfully.");
+        await Swal.fire({
+                icon: "success",
+                title: "Success",
+
+                text: "Product added successfully.",
+
+            });
 
         closeAddModal();
 
@@ -92,7 +93,6 @@ async function saveNewItem() {
     catch (error) {
 
         console.error(error);
-
         alert("Something went wrong.");
 
     }

@@ -1,19 +1,10 @@
 async function updateVendorOrderStatus(orderId, newStatus) {
 
-    console.log("Updating order:",orderId, "to:", newStatus);
-    const accessToken = localStorage.getItem("access");
-
     try {
 
-        const response = await fetch(`/api/orders/vendor/orders/${orderId}/status/`,
+        const response = await apiFetch(`/api/orders/vendor/orders/${orderId}/status/`,
             {
                 method: "PATCH",
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                },
-
                 body: JSON.stringify({
                     status: newStatus
                 }),

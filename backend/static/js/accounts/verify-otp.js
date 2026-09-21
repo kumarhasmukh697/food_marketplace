@@ -13,7 +13,13 @@
     const data = await response.json();
 
     if (response.ok) {
-        alert('Account verified successfully!');
+        
+        await Swal.fire({
+                title: "Verify Email",
+                text: data.message || "Email verified successfully!",
+                icon: "success",
+                confirmButtonText: "OK",
+            });
         sessionStorage.removeItem("verify_email");
         window.location.href = '/login/';
     } else {

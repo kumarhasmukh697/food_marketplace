@@ -1,19 +1,13 @@
 async function openVendorOrder(orderId) {
-    console.log(orderId);
 
     const modal = document.getElementById("order-modal");
     modal.classList.remove("hidden");
 
-    const accessToken = localStorage.getItem("access");
+  
    
     try {
-        const response = await fetch(`/api/orders/vendor/view/${orderId}/`,{
-
+        const response = await apiFetch(`/api/orders/vendor/view/${orderId}/`,{
                 method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                    "Accept": "application/json",
-                },
             }
         );
 

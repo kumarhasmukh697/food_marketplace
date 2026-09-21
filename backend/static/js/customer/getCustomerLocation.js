@@ -61,23 +61,11 @@ function getCustomerLocation() {
 
 async function updateCustomerLocation(latitude, longitude) {
 
-    const accessToken = localStorage.getItem("access");
-
-    if (!accessToken) {
-        console.error("Access token not found.");
-        return false;
-    }
-
     try {
 
-        const response = await fetch( "/api/customers/profile/location/",
+        const response = await apiFetch( "/api/customers/profile/location/",
             {
                 method: "PATCH",
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                },
                 body: JSON.stringify({
                     latitude: latitude,
                     longitude: longitude

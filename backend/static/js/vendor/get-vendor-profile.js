@@ -1,17 +1,8 @@
 function getvendorProfile() {
-    const accessToken = localStorage.getItem("access");
- 
-    if (!accessToken) {
-        console.error("Access token not found.");
-        return;
-    }
-
-    fetch("/api/vendors/profile/", {
+    
+    apiFetch("/api/vendors/profile/", {
         method: "GET",
-        headers: {
-            "Authorization": `Bearer ${accessToken}`,
-            "Content-Type": "application/json"
-        }
+        
     })
     .then(response => {
         if (!response.ok) {

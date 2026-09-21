@@ -4,14 +4,11 @@ async function saveEditedItem() {
     // Get Product ID
     // ==========================================
 
-    const productId =
-        document.getElementById("edit-index").value;
+    const productId = document.getElementById("edit-index").value;
 
 
     if (!productId) {
-
         alert("Product ID not found.");
-
         return;
     }
 
@@ -20,31 +17,14 @@ async function saveEditedItem() {
     // Get Form Values
     // ==========================================
 
-    const name =
-        document.getElementById("edit-name").value.trim();
-
-    const price =
-        document.getElementById("edit-price").value;
-
-    const category =
-        document.getElementById("edit-dish-category").value;
-
-    const description =
-        document.getElementById("edit-desc").value.trim();
-
-    const stock =
-        document.getElementById("edit-stock").value;
-
-    const isAvailable =
-        document.getElementById("edit-available").checked;
-
-    const isVeg =
-        document.getElementById("edit-dish-veg").checked;
-
-    const image =
-        document.getElementById(
-            "edit-profile-picture"
-        ).files[0];
+    const name = document.getElementById("edit-name").value.trim();
+    const price = document.getElementById("edit-price").value;
+    const category = document.getElementById("edit-dish-category").value;
+    const description = document.getElementById("edit-desc").value.trim();
+    const stock = document.getElementById("edit-stock").value;
+    const isAvailable = document.getElementById("edit-available").checked;
+    const isVeg = document.getElementById("edit-dish-veg").checked;
+    const image = document.getElementById( "edit-profile-picture").files[0];
 
 
     // ==========================================
@@ -52,33 +32,25 @@ async function saveEditedItem() {
     // ==========================================
 
     if (!name) {
-
         alert("Please enter product name.");
-
         return;
     }
 
 
     if (!price || Number(price) <= 0) {
-
         alert("Please enter a valid price.");
-
         return;
     }
 
 
     if (!category) {
-
         alert("Please select a category.");
-
         return;
     }
 
 
     if (!stock || Number(stock) < 0) {
-
         alert("Please enter valid stock.");
-
         return;
     }
 
@@ -88,41 +60,13 @@ async function saveEditedItem() {
     // ==========================================
 
     const formData = new FormData();
-
-    formData.append(
-        "name",
-        name
-    );
-
-    formData.append(
-        "price",
-        price
-    );
-
-    formData.append(
-        "category",
-        category
-    );
-
-    formData.append(
-        "description",
-        description
-    );
-
-    formData.append(
-        "stock",
-        stock
-    );
-
-    formData.append(
-        "is_available",
-        isAvailable
-    );
-
-    formData.append(
-        "is_veg",
-        isVeg
-    );
+    formData.append( "name", name);
+    formData.append( "price", price );
+    formData.append( "category", category);
+    formData.append( "description", description);
+    formData.append("stock", stock);
+    formData.append( "is_available", isAvailable);
+    formData.append( "is_veg", isVeg);
 
 
     // ==========================================
@@ -130,12 +74,7 @@ async function saveEditedItem() {
     // ==========================================
 
     if (image) {
-
-        formData.append(
-            "image",
-            image
-        );
-
+        formData.append( "image", image);
     }
 
 
@@ -145,31 +84,17 @@ async function saveEditedItem() {
 
     try {
 
-        const response = await fetch(
-            `${API.products}${productId}/`,
+        const response = await apiFetch(`/api/products/${productId}/`,
             {
-
                 method: "PATCH",
-
-                headers: {
-                    "Authorization":
-                        `Bearer ${getAccessToken()}`
-                },
-
                 body: formData
 
             }
         );
 
 
-        const data =
-            await response.json();
-
-
-        console.log(
-            "Updated product:",
-            data
-        );
+        const data =  await response.json();
+        console.log( "Updated product:", data);
 
 
         // ==========================================
@@ -177,14 +102,8 @@ async function saveEditedItem() {
         // ==========================================
 
         if (!response.ok) {
-
             console.error(data);
-
-            alert(
-                data.detail ||
-                "Failed to update product."
-            );
-
+            alert(data.detail || "Failed to update product.");
             return;
         }
 
@@ -193,10 +112,7 @@ async function saveEditedItem() {
         // Find Existing Card
         // ==========================================
 
-        const existingCard =
-            document.getElementById(
-                `product-${productId}`
-            );
+        const existingCard = document.getElementById(`product-${productId}`);
 
 
         // ==========================================
@@ -204,20 +120,20 @@ async function saveEditedItem() {
         // ==========================================
 
         if (existingCard) {
-
-            existingCard.outerHTML =
-                createProductCard(data);
-
+            existingCard.outerHTML = createProductCard(data);
         }
 
 
         // ==========================================
         // Success
         // ==========================================
-
-        alert(
-            "Product updated successfully."
-        );
+        
+        await Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: "Product updated successfully.",
+            });
+    
 
 
         // ==========================================
@@ -230,10 +146,7 @@ async function saveEditedItem() {
     catch (error) {
 
         console.error(error);
-
-        alert(
-            "Something went wrong."
-        );
+        alert( "Something went wrong.");
 
     }
 

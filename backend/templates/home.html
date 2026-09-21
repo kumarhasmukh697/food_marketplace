@@ -10,6 +10,7 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.png' %}">
 
 </head>
 <body class="tail-container bg-gray-50 text-gray-800">
@@ -46,6 +47,7 @@
    
 
     <!-- common javascript files -->
+    <script src="{% static 'js/common/session-guard.js' %}"></script>
     <script src="{% static 'js/common/home.js' %}"></script>
     <script src="{% static 'js/common/search.js' %}"></script>
 
@@ -65,15 +67,6 @@
     {% endif %}
 
    
-
-    <!-- api javascript files -->
-    <script src="{% static 'js/api/api.js' %}"></script>
-
-    <!-- token javascript files -->
-    <script src="{% static 'js/token/access-token.js' %}"></script>
-    {% if user.is_authenticated and request.resolver_match.url_name != 'home-page' %}
-    <script src="{% static 'js/token/session-guard.js' %}"></script>
-    {% endif %}
 
     <!-- vendor javascript files -->
     {% if user.is_authenticated and user.role == 'vendor' %}
@@ -105,7 +98,6 @@
     <script src="{% static 'js/customer/profile.js' %}"></script>
     <script src="{% static 'js/customer/openCustomerOrder.js' %}"></script>
     <script src="{% static 'js/customer/toggleFavorite.js' %}"></script>
-    <script src="{% static 'js/customer/searchProduct.js' %}"></script>
     <script src="{% static 'js/customer/getCustomerLocation.js' %}"></script>
     <script src="{% static 'js/customer/trackCustomerOrder.js' %}"></script>
     {% if google_maps_api_key %}

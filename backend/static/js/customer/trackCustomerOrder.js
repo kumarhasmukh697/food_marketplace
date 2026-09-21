@@ -44,19 +44,12 @@ function closeTrackingModal() {
 
 async function loadCustomerOrderTracking(orderId) {
 
-    const accessToken = localStorage.getItem("access");
-
     try {
 
-        const response = await fetch(
-            `/api/customers/orders/${orderId}/tracking/`,
+        const response = await apiFetch(`/api/customers/orders/${orderId}/tracking/`,
             {
                 method: "GET",
 
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                    "Accept": "application/json"
-                }
             }
         );
 

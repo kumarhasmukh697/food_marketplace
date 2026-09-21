@@ -61,23 +61,11 @@ function getVendorLocation() {
 
 async function updateVendorLocation(latitude, longitude) {
 
-    const accessToken = localStorage.getItem("access");
-
-    if (!accessToken) {
-        console.error("Access token not found.");
-        return false;
-    }
-
     try {
 
-        const response = await fetch( "/api/vendors/profile/location/",
+        const response = await apiFetch( "/api/vendors/profile/location/",
             {
                 method: "PATCH",
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                },
                 body: JSON.stringify({
                     latitude: latitude,
                     longitude: longitude

@@ -1,15 +1,8 @@
 async function toggleFavorite(vendorId) {
-    
-    const accessToken = localStorage.getItem("access");
 
     try{
-        const response = await fetch(`/api/wishlist/favorites/${vendorId}/`,{
-           
+        const response = await apiFetch(`/api/wishlist/favorites/${vendorId}/`,{
             method:'POST',
-            headers: {
-                "Authorization": `Bearer ${accessToken}`,
-                "Accept": "application/json",
-                },
         })
 
         const data = await response.json();

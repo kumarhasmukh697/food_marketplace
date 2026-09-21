@@ -19,13 +19,9 @@ async function openCartModal() {
 
     try {
 
-        const response = await fetch("http://127.0.0.1:8000/api/cart/",
+        const response = await apiFetch("http://127.0.0.1:8000/api/cart/",
             {
                 method: "GET",
-                headers: {
-                    "Accept": "application/json",
-                    "Authorization":`Bearer ${localStorage.getItem("access")}`,
-                },
             }
         );
 

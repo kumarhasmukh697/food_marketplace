@@ -1,64 +1,68 @@
 async function logout() {
 
-    // getting acces and refresh token from local storage
-    const accessToken = localStorage.getItem("access");
     const refreshToken = localStorage.getItem("refresh");
-    
-    // if not found access or refresh token in local storage it means means user is already logged out redirect to login page
-    if (!accessToken || !refreshToken) {
+
+    if (!refreshToken) {
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
+        localStorage.removeItem("user");
+
         window.location.href = "/login/";
         return;
     }
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/accounts/logout/", {
-            
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`,
-            },
-            body: JSON.stringify({
-                refresh: refreshToken,
-            }),
-        });
-       
+
+        const response = await apiFetch(
+            "/api/accounts/logout/",
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    refresh: refreshToken,
+                }),
+            }
+        );
+
         const data = await response.json();
-      
+
         if (response.ok) {
-           
-            // Remove JWT tokens
+
             localStorage.removeItem("access");
             localStorage.removeItem("refresh");
             localStorage.removeItem("user");
 
             await Swal.fire({
                 title: "Logged Out",
-                text: data.message,
+                text: data.message || "You have been logged out successfully.",
                 icon: "success",
                 confirmButtonText: "OK",
             });
-          
+
             window.location.href = "/login/";
 
         } else {
 
+            // Even if server rejects logout, clear local authentication
+            localStorage.removeItem("access");
+            localStorage.removeItem("refresh");
+            localStorage.removeItem("user");
+
             await Swal.fire({
-                title: "Logout Failed",
-                text: data.detail || "Something went wrong.",
-                icon: "error",
+                title: "Logged Out",
+                text: "You have been logged out.",
+                icon: "success",
+                confirmButtonText: "OK",
             });
 
+            window.location.href = "/login/";
         }
 
     } catch (error) {
-
-
-        await Swal.fire({
-            title: "Server Error",
-            text: "Unable to connect to the server.",
-            icon: "error",
-        });
-
+        console.error("Logout error:", error);
+        // Clear local authentication anyway
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
+        localStorage.removeItem("user");
+        window.location.href = "/login/";
     }
 }

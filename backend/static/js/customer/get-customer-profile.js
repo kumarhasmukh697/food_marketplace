@@ -1,19 +1,7 @@
 function getCustomerProfile() {
-
-    const accessToken = localStorage.getItem("access");
-
-    if (!accessToken) {
-        console.error("Access token not found.");
-        return;
-    }
-
-    fetch("/api/customers/profile/", {
+    console.log("hello world");
+    apiFetch("/api/customers/profile/", {
         method: "GET",
-
-        headers: {
-            "Authorization": `Bearer ${accessToken}`,
-            "Content-Type": "application/json"
-        }
     })
     .then(response => {
 
