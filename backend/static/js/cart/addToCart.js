@@ -3,7 +3,7 @@ async function addToCart(productId) {
     const cart_count = document.getElementById('cart-count');
     console.log("heello");
     try{
-        const response = await apiFetch("http://127.0.0.1:8000/api/cart/add/",
+        const response = await apiFetch("/api/cart/add/",
 
         {
             method: "POST",

@@ -2,7 +2,7 @@ async function updateCartItemQuantity( cartItemId, newQuantity) {
 
     try {
 
-        const response = await apiFetch( `http://127.0.0.1:8000/api/cart/items/${cartItemId}/`,
+        const response = await apiFetch( `/api/cart/items/${cartItemId}/`,
             {
                 method: "PATCH",
                 body: JSON.stringify({

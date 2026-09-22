@@ -2,7 +2,7 @@ async function removeCartItem(cartItemId) {
 
     try {
 
-        const response = await apiFetch(`http://127.0.0.1:8000/api/cart/items/${cartItemId}/remove/`,
+        const response = await apiFetch(`/api/cart/items/${cartItemId}/remove/`,
             {
                 method: "DELETE",
             }
