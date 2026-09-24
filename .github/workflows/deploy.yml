@@ -1,0 +1,69 @@
+name: Deploy FoodHub
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: Deploy to Linode
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to Linode
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: 22
+
+          script: |
+            set -e
+
+            echo "Starting FoodHub deployment..."
+
+            cd /home/foodhub/food_marketplace
+
+            echo "Pulling latest code..."
+            git fetch origin master
+            git reset --hard origin/master
+
+            echo "Installing Node dependencies..."
+            npm ci
+
+            echo "Building Tailwind CSS..."
+            npm run build:css
+
+            echo "Activating Python virtual environment..."
+            source /home/foodhub/food_marketplace/venv/bin/activate
+
+            echo "Installing Python dependencies..."
+            pip install -r requirements.txt
+
+            cd backend
+
+            echo "Running migrations..."
+            python manage.py migrate --noinput
+
+            echo "Collecting static files..."
+            python manage.py collectstatic --noinput
+
+            echo "Restarting Gunicorn..."
+            sudo systemctl restart foodhub
+
+            echo "Restarting Celery..."
+            sudo systemctl restart foodhub-celery
+
+            echo "Checking Gunicorn..."
+            sudo systemctl is-active --quiet foodhub
+
+            echo "Checking Celery..."
+            sudo systemctl is-active --quiet foodhub-celery
+
+            echo "FoodHub deployment completed successfully!"
