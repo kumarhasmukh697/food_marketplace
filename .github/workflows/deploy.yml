@@ -25,6 +25,9 @@ jobs:
           script: |
             set -e
 
+            echo "Testing passwordless sudo..."
+            sudo -n -v
+
             echo "Starting FoodHub deployment..."
 
             cd /home/foodhub/food_marketplace
@@ -58,15 +61,21 @@ jobs:
             python manage.py collectstatic --noinput
 
             echo "Restarting Gunicorn..."
-            sudo systemctl restart foodhub
+            sudo -n systemctl restart foodhub
 
             echo "Restarting Celery..."
-            sudo systemctl restart foodhub-celery
+            sudo -n systemctl restart foodhub-celery
 
             echo "Checking Gunicorn..."
-            sudo systemctl is-active --quiet foodhub
+            if ! sudo -n systemctl is-active --quiet foodhub; then
+              sudo -n systemctl status foodhub --no-pager
+              exit 1
+            fi
 
             echo "Checking Celery..."
-            sudo systemctl is-active --quiet foodhub-celery
+            if ! sudo -n systemctl is-active --quiet foodhub-celery; then
+              sudo -n systemctl status foodhub-celery --no-pager
+              exit 1
+            fi
 
             echo "FoodHub deployment completed successfully!"
