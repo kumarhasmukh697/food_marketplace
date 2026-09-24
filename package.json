@@ -1,0 +1,10 @@
+
+{
+  "scripts": {
+    "build:css": "npx @tailwindcss/cli -i ./backend/static/css/tailwind.css -o ./backend/static/css/tailwind.generated.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.0",
+    "tailwindcss": "^4.1.0"
+  }
+}
