@@ -25,14 +25,13 @@ jobs:
           script: |
             set -e
 
-
             echo "Starting FoodHub deployment..."
 
             cd /home/foodhub/food_marketplace
 
-
-            echo "Testing passwordless sudo..."
-            sudo -n systemctl is-active foodhub
+            echo "Checking passwordless sudo..."
+            sudo -n /usr/bin/systemctl is-active foodhub
+            sudo -n /usr/bin/systemctl is-active foodhub-celery
 
             echo "Pulling latest code..."
             git fetch origin master
@@ -63,20 +62,20 @@ jobs:
             python manage.py collectstatic --noinput
 
             echo "Restarting Gunicorn..."
-            sudo -n systemctl restart foodhub
+            sudo -n /usr/bin/systemctl restart foodhub
 
             echo "Restarting Celery..."
-            sudo -n systemctl restart foodhub-celery
+            sudo -n /usr/bin/systemctl restart foodhub-celery
 
             echo "Checking Gunicorn..."
-            if ! sudo -n systemctl is-active --quiet foodhub; then
-              sudo -n systemctl status foodhub --no-pager
+            if [ "$(sudo -n /usr/bin/systemctl is-active foodhub)" != "active" ]; then
+              echo "Gunicorn is not active."
               exit 1
             fi
 
             echo "Checking Celery..."
-            if ! sudo -n systemctl is-active --quiet foodhub-celery; then
-              sudo -n systemctl status foodhub-celery --no-pager
+            if [ "$(sudo -n /usr/bin/systemctl is-active foodhub-celery)" != "active" ]; then
+              echo "Celery is not active."
               exit 1
             fi
 
