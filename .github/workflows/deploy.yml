@@ -25,21 +25,14 @@ jobs:
           script: |
             set -e
 
-            echo "===== DEPLOYMENT USER DEBUG ====="
-            whoami
-            id
-            echo "USER=$USER"
-            echo "HOME=$HOME"
-            echo "===== SUDO DEBUG ====="
-            sudo -n -l
-            echo "===== END DEBUG ====="
-
-            echo "Testing passwordless sudo..."
-            sudo -n -v
 
             echo "Starting FoodHub deployment..."
 
             cd /home/foodhub/food_marketplace
+
+
+            echo "Testing passwordless sudo..."
+            sudo -n systemctl is-active foodhub
 
             echo "Pulling latest code..."
             git fetch origin master
