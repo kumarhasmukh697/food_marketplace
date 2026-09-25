@@ -67,15 +67,18 @@ jobs:
             echo "Restarting Celery..."
             sudo -n /usr/bin/systemctl restart foodhub-celery
 
+
             echo "Checking Gunicorn..."
-            if [ "$(sudo -n /usr/bin/systemctl is-active foodhub)" != "active" ]; then
+            if [ "$(systemctl is-active foodhub)" != "active" ]; then
               echo "Gunicorn is not active."
+              systemctl status foodhub --no-pager || true
               exit 1
             fi
 
             echo "Checking Celery..."
-            if [ "$(sudo -n /usr/bin/systemctl is-active foodhub-celery)" != "active" ]; then
+            if [ "$(systemctl is-active foodhub-celery)" != "active" ]; then
               echo "Celery is not active."
+              systemctl status foodhub-celery --no-pager || true
               exit 1
             fi
 
