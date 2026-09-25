@@ -25,6 +25,15 @@ jobs:
           script: |
             set -e
 
+            echo "===== DEPLOYMENT USER DEBUG ====="
+            whoami
+            id
+            echo "USER=$USER"
+            echo "HOME=$HOME"
+            echo "===== SUDO DEBUG ====="
+            sudo -n -l
+            echo "===== END DEBUG ====="
+
             echo "Testing passwordless sudo..."
             sudo -n -v
 
